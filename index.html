@@ -294,11 +294,6 @@
             color: white;
         }
         
-        .admin-uncommit-btn {
-            background-color: #9c27b0;
-            color: white;
-        }
-        
         /* Admin Panel */
         .admin-panel {
             background: white;
@@ -521,8 +516,7 @@
     </style>
 </head>
 <body>
-    
- <!-- Login Page -->
+    <!-- Login Page -->
     <div class="login-container" id="loginPage">
         <div class="login-card">
             <h1>VM Courier Logbook</h1>
@@ -535,11 +529,8 @@
                 <input type="password" id="password" placeholder="Enter your password">
             </div>
             <button class="btn btn-block" id="loginBtn">Login</button>
-            <!-- Support Message Added Here -->
-            <p style="margin-top: 15px; color: var(--gray); font-size: 10px;">For Support please contact Danial Danish : 7434</p>
         </div>
     </div>
-
 
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
@@ -728,14 +719,8 @@
     <script>
         // Initialize data
         const users = [
-            { id: 7434, name: "Muhammad Danial Danish", role: "Admin", password: "Dd123", canCommit: true },
-            { id: 5546, name: "Cindamani Anam", role: "Retail Sales Executive", password: "Ann123", canCommit: false },
-            { id: 6435, name: "Lee Shean Yi", role: "Retail Sales Assistant", password: "Lee123", canCommit: false },
-            { id: 7701, name: "Muhammad Syarifuddin", role: "Retail Sales Assistant", password: "Ann123", canCommit: false },
-            { id: 7940, name: "Eisya Nasir", role: "Retail Sales Assistant", password: "Eisya123", canCommit: false },
-            { id: 7407, name: "Nur Sabrina", role: "Retail Sales Assistant", password: "Sab123", canCommit: false },
-            { id: 4545, name: "Ain Ismail", role: "Retail Sales Assistant", password: "Ain123", canCommit: false },
-            { id: 0690, name: "Kavindhran", role: "Area Head", password: "Kavin123", canCommit: false }
+            { id: 7434, name: "Danial Danish", role: "Admin", password: "admin123", canCommit: true },
+            { id: 1001, name: "John Smith", role: "Crew", password: "crew123", canCommit: true }
         ];
         
         let logbookEntries = [];
@@ -1010,6 +995,38 @@
                 const statusClass = entry.committed ? 'status-completed' : 'status-pending';
                 const statusText = entry.committed ? 'Completed' : 'Pending';
                 
+                // Determine which buttons to show based on user role and entry status
+                let actionButtons = '';
+                
+                if (currentUser.role === 'Admin') {
+                    // Admin always sees edit and delete buttons
+                    actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
+                    actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
+                    
+                    // Admin can uncommit if entry is committed
+                    if (entry.committed) {
+                        actionButtons += `<button class="uncommit-btn" onclick="uncommitEntry('${entry.id}')">Uncommit</button>`;
+                    }
+                    
+                    // Admin can commit if entry is not committed
+                    if (!entry.committed) {
+                        actionButtons += `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>`;
+                    }
+                } else if (currentUser.role === 'Crew') {
+                    // Crew can only edit if entry is uncommitted by admin
+                    if (!entry.committed) {
+                        actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
+                    }
+                    
+                    // Crew can commit if they have permission and entry is not committed
+                    if (currentUser.canCommit && !entry.committed) {
+                        actionButtons += `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>`;
+                    }
+                    
+                    // Crew can always delete? (keeping original behavior)
+                    actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
+                }
+                
                 row.innerHTML = `
                     <td>${entry.id}</td>
                     <td>${entry.pickupDate}</td>
@@ -1018,16 +1035,7 @@
                     <td>${entry.consignmentNumber}</td>
                     <td>${entry.sendTo}</td>
                     <td class="actions">
-                        ${entry.committed && currentUser.role === 'Admin' ? 
-                            `<button class="uncommit-btn" onclick="uncommitEntry('${entry.id}')">Uncommit</button>` : ''}
-                        ${!entry.committed && currentUser.role === 'Admin' ? 
-                            `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>` : ''}
-                        ${currentUser.role === 'Admin' ? 
-                            `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>` : ''}
-                        ${!entry.committed && currentUser.role === 'Crew' && currentUser.canCommit ? 
-                            `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>` : ''}
-                        ${entry.committed && currentUser.id === 7434 ? 
-                            `<button class="admin-uncommit-btn" onclick="adminUncommitEntry('${entry.id}')">Admin Uncommit</button>` : ''}
+                        ${actionButtons}
                     </td>
                 `;
                 
@@ -1085,18 +1093,6 @@
                 renderLogbookEntries();
                 logActivity(`Admin uncommitted logbook entry #${id}`);
                 showToast('Entry uncommitted successfully!', 'success');
-            }
-        }
-        
-        // Admin uncommit entry (special button for admin)
-        function adminUncommitEntry(id) {
-            const index = logbookEntries.findIndex(entry => entry.id === id);
-            if (index !== -1) {
-                logbookEntries[index].committed = false;
-                saveToStorage();
-                renderLogbookEntries();
-                logActivity(`Admin uncommitted logbook entry #${id} for re-editing`);
-                showToast('Entry uncommitted for re-editing!', 'success');
             }
         }
         
