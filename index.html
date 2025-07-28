@@ -996,79 +996,86 @@
         
         // Render logbook entries
         function renderLogbookEntries() {
-            logbookEntriesTable.innerHTML = '';
+        showToast('To edit, need to contact Danial Danish (7434)', 'warning');
+}   
+    function renderLogbookEntries() {
+    logbookEntriesTable.innerHTML = '';
+    
+    logbookEntries.forEach(entry => {
+        const row = document.createElement('tr');
+        
+        const statusClass = entry.committed ? 'status-completed' : 'status-pending';
+        const statusText = entry.committed ? 'Committed' : 'Uncommitted';
+        
+        // Determine which buttons to show based on user role and entry status
+        let actionButtons = '';
+        
+        if (currentUser.id === 7434) { // Admin (Danial Danish)
+            // Admin always sees edit and delete buttons
+            actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
+            actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
             
-            logbookEntries.forEach(entry => {
-                const row = document.createElement('tr');
-                
-                const statusClass = entry.committed ? 'status-completed' : 'status-pending';
-                const statusText = entry.committed ? 'Completed' : 'Pending';
-                
-                // Determine which buttons to show based on user role and entry status
-                let actionButtons = '';
-                
-                if (currentUser.role === 'Admin') {
-                    // Admin always sees edit and delete buttons
-                    actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
-                    actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
-                    
-                    // Admin can uncommit if entry is committed
-                    if (entry.committed) {
-                        actionButtons += `<button class="uncommit-btn" onclick="uncommitEntry('${entry.id}')">Uncommit</button>`;
-                    }
-                    
-                    // Admin can commit if entry is not committed
-                    if (!entry.committed) {
-                        actionButtons += `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>`;
-                    }
-                } else if (currentUser.role === 'Crew') {
-                    // Crew can only edit if entry is uncommitted by admin
-                    if (!entry.committed) {
-                        actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
-                    }
-                    
-                    // Crew can commit if they have permission and entry is not committed
-                    if (currentUser.canCommit && !entry.committed) {
-                        actionButtons += `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>`;
-                    }
-                    
-                    // Crew can always delete? (keeping original behavior)
-                    actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
-                }
-                
-                row.innerHTML = `
-                    <td>${entry.id}</td>
-                    <td>${entry.pickupDate}</td>
-                    <td><span class="status ${statusClass}">${statusText}</span></td>
-                    <td>${entry.courierType}</td>
-                    <td>${entry.consignmentNumber}</td>
-                    <td>${entry.sendTo}</td>
-                    <td class="actions">
-                        ${actionButtons}
-                    </td>
-                `;
-                
-                logbookEntriesTable.appendChild(row);
-            });
+            // Admin can uncommit if entry is committed
+            if (entry.committed) {
+                actionButtons += `<button class="uncommit-btn" onclick="uncommitEntry('${entry.id}')">Uncommit</button>`;
+            }
+        } else { // Crew members
+            // Crew can only edit if entry is uncommitted
+            if (!entry.committed) {
+                actionButtons += `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>`;
+            } else {
+                // For committed entries, show disabled edit button with message
+                actionButtons += `<button class="edit-btn" disabled onclick="showEditRestriction()">Edit</button>`;
+            }
+            
+            // Crew can commit if they have permission and entry is not committed
+            if (currentUser.canCommit && !entry.committed) {
+                actionButtons += `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>`;
+            }
+            
+            // Crew can always delete? (keeping original behavior)
+            actionButtons += `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>`;
         }
+        
+        row.innerHTML = `
+            <td>${entry.id}</td>
+            <td>${entry.pickupDate}</td>
+            <td><span class="status ${statusClass}">${statusText}</span></td>
+            <td>${entry.courierType}</td>
+            <td>${entry.consignmentNumber}</td>
+            <td>${entry.sendTo}</td>
+            <td class="actions">
+                ${actionButtons}
+            </td>
+        `;
+        
+        logbookEntriesTable.appendChild(row);
+    });
+}
         
         // Edit entry
         function editEntry(id) {
-            const entry = logbookEntries.find(entry => entry.id === id);
-            if (!entry) return;
-            
-            editingEntryId = id;
-            
-            document.getElementById('pickupDate').value = entry.pickupDate;
-            document.getElementById('courierType').value = entry.courierType;
-            document.getElementById('consignmentNumber').value = entry.consignmentNumber;
-            document.getElementById('cashbillNumber').value = entry.cashbillNumber;
-            document.getElementById('sendTo').value = entry.sendTo;
-            personInCharge.value = entry.personInCharge;
-            
-            commitBtn.textContent = 'Update Entry';
-            entryForm.style.display = 'block';
-        }
+    const entry = logbookEntries.find(entry => entry.id === id);
+    if (!entry) return;
+    
+    // Check if entry is committed and user is not admin
+    if (entry.committed && currentUser.id !== 7434) {
+        showEditRestriction();
+        return;
+    }
+    
+    editingEntryId = id;
+    
+    document.getElementById('pickupDate').value = entry.pickupDate;
+    document.getElementById('courierType').value = entry.courierType;
+    document.getElementById('consignmentNumber').value = entry.consignmentNumber;
+    document.getElementById('cashbillNumber').value = entry.cashbillNumber;
+    document.getElementById('sendTo').value = entry.sendTo;
+    personInCharge.value = entry.personInCharge;
+    
+    commitBtn.textContent = 'Update Entry';
+    entryForm.style.display = 'block';
+}
         
         // Delete entry
         function deleteEntry(id) {
@@ -1083,15 +1090,28 @@
         
         // Commit logbook entry (for crew)
         function commitLogbookEntry(id) {
-            const index = logbookEntries.findIndex(entry => entry.id === id);
-            if (index !== -1) {
-                logbookEntries[index].committed = true;
-                saveToStorage();
-                renderLogbookEntries();
-                logActivity(`Crew committed logbook entry #${id}`);
-                showToast('Entry committed successfully!', 'success');
-            }
-        }
+    const index = logbookEntries.findIndex(entry => entry.id === id);
+    if (index !== -1) {
+        logbookEntries[index].committed = true;
+        saveToStorage();
+        renderLogbookEntries();
+        logActivity(`Crew committed logbook entry #${id}`);
+        showToast('Entry committed successfully!', 'success');
+    }
+    
+    // Add uncommitEntry function for admin
+function uncommitEntry(id) {
+    const index = logbookEntries.findIndex(entry => entry.id === id);
+    if (index !== -1) {
+        logbookEntries[index].committed = false;
+        saveToStorage();
+        renderLogbookEntries();
+        logActivity(`Admin uncommitted logbook entry #${id}`);
+        showToast('Entry uncommitted successfully!', 'success');
+    }
+}
+
+}
         
         // Uncommit entry (admin only)
         function uncommitEntry(id) {
