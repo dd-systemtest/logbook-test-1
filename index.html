@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM Internal Outlet Courier Logbook</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+        
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-card h1 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .user-details h3 {
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .user-details p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+        }
+        
+        .clock {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .main-content {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        
+        .logbook-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-header h2 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 22px;
+        }
+        
+        .entry-form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row.full-width {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-row button {
+            grid-column: span 2;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        tr:hover {
+            background-color: #f5f7fa;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-uncommitted {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .actions button {
+            padding: 6px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .commit-btn {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .uncommit-btn {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .admin-uncommit-btn {
+            background-color: #9c27b0;
+            color: white;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .admin-tab.active {
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .user-list {
+            margin-top: 20px;
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-item:last-child {
+            border-bottom: none;
+        }
+        
+        .user-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: #e9ecef;
+        }
+        
+        .role-admin {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .role-crew {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .notification {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #d4edda;
+            border-left: 4px solid var(--success);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .activity-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-time {
+            color: var(--gray);
+            font-size: 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row button {
+                grid-column: span 1;
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .toast {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .toast-success {
+            background-color: var(--success);
+        }
+        
+        .toast-warning {
+            background-color: var(--warning);
+        }
+        
+        .toast-error {
+            background-color: var(--danger);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    
+ <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-card">
+            <h1>VM Courier Logbook</h1>
+            <div class="form-group">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" placeholder="Enter your User ID">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-block" id="loginBtn">Login</button>
+            <!-- Support Message Added Here -->
+            <p style="margin-top: 15px; color: var(--gray); font-size: 10px;">For Support please contact Danial Danish : 7434</p>
+        </div>
+    </div>
+
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">DD</div>
+                <div class="user-details">
+                    <h3 id="userName">Danial Danish</h3>
+                    <p id="userRole">Admin</p>
+                </div>
+            </div>
+            <div class="clock" id="clock">00:00:00 | 00/00/0000</div>
+            <button class="btn" id="logoutBtn">Logout</button>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="main-content">
+                <!-- Logbook Section -->
+                <div class="logbook-section">
+                    <div class="section-header">
+                        <h2>Courier Logbook</h2>
+                        <button class="btn" id="addEntryBtn">Add New Entry</button>
+                    </div>
+                    
+                    <!-- Entry Form -->
+                    <div class="entry-form" id="entryForm" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickupDate">Pickup Date</label>
+                                <input type="date" id="pickupDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="courierType">Courier Type</label>
+                                <select id="courierType">
+                                    <option value="">Select Courier</option>
+                                    <option value="Poslaju">Poslaju</option>
+                                    <option value="GDex">GDex</option>
+                                    <option value="eDHL">eDHL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="consignmentNumber">Consignment Number</label>
+                                <input type="text" id="consignmentNumber" placeholder="Tracking Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="cashbillNumber">Cashbill Number (Optional)</label>
+                                <input type="text" id="cashbillNumber" placeholder="For ENB/Remobie">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sendTo">Send To</label>
+                                <select id="sendTo">
+                                    <option value="">Select Partner</option>
+                                    <option value="ENB">ENB</option>
+                                    <option value="Remobie">Remobie</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="personInCharge">Person In Charge</label>
+                                <input type="text" id="personInCharge" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button class="btn commit-btn" id="commitBtn">Commit Entry</button>
+                            <button class="btn" id="cancelBtn" style="background-color: var(--gray);">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Logbook Table -->
+                    <div class="table-container">
+                        <table id="logbookTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pickup Date</th>
+                                    <th>Status</th>
+                                    <th>Courier</th>
+                                    <th>Consignment</th>
+                                    <th>Send To</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logbookEntries">
+                                <!-- Logbook entries will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Admin Panel -->
+                <div class="admin-panel" id="adminPanel">
+                    <div class="admin-tabs">
+                        <div class="admin-tab active" data-tab="users">Users</div>
+                        <div class="admin-tab" data-tab="activity">Activity Log</div>
+                        <div class="admin-tab" data-tab="notifications">Notifications</div>
+                    </div>
+                    
+                    <!-- Users Tab -->
+                    <div class="tab-content active" id="usersTab">
+                        <h3>User Management</h3>
+                        <div class="user-list" id="userList">
+                            <!-- User list will be populated here -->
+                        </div>
+                        <button class="btn" style="margin-top: 20px;" id="addUserBtn">Add New User</button>
+                    </div>
+                    
+                    <!-- Activity Log Tab -->
+                    <div class="tab-content" id="activityTab">
+                        <h3>Activity Log</h3>
+                        <div id="activityLog">
+                            <!-- Activity logs will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications Tab -->
+                    <div class="tab-content" id="notificationsTab">
+                        <h3>Notifications</h3>
+                        <div id="notificationList">
+                            <!-- Notifications will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Management Modal -->
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New User</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="modalUserId">User ID</label>
+                <input type="text" id="modalUserId" placeholder="Enter User ID">
+            </div>
+            <div class="form-group">
+                <label for="modalUserName">Full Name</label>
+                <input type="text" id="modalUserName" placeholder="Enter Full Name">
+            </div>
+            <div class="form-group">
+                <label for="modalPassword">Password</label>
+                <input type="password" id="modalPassword" placeholder="Enter Password">
+            </div>
+            <div class="form-group">
+                <label for="modalRole">Role</label>
+                <select id="modalRole">
+                    <option value="Admin">Admin</option>
+                    <option value="Crew">Crew</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="modalCanCommit">Can Commit Entries</label>
+                <select id="modalCanCommit">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <button class="btn btn-block" id="saveUserBtn">Save User</button>
+        </div>
+    </div>
+    
+    <!-- Password Reset Modal -->
+    <div class="modal" id="resetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reset Password Request</h3>
+                <button class="close-modal" id="closeResetModal">&times;</button>
+            </div>
+            <p>Please contact the admin to reset your password. An email notification has been sent.</p>
+            <button class="btn btn-block" id="confirmResetBtn">OK</button>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toasts will be added here -->
+    </div>
+
+    <script>
+        // Initialize data
+        const users = [
+            { id: 7434, name: "Muhammad Danial Danish", role: "Admin", password: "Dd123", canCommit: true },
+            { id: 5546, name: "Cindamani Anam", role: "Retail Sales Executive", password: "Ann123", canCommit: false },
+            { id: 6435, name: "Lee Shean Yi", role: "Retail Sales Assistant", password: "Lee123", canCommit: false },
+            { id: 7701, name: "Muhammad Syarifuddin", role: "Retail Sales Assistant", password: "Ann123", canCommit: false },
+            { id: 7940, name: "Eisya Nasir", role: "Retail Sales Assistant", password: "Eisya123", canCommit: false },
+            { id: 7407, name: "Nur Sabrina", role: "Retail Sales Assistant", password: "Sab123", canCommit: false },
+            { id: 4545, name: "Ain Ismail", role: "Retail Sales Assistant", password: "Ain123", canCommit: false },
+            { id: 0690, name: "Kavindhran", role: "Area Head", password: "Kavin123", canCommit: false }
+        ];
+        
+        let logbookEntries = [];
+        let activityLog = [];
+        let notifications = [];
+        let currentUser = null;
+        let editingEntryId = null;
+        let nextEntryId = 1;
+        
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const dashboard = document.getElementById('dashboard');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const clock = document.getElementById('clock');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userRole = document.getElementById('userRole');
+        const addEntryBtn = document.getElementById('addEntryBtn');
+        const entryForm = document.getElementById('entryForm');
+        const commitBtn = document.getElementById('commitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const logbookEntriesTable = document.getElementById('logbookEntries');
+        const personInCharge = document.getElementById('personInCharge');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const userList = document.getElementById('userList');
+        const activityLogContainer = document.getElementById('activityLog');
+        const notificationList = document.getElementById('notificationList');
+        const userModal = document.getElementById('userModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+        const saveUserBtn = document.getElementById('saveUserBtn');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const resetModal = document.getElementById('resetModal');
+        const closeResetModal = document.getElementById('closeResetModal');
+        const confirmResetBtn = document.getElementById('confirmResetBtn');
+        const toastContainer = document.getElementById('toastContainer');
+        
+        // Initialize the application
+        function init() {
+            loadFromStorage();
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // Check if user is logged in
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+            
+            // Event listeners
+            loginBtn.addEventListener('click', handleLogin);
+            logoutBtn.addEventListener('click', handleLogout);
+            addEntryBtn.addEventListener('click', showEntryForm);
+            commitBtn.addEventListener('click', commitEntry);
+            cancelBtn.addEventListener('click', hideEntryForm);
+            closeModal.addEventListener('click', () => userModal.style.display = 'none');
+            closeResetModal.addEventListener('click', () => resetModal.style.display = 'none');
+            confirmResetBtn.addEventListener('click', () => resetModal.style.display = 'none');
+            addUserBtn.addEventListener('click', showAddUserModal);
+            saveUserBtn.addEventListener('click', saveUser);
+            
+            // Admin tab switching
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    adminTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const tabId = tab.getAttribute('data-tab');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${tabId}Tab`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Load data from localStorage
+        function loadFromStorage() {
+            const storedUsers = localStorage.getItem('users');
+            const storedEntries = localStorage.getItem('logbookEntries');
+            const storedActivity = localStorage.getItem('activityLog');
+            const storedNotifications = localStorage.getItem('notifications');
+            
+            if (storedUsers) users.push(...JSON.parse(storedUsers));
+            if (storedEntries) logbookEntries = JSON.parse(storedEntries);
+            if (storedActivity) activityLog = JSON.parse(storedActivity);
+            if (storedNotifications) notifications = JSON.parse(storedNotifications);
+            
+            // Find next entry ID
+            if (logbookEntries.length > 0) {
+                const maxId = Math.max(...logbookEntries.map(entry => parseInt(entry.id.replace(/^0+/, ''))));
+                nextEntryId = maxId + 1;
+            }
+        }
+        
+        // Save data to localStorage
+        function saveToStorage() {
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
+            localStorage.setItem('activityLog', JSON.stringify(activityLog));
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+        
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const dateString = now.toLocaleDateString();
+            clock.textContent = `${timeString} | ${dateString}`;
+        }
+        
+        // Handle login
+        function handleLogin() {
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            
+            const user = users.find(u => u.id == userId && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Log activity
+                logActivity(`User ${user.name} (${user.id}) logged in`);
+                
+                showDashboard();
+                showToast('Login successful!', 'success');
+            } else {
+                showToast('Invalid User ID or Password', 'error');
+            }
+        }
+        
+        // Show dashboard
+        function showDashboard() {
+            loginPage.style.display = 'none';
+            dashboard.style.display = 'block';
+            
+            // Update user info
+            userAvatar.textContent = currentUser.name.split(' ').map(n => n[0]).join('');
+            userName.textContent = currentUser.name;
+            userRole.textContent = currentUser.role;
+            
+            // Update person in charge field
+            personInCharge.value = currentUser.name;
+            
+            // Show/hide admin panel
+            if (currentUser.role === 'Admin') {
+                adminPanel.style.display = 'block';
+                renderUserList();
+                renderActivityLog();
+                renderNotifications();
+            } else {
+                adminPanel.style.display = 'none';
+            }
+            
+            renderLogbookEntries();
+        }
+        
+        // Handle logout
+        function handleLogout() {
+            // Log activity
+            logActivity(`User ${currentUser.name} (${currentUser.id}) logged out`);
+            
+            // Clear session
+            sessionStorage.removeItem('currentUser');
+            currentUser = null;
+            
+            // Show login page
+            dashboard.style.display = 'none';
+            loginPage.style.display = 'flex';
+            
+            // Clear form fields
+            document.getElementById('userId').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // Show entry form
+        function showEntryForm() {
+            entryForm.style.display = 'block';
+            editingEntryId = null;
+            
+            // Clear form fields
+            document.getElementById('pickupDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('courierType').value = '';
+            document.getElementById('consignmentNumber').value = '';
+            document.getElementById('cashbillNumber').value = '';
+            document.getElementById('sendTo').value = '';
+            personInCharge.value = currentUser.name;
+            
+            commitBtn.textContent = 'Add Entry';
+        }
+        
+        // Hide entry form
+        function hideEntryForm() {
+            entryForm.style.display = 'none';
+        }
+        
+        // Commit entry
+        function commitEntry() {
+            const pickupDate = document.getElementById('pickupDate').value;
+            const courierType = document.getElementById('courierType').value;
+            const consignmentNumber = document.getElementById('consignmentNumber').value;
+            const cashbillNumber = document.getElementById('cashbillNumber').value;
+            const sendTo = document.getElementById('sendTo').value;
+            
+            if (!pickupDate || !courierType || !consignmentNumber || !sendTo) {
+                showToast('Please fill all required fields', 'warning');
+                return;
+            }
+            
+            if (editingEntryId) {
+                // Update existing entry
+                const index = logbookEntries.findIndex(entry => entry.id === editingEntryId);
+                if (index !== -1) {
+                    logbookEntries[index] = {
+                        ...logbookEntries[index],
+                        pickupDate,
+                        courierType,
+                        consignmentNumber,
+                        cashbillNumber,
+                        sendTo,
+                        status: 'pending'
+                    };
+                    
+                    logActivity(`Updated logbook entry #${editingEntryId}`);
+                    showToast('Entry updated successfully!', 'success');
+                }
+            } else {
+                // Add new entry
+                const entryId = String(nextEntryId).padStart(5, '0');
+                nextEntryId++;
+                
+                const newEntry = {
+                    id: entryId,
+                    pickupDate,
+                    status: 'pending',
+                    courierType,
+                    consignmentNumber,
+                    cashbillNumber,
+                    sendTo,
+                    personInCharge: currentUser.name,
+                    committed: false
+                };
+                
+                logbookEntries.push(newEntry);
+                logActivity(`Added new logbook entry #${entryId}`);
+                
+                // Add notification for admin
+                addNotification(`New courier entry #${entryId} added by ${currentUser.name}`);
+                
+                showToast('Entry added successfully!', 'success');
+            }
+            
+            saveToStorage();
+            renderLogbookEntries();
+            hideEntryForm();
+        }
+        
+        // Render logbook entries
+        function renderLogbookEntries() {
+            logbookEntriesTable.innerHTML = '';
+            
+            logbookEntries.forEach(entry => {
+                const row = document.createElement('tr');
+                
+                const statusClass = entry.committed ? 'status-completed' : 'status-pending';
+                const statusText = entry.committed ? 'Completed' : 'Pending';
+                
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.pickupDate}</td>
+                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                    <td>${entry.courierType}</td>
+                    <td>${entry.consignmentNumber}</td>
+                    <td>${entry.sendTo}</td>
+                    <td class="actions">
+                        ${entry.committed && currentUser.role === 'Admin' ? 
+                            `<button class="uncommit-btn" onclick="uncommitEntry('${entry.id}')">Uncommit</button>` : ''}
+                        ${!entry.committed && currentUser.role === 'Admin' ? 
+                            `<button class="edit-btn" onclick="editEntry('${entry.id}')">Edit</button>` : ''}
+                        ${currentUser.role === 'Admin' ? 
+                            `<button class="delete-btn" onclick="deleteEntry('${entry.id}')">Delete</button>` : ''}
+                        ${!entry.committed && currentUser.role === 'Crew' && currentUser.canCommit ? 
+                            `<button class="commit-btn" onclick="commitLogbookEntry('${entry.id}')">Commit</button>` : ''}
+                        ${entry.committed && currentUser.id === 7434 ? 
+                            `<button class="admin-uncommit-btn" onclick="adminUncommitEntry('${entry.id}')">Admin Uncommit</button>` : ''}
+                    </td>
+                `;
+                
+                logbookEntriesTable.appendChild(row);
+            });
+        }
+        
+        // Edit entry
+        function editEntry(id) {
+            const entry = logbookEntries.find(entry => entry.id === id);
+            if (!entry) return;
+            
+            editingEntryId = id;
+            
+            document.getElementById('pickupDate').value = entry.pickupDate;
+            document.getElementById('courierType').value = entry.courierType;
+            document.getElementById('consignmentNumber').value = entry.consignmentNumber;
+            document.getElementById('cashbillNumber').value = entry.cashbillNumber;
+            document.getElementById('sendTo').value = entry.sendTo;
+            personInCharge.value = entry.personInCharge;
+            
+            commitBtn.textContent = 'Update Entry';
+            entryForm.style.display = 'block';
+        }
+        
+        // Delete entry
+        function deleteEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                logbookEntries = logbookEntries.filter(entry => entry.id !== id);
+                saveToStorage();
+                renderLogbookEntries();
+                logActivity(`Deleted logbook entry #${id}`);
+                showToast('Entry deleted successfully!', 'success');
+            }
+        }
+        
+        // Commit logbook entry (for crew)
+        function commitLogbookEntry(id) {
+            const index = logbookEntries.findIndex(entry => entry.id === id);
+            if (index !== -1) {
+                logbookEntries[index].committed = true;
+                saveToStorage();
+                renderLogbookEntries();
+                logActivity(`Crew committed logbook entry #${id}`);
+                showToast('Entry committed successfully!', 'success');
+            }
+        }
+        
+        // Uncommit entry (admin only)
+        function uncommitEntry(id) {
+            const index = logbookEntries.findIndex(entry => entry.id === id);
+            if (index !== -1) {
+                logbookEntries[index].committed = false;
+                saveToStorage();
+                renderLogbookEntries();
+                logActivity(`Admin uncommitted logbook entry #${id}`);
+                showToast('Entry uncommitted successfully!', 'success');
+            }
+        }
+        
+        // Admin uncommit entry (special button for admin)
+        function adminUncommitEntry(id) {
+            const index = logbookEntries.findIndex(entry => entry.id === id);
+            if (index !== -1) {
+                logbookEntries[index].committed = false;
+                saveToStorage();
+                renderLogbookEntries();
+                logActivity(`Admin uncommitted logbook entry #${id} for re-editing`);
+                showToast('Entry uncommitted for re-editing!', 'success');
+            }
+        }
+        
+        // Show add user modal
+        function showAddUserModal() {
+            modalTitle.textContent = 'Add New User';
+            document.getElementById('modalUserId').value = '';
+            document.getElementById('modalUserName').value = '';
+            document.getElementById('modalPassword').value = '';
+            document.getElementById('modalRole').value = 'Crew';
+            document.getElementById('modalCanCommit').value = 'true';
+            userModal.style.display = 'flex';
+        }
+        
+        // Save user
+        function saveUser() {
+            const userId = document.getElementById('modalUserId').value;
+            const userName = document.getElementById('modalUserName').value;
+            const password = document.getElementById('modalPassword').value;
+            const role = document.getElementById('modalRole').value;
+            const canCommit = document.getElementById('modalCanCommit').value === 'true';
+            
+            if (!userId || !userName || !password) {
+                showToast('Please fill all required fields', 'warning');
+                return;
+            }
+            
+            // Check if user ID exists
+            if (users.some(user => user.id == userId)) {
+                showToast('User ID already exists', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: parseInt(userId),
+                name: userName,
+                role,
+                password,
+                canCommit
+            };
+            
+            users.push(newUser);
+            saveToStorage();
+            renderUserList();
+            logActivity(`Added new user: ${userName} (${userId})`);
+            addNotification(`New user ${userName} (${userId}) added`);
+            
+            userModal.style.display = 'none';
+            showToast('User added successfully!', 'success');
+        }
+        
+        // Render user list
+        function renderUserList() {
+            userList.innerHTML = '';
+            
+            users.forEach(user => {
+                const userItem = document.createElement('div');
+                userItem.className = 'user-item';
+                
+                const roleClass = user.role === 'Admin' ? 'role-admin' : 'role-crew';
+                const commitStatus = user.canCommit ? 'Yes' : 'No';
+                const commitClass = user.canCommit ? 'status-success' : 'status-warning';
+                
+                userItem.innerHTML = `
+                    <div class="user-item-info">
+                        <div>
+                            <strong>${user.name}</strong> (${user.id})
+                            <span class="user-role ${roleClass}">${user.role}</span>
+                            <span class="status ${commitClass}" style="margin-left: 10px; font-size: 11px;">Can Commit: ${commitStatus}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn edit-btn" onclick="editUser('${user.id}')">Edit</button>
+                        ${user.id !== 7434 ? 
+                            `<button class="btn delete-btn" onclick="deleteUser('${user.id}')">Delete</button>` : ''}
+                        ${user.role === 'Crew' ? 
+                            `<button class="btn" onclick="requestPasswordReset('${user.id}')">Reset Password</button>` : ''}
+                    </div>
+                `;
+                
+                userList.appendChild(userItem);
+            });
+        }
+        
+        // Edit user
+        function editUser(id) {
+            const user = users.find(user => user.id == id);
+            if (!user) return;
+            
+            modalTitle.textContent = 'Edit User';
+            document.getElementById('modalUserId').value = user.id;
+            document.getElementById('modalUserId').disabled = true;
+            document.getElementById('modalUserName').value = user.name;
+            document.getElementById('modalPassword').value = user.password;
+            document.getElementById('modalRole').value = user.role;
+            document.getElementById('modalCanCommit').value = user.canCommit.toString();
+            
+            userModal.style.display = 'flex';
+        }
+        
+        // Delete user
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                const user = users.find(user => user.id == id);
+                users = users.filter(user => user.id != id);
+                saveToStorage();
+                renderUserList();
+                logActivity(`Deleted user: ${user.name} (${user.id})`);
+                showToast('User deleted successfully!', 'success');
+            }
+        }
+        
+        // Request password reset
+        function requestPasswordReset(id) {
+            const user = users.find(user => user.id == id);
+            if (!user) return;
+            
+            addNotification(`Password reset requested for ${user.name} (${user.id})`);
+            logActivity(`Password reset requested for user: ${user.name} (${user.id})`);
+            
+            resetModal.style.display = 'flex';
+            showToast('Password reset request sent to admin', 'success');
+        }
+        
+        // Render activity log
+        function renderActivityLog() {
+            activityLogContainer.innerHTML = '';
+            
+            activityLog.slice().reverse().forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                
+                activityItem.innerHTML = `
+                    <div>${activity.action}</div>
+                    <div class="activity-time">${activity.timestamp}</div>
+                `;
+                
+                activityLogContainer.appendChild(activityItem);
+            });
+        }
+        
+        // Render notifications
+        function renderNotifications() {
+            notificationList.innerHTML = '';
+            
+            notifications.slice().reverse().forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = 'notification';
+                
+                notificationItem.innerHTML = `
+                    <div>${notification.message}</div>
+                    <div class="activity-time">${notification.timestamp}</div>
+                `;
+                
+                notificationList.appendChild(notificationItem);
+            });
+        }
+        
+        // Add notification
+        function addNotification(message) {
+            const notification = {
+                id: Date.now(),
+                message,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            notifications.push(notification);
+            saveToStorage();
+            
+            if (currentUser.role === 'Admin') {
+                renderNotifications();
+            }
+        }
+        
+        // Log activity
+        function logActivity(action) {
+            const activity = {
+                id: Date.now(),
+                action,
+                userId: currentUser.id,
+                userName: currentUser.name,
+                timestamp: new Date().toLocaleString(),
+                ip: '127.0.0.1' // In a real app, get from request
+            };
+            
+            activityLog.push(activity);
+            saveToStorage();
+            
+            if (currentUser.role === 'Admin') {
+                renderActivityLog();
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon = '';
+            switch(type) {
+                case 'success': icon = '<i class="fas fa-check-circle"></i>'; break;
+                case 'warning': icon = '<i class="fas fa-exclamation-triangle"></i>'; break;
+                case 'error': icon = '<i class="fas fa-times-circle"></i>'; break;
+            }
+            
+            toast.innerHTML = `${icon} ${message}`;
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
