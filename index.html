@@ -4,13 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Internal Outlet Courier Logbook</title>
-    
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
-    
     <style>
-        /* Keep all your existing CSS styles here */
         * {
             margin: 0;
             padding: 0;
@@ -268,36 +262,6 @@
             color: #721c24;
         }
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -327,7 +291,9 @@
         <!-- Login Section -->
         <section id="login-section" class="container">
             <div class="card" style="max-width: 500px; margin: 100px auto;">
-                <h1 style="text-align: center; margin-bottom: 30px;">Courier Logbook System</h1>
+                <h1 style="text-align: center; margin-bottom: 30px;">Switch Village Mall</h1>
+                <h4 style="text-align: center; margin-bottom: 10px;">Courier Logbook System</h4>
+
                 <form id="login-form">
                     <div class="form-group">
                         <label for="user-id">User ID</label>
@@ -369,7 +335,7 @@
             <div class="card">
                 <h3>Recent Activity</h3>
                 <div id="recent-activity">
-                    <p>Loading recent activity...</p>
+                    <p>No recent activity</p>
                 </div>
             </div>
         </section>
@@ -401,18 +367,18 @@
                         <label for="courier-type">Courier Type</label>
                         <select id="courier-type" required>
                             <option value="">Select Courier Type</option>
-                            <option value="Express">Express</option>
-                            <option value="Standard">Standard</option>
-                            <option value="Economy">Economy</option>
+                            <option value="eDHL">eDHL</option>
+                            <option value="Poslaju">Poslaju</option>
+                            <option value="GDex">GDex</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="consignment-number">Consignment Number</label>
-                        <input type="text" id="consignment-number" placeholder="Enter consignment number" required>
+                        <input type="text" id="consignment-number" placeholder="*Insert consignment number" required>
                     </div>
                     <div class="form-group">
                         <label for="cashbill-number">Cashbill Number</label>
-                        <input type="text" id="cashbill-number" placeholder="Enter cashbill number" required>
+                        <input type="text" id="cashbill-number" placeholder="To ENB/Remobie cashbill number" required>
                     </div>
                     <div class="form-group">
                         <label for="destination-partner">Destination Partner</label>
@@ -449,7 +415,7 @@
                         </thead>
                         <tbody id="logbook-entries">
                             <tr>
-                                <td colspan="9">Loading entries...</td>
+                                <td colspan="9">No entries found</td>
                             </tr>
                         </tbody>
                     </table>
@@ -486,7 +452,7 @@
                         </thead>
                         <tbody id="activity-logs">
                             <tr>
-                                <td colspan="4">Loading activity logs...</td>
+                                <td colspan="4">No activity logs found</td>
                             </tr>
                         </tbody>
                     </table>
@@ -532,32 +498,42 @@
     </div>
 
     <script>
-        // Firebase Configuration with your provided settings
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1TjfApr6z3wu4c93TD8qIhVoKc4vSp-k",
-            authDomain: "vm-courier-logbook.firebaseapp.com",
-            projectId: "vm-courier-logbook",
-            storageBucket: "vm-courier-logbook.firebasestorage.app",
-            messagingSenderId: "783436871748",
-            appId: "1:783436871748:web:2d5642aacd7c2a6ee4e411",
-            measurementId: "G-7M6NPW8MCE"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        
         // System state and data
         let currentUser = null;
         let logbookEntries = [];
         let activityLogs = [];
-        let users = [];
+        let users = [
+            { id: '7434', name: 'Muhammad Danial Danish', role: 'Admin', password: 'Dd123', canCommit: true },
+            { id: '5546', name: 'Cindamani Anam', role: 'Retail Sales Executive', password: 'Ann123', canCommit: false },
+            { id: '6435', name: 'Lee Shean Yi', role: 'Retail Sales Assistant', password: 'Lee123', canCommit: false },
+            { id: '7701', name: 'Muhammad Syarifuddin', role: 'Retail Sales Assistant', password: 'Ann123', canCommit: false },
+            { id: '7940', name: 'Eisya Nasir', role: 'Retail Sales Assistant', password: 'Eisya123', canCommit: false },
+            { id: '7407', name: 'Nur Sabrina', role: 'Retail Sales Assistant', password: 'Sab123', canCommit: false },
+            { id: '4545', name: 'Ain Ismail', role: 'Retail Sales Assistant', password: 'Ain123', canCommit: false },
+            { id: '0690', name: 'Kavindhran', role: 'Area Head', password: 'Kavin123', canCommit: false }
+        ];
 
         // Initialize the system
         function initSystem() {
-            // Load initial data from Firestore
-            loadInitialData();
-            
+            // Load data from localStorage if available
+            const savedUsers = localStorage.getItem('courierUsers');
+            if (savedUsers) {
+                users = JSON.parse(savedUsers);
+            } else {
+                // Initialize with default users
+                localStorage.setItem('courierUsers', JSON.stringify(users));
+            }
+
+            const savedEntries = localStorage.getItem('logbookEntries');
+            if (savedEntries) {
+                logbookEntries = JSON.parse(savedEntries);
+            }
+
+            const savedLogs = localStorage.getItem('activityLogs');
+            if (savedLogs) {
+                activityLogs = JSON.parse(savedLogs);
+            }
+
             // Check if user is already logged in
             const sessionUser = sessionStorage.getItem('currentUser');
             if (sessionUser) {
@@ -568,103 +544,6 @@
             // Start the clock
             updateClock();
             setInterval(updateClock, 1000);
-            
-            // Set up real-time listeners
-            setupRealtimeListeners();
-        }
-
-        // Load initial data from Firestore
-        function loadInitialData() {
-            // Load users
-            db.collection('users').get().then((querySnapshot) => {
-                if (querySnapshot.empty) {
-                    // Initialize with default users if none exist
-                    const defaultUsers = [
-                        { id: '7434', name: 'Muhammad Danial Danish', role: 'Admin', password: 'Dd123', canCommit: true },
-                        { id: '5546', name: 'Cindamani Anam', role: 'Retail Sales Executive', password: 'Ann123', canCommit: false },
-                        { id: '6435', name: 'Lee Shean Yi', role: 'Retail Sales Assistant', password: 'Lee123', canCommit: false },
-                        { id: '7701', name: 'Muhammad Syarifuddin', role: 'Retail Sales Assistant', password: 'Ann123', canCommit: false },
-                        { id: '7940', name: 'Eisya Nasir', role: 'Retail Sales Assistant', password: 'Eisya123', canCommit: false },
-                        { id: '7407', name: 'Nur Sabrina', role: 'Retail Sales Assistant', password: 'Sab123', canCommit: false },
-                        { id: '4545', name: 'Ain Ismail', role: 'Retail Sales Assistant', password: 'Ain123', canCommit: false },
-                        { id: '0690', name: 'Kavindhran', role: 'Area Head', password: 'Kavin123', canCommit: false }
-                    ];
-                    
-                    // Save to Firestore
-                    defaultUsers.forEach(user => {
-                        db.collection('users').doc(user.id).set(user);
-                    });
-                    
-                    users = defaultUsers;
-                } else {
-                    users = [];
-                    querySnapshot.forEach((doc) => {
-                        users.push(doc.data());
-                    });
-                }
-            });
-            
-            // Load logbook entries
-            db.collection('logbookEntries').orderBy('id').get().then((querySnapshot) => {
-                logbookEntries = [];
-                querySnapshot.forEach((doc) => {
-                    logbookEntries.push(doc.data());
-                });
-                
-                if (document.getElementById('logbook-section').classList.contains('hidden') === false) {
-                    renderLogbookEntries();
-                }
-            });
-            
-            // Load activity logs
-            db.collection('activityLogs').orderBy('timestamp', 'desc').get().then((querySnapshot) => {
-                activityLogs = [];
-                querySnapshot.forEach((doc) => {
-                    activityLogs.push(doc.data());
-                });
-                
-                updateRecentActivity();
-                if (document.getElementById('admin-panel-section').classList.contains('hidden') === false) {
-                    renderActivityLogs();
-                }
-            });
-        }
-
-        // Set up real-time data listeners
-        function setupRealtimeListeners() {
-            // Listen for users changes
-            db.collection('users').onSnapshot((querySnapshot) => {
-                users = [];
-                querySnapshot.forEach((doc) => {
-                    users.push(doc.data());
-                });
-                console.log("Users updated in real-time");
-            });
-            
-            // Listen for logbook changes
-            db.collection('logbookEntries').orderBy('id').onSnapshot((querySnapshot) => {
-                logbookEntries = [];
-                querySnapshot.forEach((doc) => {
-                    logbookEntries.push(doc.data());
-                });
-                
-                if (document.getElementById('logbook-section').classList.contains('hidden') === false) {
-                    renderLogbookEntries();
-                }
-            });
-            
-            // Listen for activity log changes
-            db.collection('activityLogs').orderBy('timestamp', 'desc').onSnapshot((querySnapshot) => {
-                activityLogs = [];
-                querySnapshot.forEach((doc) => {
-                    activityLogs.push(doc.data());
-                });
-                
-                updateRecentActivity();
-                if (document.getElementById('admin-panel-section').classList.contains('hidden') === false) {
-                    renderActivityLogs();
-                }
-            });
         }
 
         // Update live clock
@@ -720,8 +599,13 @@
                 ipAddress
             };
             
-            // Save to Firestore
-            db.collection('activityLogs').add(logEntry);
+            activityLogs.unshift(logEntry);
+            localStorage.setItem('activityLogs', JSON.stringify(activityLogs));
+            
+            // Update activity log display if in admin panel
+            if (document.getElementById('admin-panel-section').classList.contains('hidden') === false) {
+                renderActivityLogs();
+            }
             
             // Show notification to admin
             if (currentUser && currentUser.id === '7434') {
@@ -856,8 +740,8 @@
                 createdBy: currentUser.id
             };
             
-            // Save to Firestore
-            db.collection('logbookEntries').doc(newEntry.id).set(newEntry);
+            logbookEntries.push(newEntry);
+            localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
             
             logActivity(currentUser.id, `Added log entry ${newEntry.id}`);
             showNotification(`Log entry ${newEntry.id} added successfully!`, 'success');
@@ -865,6 +749,9 @@
             // Reset form
             this.reset();
             document.getElementById('pic').value = currentUser.name;
+            
+            // Update logbook display
+            renderLogbookEntries();
         });
 
         // Render logbook entries
@@ -915,12 +802,12 @@
             const entry = logbookEntries.find(e => e.id === entryId);
             if (entry) {
                 entry.committed = true;
-                
-                // Save to Firestore
-                db.collection('logbookEntries').doc(entryId).update({ committed: true });
+                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
                 
                 logActivity(currentUser.id, `Committed log entry ${entryId}`);
                 showNotification(`Log entry ${entryId} committed successfully!`, 'success');
+                
+                renderLogbookEntries();
             }
         }
 
@@ -934,12 +821,12 @@
             const entry = logbookEntries.find(e => e.id === entryId);
             if (entry) {
                 entry.committed = false;
-                
-                // Save to Firestore
-                db.collection('logbookEntries').doc(entryId).update({ committed: false });
+                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
                 
                 logActivity(currentUser.id, `Uncommitted log entry ${entryId}`);
                 showNotification(`Log entry ${entryId} uncommitted!`, 'warning');
+                
+                renderLogbookEntries();
             }
         }
 
@@ -961,11 +848,14 @@
                 document.getElementById('destination-partner').value = entry.destinationPartner;
                 document.getElementById('pic').value = entry.pic;
                 
-                // Delete the entry temporarily
-                db.collection('logbookEntries').doc(entryId).delete();
+                // Remove the entry temporarily
+                logbookEntries = logbookEntries.filter(e => e.id !== entryId);
+                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
                 
                 logActivity(currentUser.id, `Editing log entry ${entryId}`);
                 showNotification(`Editing log entry ${entryId}`, 'info');
+                
+                renderLogbookEntries();
             }
         }
 
@@ -977,11 +867,13 @@
             }
             
             if (confirm(`Are you sure you want to delete log entry ${entryId}?`)) {
-                // Delete from Firestore
-                db.collection('logbookEntries').doc(entryId).delete();
+                logbookEntries = logbookEntries.filter(e => e.id !== entryId);
+                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
                 
                 logActivity(currentUser.id, `Deleted log entry ${entryId}`);
                 showNotification(`Log entry ${entryId} deleted`, 'warning');
+                
+                renderLogbookEntries();
             }
         }
 
@@ -1013,8 +905,8 @@
                 return;
             }
             
-            // Save to Firestore
-            db.collection('users').doc(newUser.id).set(newUser);
+            users.push(newUser);
+            localStorage.setItem('courierUsers', JSON.stringify(users));
             
             logActivity(currentUser.id, `Added new user ${newUser.id} (${newUser.name})`);
             showNotification(`User ${newUser.name} added successfully!`, 'success');
