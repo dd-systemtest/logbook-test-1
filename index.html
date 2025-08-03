@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* Existing styles remain unchanged */
         :root {
             --primary: #2c3e50;
             --secondary: #95a5a6;
@@ -299,10 +300,15 @@
         
         .page-section {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
         }
         
         .page-section.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .stats-card {
@@ -312,6 +318,11 @@
             padding: 2rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 8px 25px rgba(44,62,80,0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
         }
         
         .stats-number {
@@ -443,6 +454,134 @@
             background-color: var(--danger);
             color: white;
         }
+        
+        .approval-section {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid var(--info);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .approval-header {
+            color: var(--info);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .management-dropdown {
+            position: relative;
+        }
+        
+        .management-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .management-dropdown:hover .management-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .management-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .management-item:hover {
+            background: var(--soft-gray);
+            color: var(--primary);
+        }
+        
+        .admin-approvals-card {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .request-card {
+            transition: all 0.3s ease;
+        }
+        
+        .request-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .real-time-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--info);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .real-time-indicator.show {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .session-timer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .session-timer.show {
+            display: block;
+        }
+        
+        .admin-contact-btn {
+            background: var(--secondary);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .admin-contact-btn:hover {
+            background: var(--secondary);
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -463,10 +602,6 @@
                     <label for="loginPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="loginPassword" required>
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">Remember Me</label>
-                </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-login">
                         <i class="fas fa-sign-in-alt me-2"></i>Login
@@ -485,12 +620,28 @@
                     <i class="fas fa-clipboard-list me-2"></i>VM Courier Logbook
                 </span>
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link active" href="#" onclick="showPage('logbook')">
-                        <i class="fas fa-book me-1"></i>Logbook
+                    <!-- Management Dropdown -->
+                    <div class="nav-item management-dropdown me-2">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-cogs me-1"></i>Management
+                        </a>
+                        <div class="management-menu">
+                            <a class="management-item" href="#" onclick="showPage('logbook')">
+                                <i class="fas fa-book me-2"></i>Logbook
+                            </a>
+                            <a class="management-item" href="#" onclick="showPage('users')">
+                                <i class="fas fa-users me-2"></i>Users
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Approvals (only visible to admins) -->
+                    <a class="nav-link me-2" id="adminApprovalsLink" href="#" onclick="showPage('adminApprovals')" style="display: none;">
+                        <i class="fas fa-clipboard-check me-1"></i>Admin Approvals
+                        <span id="adminApprovalBadge" class="notification-badge" style="display: none;">0</span>
                     </a>
-                    <a class="nav-link" href="#" onclick="showPage('users')">
-                        <i class="fas fa-users me-1"></i>Users
-                    </a>
+                    
+                    <!-- Profile Dropdown -->
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
                             <div class="user-avatar d-inline-flex me-2" id="userAvatar"></div>
@@ -501,8 +652,8 @@
                             <li><a class="dropdown-item" href="#" onclick="toggleDebug()">
                                 <i class="fas fa-bug me-2"></i>Toggle Debug
                             </a></li>
-                            <li><a class="dropdown-item" href="#" onclick="syncWithGoogleSheets()">
-                                <i class="fas fa-sync me-2"></i>Sync with Google Sheets
+                            <li><a class="dropdown-item" href="#" onclick="forceSync()">
+                                <i class="fas fa-sync me-2"></i>Force Sync Now
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" onclick="logout()">
@@ -513,6 +664,17 @@
                 </div>
             </div>
         </nav>
+        
+        <!-- Real-time Sync Indicator -->
+        <div id="realTimeIndicator" class="real-time-indicator">
+            <i class="fas fa-sync-alt me-1"></i>Syncing...
+        </div>
+        
+        <!-- Session Timer -->
+        <div id="sessionTimer" class="session-timer">
+            <i class="fas fa-clock me-1"></i>Session expires in: <span id="sessionTimeLeft">5:00</span>
+        </div>
+        
         <!-- Logbook Page -->
         <div id="logbookPage" class="page-section active">
             <div class="container mt-4">
@@ -637,6 +799,46 @@
                             </div>
                             <div class="card-body">
                                 <div id="activityLog" style="max-height: 400px; overflow-y: auto;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Approvals Page -->
+        <div id="adminApprovalsPage" class="page-section">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card admin-approvals-card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-clipboard-check me-2"></i>Admin Approvals
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Edit Requests Section -->
+                                <div class="approval-section">
+                                    <h6 class="approval-header">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>Pending Edit Requests
+                                        <span class="badge bg-warning ms-2" id="editRequestsCount">0</span>
+                                    </h6>
+                                    <div id="editRequestsList">
+                                        <p class="text-muted">No pending edit requests.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Uncommitted Entries Section -->
+                                <div class="approval-section">
+                                    <h6 class="approval-header">
+                                        <i class="fas fa-clock me-2"></i>Entries Awaiting Re-commit Approval
+                                        <span class="badge bg-info ms-2" id="uncommittedCount">0</span>
+                                    </h6>
+                                    <div id="uncommittedEntriesList">
+                                        <p class="text-muted">No entries awaiting re-commit approval.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -794,6 +996,31 @@
         </div>
     </div>
     
+    <!-- Admin Contact Modal -->
+    <div class="modal fade" id="adminContactModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Admin Contact Required</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>This entry is committed and locked.</strong><br>
+                        To edit this entry, please contact the administrator:<br><br>
+                        <strong>Danial Danish</strong><br>
+                        ID: 7434<br>
+                        <i class="fas fa-phone me-2"></i> Contact for uncommit permission
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Sync Indicator -->
     <div id="syncIndicator" class="sync-indicator">
         <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
@@ -807,6 +1034,35 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Malaysia Time Helper Functions
+        function getMalaysiaTime() {
+            const now = new Date();
+            const malaysiaTime = new Date(now.getTime() + (8 * 60 * 60 * 1000) + (now.getTimezoneOffset() * 60 * 1000));
+            return malaysiaTime;
+        }
+        function formatMalaysiaDateTime(date) {
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Kuala_Lumpur'
+            };
+            return new Date(date).toLocaleString('en-MY', options);
+        }
+        function formatMalaysiaDate(date) {
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                timeZone: 'Asia/Kuala_Lumpur'
+            };
+            return new Date(date).toLocaleDateString('en-MY', options);
+        }
+        
         // Application State
         let currentUser = null;
         let currentEntryId = null;
@@ -814,20 +1070,23 @@
         let showingDeleted = false;
         let isOnline = navigator.onLine;
         let debugMode = false;
+        let syncInterval = null;
+        let sessionTimeout = null;
+        let sessionTimeLeft = 300; // 5 minutes in seconds
         
-        // Google Sheets Integration - UPDATED URL
+        // Google Sheets Integration
         const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwe84Ec0M5f_0S2QwPWwIrNeGYblfk0AfacEGLTQdRsoRRuP1kXnqrpGXGUrLzyvuyX/exec";
         
         // Data Storage
         let users = [
-            { id: '7434', name: 'Danial Danish', role: 'admin', password: 'Dd123', canCommit: true },
+            { id: '7434', name: 'Danial Danish', role: 'admin', password: 'Danial05', canCommit: true },
             { id: '4545', name: 'Ain Ismail', role: 'TL', password: 'Ain123', canCommit: false },
             { id: '5546', name: 'Cindamani Anam', role: 'RSE', password: 'Ann123', canCommit: false },
             { id: '7701', name: 'Syarifuddin Mat Razali', role: 'RSA', password: 'Din123', canCommit: false },
             { id: '7407', name: 'Nur Sabrina', role: 'RSA', password: 'Sab123', canCommit: false },
             { id: '7940', name: 'Eisya Nasir', role: 'RSA', password: 'Eisya123', canCommit: false },
             { id: '6435', name: 'Lee Shean Yi', role: 'RSA', password: 'Lee123', canCommit: false },
-            { id: '0690', name: 'Kavindhran', role: 'AH', password: 'Kavin123', canCommit: false }
+            { id: '0690', name: 'Kavindhran', role: 'AH', password: 'Kavin123', canCommit: true }
         ];
         
         let logbookEntries = [];
@@ -856,6 +1115,7 @@
                 debugLog('Debug mode enabled');
                 debugLog('Current user: ' + (currentUser ? currentUser.name : 'None'));
                 debugLog('Logbook entries: ' + logbookEntries.length);
+                debugLog('Edit requests: ' + editRequests.length);
             }
         }
         
@@ -876,13 +1136,178 @@
                 showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
             });
             
-            // Auto-sync with Google Sheets every 5 minutes when online
-            setInterval(() => {
-                if (isOnline && currentUser) {
-                    syncWithGoogleSheets();
-                }
-            }, 300000);
+            // Set up real-time sync interval
+            setupRealTimeSync();
+            
+            // Set up session timeout
+            setupSessionTimeout();
         });
+        
+        // Session timeout management
+        function setupSessionTimeout() {
+            // Update session timer display
+            updateSessionTimerDisplay();
+            
+            // Set up interval to update session timer every second
+            setInterval(() => {
+                if (currentUser) {
+                    sessionTimeLeft--;
+                    updateSessionTimerDisplay();
+                    
+                    if (sessionTimeLeft <= 0) {
+                        logout();
+                    }
+                }
+            }, 1000);
+            
+            // Reset session timeout on user activity
+            document.addEventListener('mousemove', resetSessionTimeout);
+            document.addEventListener('keypress', resetSessionTimeout);
+            document.addEventListener('click', resetSessionTimeout);
+            document.addEventListener('scroll', resetSessionTimeout);
+        }
+        
+        function updateSessionTimerDisplay() {
+            const minutes = Math.floor(sessionTimeLeft / 60);
+            const seconds = sessionTimeLeft % 60;
+            const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            const sessionTimer = document.getElementById('sessionTimer');
+            const sessionTimeLeftElement = document.getElementById('sessionTimeLeft');
+            
+            if (currentUser) {
+                sessionTimer.classList.add('show');
+                sessionTimeLeftElement.textContent = timeString;
+            } else {
+                sessionTimer.classList.remove('show');
+            }
+        }
+        
+        function resetSessionTimeout() {
+            if (currentUser) {
+                sessionTimeLeft = 300; // Reset to 5 minutes
+                debugLog('Session timeout reset');
+            }
+        }
+        
+        // Setup real-time synchronization
+        function setupRealTimeSync() {
+            // Clear any existing interval
+            if (syncInterval) {
+                clearInterval(syncInterval);
+            }
+            
+            // Sync every 30 seconds when online
+            syncInterval = setInterval(() => {
+                if (isOnline && currentUser) {
+                    performRealTimeSync();
+                }
+            }, 30000);
+            
+            // Also sync when page becomes visible again
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && isOnline && currentUser) {
+                    performRealTimeSync();
+                }
+            });
+        }
+        
+        // Perform real-time sync for edit requests and critical data
+        function performRealTimeSync() {
+            if (!currentUser || !isOnline) return;
+            
+            debugLog('Performing real-time sync...');
+            showRealTimeIndicator();
+            
+            fetch(GOOGLE_SHEETS_URL + '?action=sync_requests&timestamp=' + Date.now())
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    const serverRequests = data.editRequests || [];
+                    const serverEntries = data.entries || [];
+                    
+                    // Check for new edit requests
+                    const localRequestIds = editRequests.map(r => r.id);
+                    const newRequests = serverRequests.filter(r => !localRequestIds.includes(r.id));
+                    
+                    if (newRequests.length > 0) {
+                        debugLog('Found ' + newRequests.length + ' new edit requests');
+                        // Add new requests to local storage
+                        newRequests.forEach(request => {
+                            editRequests.unshift(request);
+                        });
+                        updateUI();
+                        
+                        // Show notification for admin users
+                        if (currentUser.role === 'admin') {
+                            showSuccessMessage('New edit request received!');
+                        }
+                    }
+                    
+                    // Check for resolved requests
+                    const resolvedRequests = editRequests.filter(localReq => {
+                        const serverReq = serverRequests.find(r => r.id === localReq.id);
+                        return serverReq && serverReq.resolved && !localReq.resolved;
+                    });
+                    
+                    if (resolvedRequests.length > 0) {
+                        debugLog('Found ' + resolvedRequests.length + ' resolved requests');
+                        // Update local requests
+                        resolvedRequests.forEach(localReq => {
+                            const serverReq = serverRequests.find(r => r.id === localReq.id);
+                            if (serverReq) {
+                                localReq.resolved = serverReq.resolved;
+                                localReq.resolvedBy = serverReq.resolvedBy;
+                                localReq.resolvedAt = serverReq.resolvedAt;
+                                localReq.status = serverReq.status;
+                            }
+                        });
+                        updateUI();
+                        
+                        // Show notification for requesters
+                        resolvedRequests.forEach(req => {
+                            if (req.requestedBy === currentUser.id) {
+                                showSuccessMessage('Your edit request has been ' + (req.status || 'processed'));
+                            }
+                        });
+                    }
+                    
+                    // Check for updated entries (especially uncommitted ones)
+                    const updatedEntries = serverEntries.filter(serverEntry => {
+                        const localEntry = logbookEntries.find(e => e.id === serverEntry.id);
+                        return localEntry && localEntry.committed !== serverEntry.committed;
+                    });
+                    
+                    if (updatedEntries.length > 0) {
+                        debugLog('Found ' + updatedEntries.length + ' updated entries');
+                        updatedEntries.forEach(serverEntry => {
+                            const localEntry = logbookEntries.find(e => e.id === serverEntry.id);
+                            if (localEntry) {
+                                localEntry.committed = serverEntry.committed;
+                                if (serverEntry.committed) {
+                                    localEntry.committedBy = serverEntry.committedBy;
+                                    localEntry.committedAt = serverEntry.committedAt;
+                                } else {
+                                    delete localEntry.committedBy;
+                                    delete localEntry.committedAt;
+                                }
+                            }
+                        });
+                        updateUI();
+                    }
+                    
+                    hideRealTimeIndicator();
+                    saveToLocalStorage();
+                } else {
+                    debugLog('Real-time sync failed: ' + data.error);
+                    hideRealTimeIndicator();
+                }
+            })
+            .catch(error => {
+                debugLog('Real-time sync error: ' + error.message);
+                hideRealTimeIndicator();
+            });
+        }
         
         // Event Listeners
         function setupEventListeners() {
@@ -893,9 +1318,8 @@
         // Login Management
         function checkLoginStatus() {
             const savedUser = localStorage.getItem('vmCourierUser');
-            const rememberMe = localStorage.getItem('vmCourierRemember');
             
-            if (savedUser && rememberMe === 'true') {
+            if (savedUser) {
                 const userData = JSON.parse(savedUser);
                 const user = users.find(u => u.id === userData.id);
                 if (user) {
@@ -911,17 +1335,14 @@
             e.preventDefault();
             const id = document.getElementById('loginId').value;
             const password = document.getElementById('loginPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
             
             debugLog('Login attempt with ID: ' + id);
             
             const user = users.find(u => u.id === id && u.password === password);
             
             if (user) {
-                if (rememberMe) {
-                    localStorage.setItem('vmCourierUser', JSON.stringify({id: user.id}));
-                    localStorage.setItem('vmCourierRemember', 'true');
-                }
+                // Always save user to localStorage
+                localStorage.setItem('vmCourierUser', JSON.stringify({id: user.id}));
                 loginUser(user);
             } else {
                 showLoginError('Invalid ID or password');
@@ -933,6 +1354,9 @@
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
             
+            // Reset session timeout
+            resetSessionTimeout();
+            
             // Update UI
             document.getElementById('currentUserName').textContent = user.name;
             document.getElementById('userAvatar').textContent = user.name.charAt(0);
@@ -941,7 +1365,11 @@
             if (user.role === 'admin') {
                 document.getElementById('viewDeletedBtn').style.display = 'inline-block';
                 document.getElementById('activityLogSection').style.display = 'block';
+                document.getElementById('adminApprovalsLink').style.display = 'block';
             }
+            
+            // Set up real-time sync
+            setupRealTimeSync();
             
             // Load data from Google Sheets
             loadDataFromGoogleSheets();
@@ -951,11 +1379,19 @@
         }
         
         function logout() {
-            logActivity('Logout', `${currentUser.name} logged out`);
-            debugLog('User logged out: ' + currentUser.name);
+            if (currentUser) {
+                logActivity('Logout', `${currentUser.name} logged out`);
+                debugLog('User logged out: ' + currentUser.name);
+            }
+            
+            // Clear sync interval
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+            }
+            
             currentUser = null;
             localStorage.removeItem('vmCourierUser');
-            localStorage.removeItem('vmCourierRemember');
             showLoginPage();
         }
         
@@ -972,9 +1408,9 @@
             errorDiv.style.display = 'block';
         }
         
-        // Page Navigation
+        // Page Navigation with Animation
         function showPage(page) {
-            // Hide all pages
+            // Hide all pages with animation
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
@@ -984,14 +1420,28 @@
                 link.classList.remove('active');
             });
             
-            // Show selected page
-            document.getElementById(page + 'Page').classList.add('active');
-            event.target.classList.add('active');
+            // Show selected page with animation
+            setTimeout(() => {
+                document.getElementById(page + 'Page').classList.add('active');
+            }, 100);
             
-            if (page === 'users') {
-                loadUsersPage();
-            } else if (page === 'logbook') {
+            // Set active nav link
+            if (page === 'adminApprovals') {
+                document.getElementById('adminApprovalsLink').classList.add('active');
+            }
+            
+            // Load page content
+            if (page === 'logbook') {
                 loadLogbookPage();
+            } else if (page === 'users') {
+                loadUsersPage();
+            } else if (page === 'adminApprovals') {
+                loadAdminApprovalsPage();
+            }
+            
+            // Perform real-time sync when switching pages
+            if (isOnline && currentUser) {
+                setTimeout(() => performRealTimeSync(), 500);
             }
         }
         
@@ -1019,11 +1469,10 @@
             tbody.innerHTML = '';
             
             const entriesToShow = showingDeleted ? deletedEntries : logbookEntries;
-            const filteredEntries = currentUser.role === 'admin' ? entriesToShow : 
-                entriesToShow.filter(e => e.createdBy === currentUser.id);
+            let filteredEntries = entriesToShow;
             
             document.getElementById('entriesTitle').textContent = showingDeleted ? 
-                'Deleted Entries' : (currentUser.role === 'admin' ? 'All Entries' : 'My Entries');
+                'Deleted Entries' : 'All Entries';
             
             filteredEntries.forEach(entry => {
                 const row = document.createElement('tr');
@@ -1035,7 +1484,6 @@
                 const editRequestBadge = hasEditRequest ? 
                     '<span class="edit-request-badge ms-2">Edit Requested</span>' : '';
                 
-                // Status badge styling
                 let statusBadge = '';
                 if (entry.status) {
                     let statusClass = '';
@@ -1058,7 +1506,7 @@
                 
                 row.innerHTML = `
                     <td><span class="entry-id">${entry.id}</span></td>
-                    <td>${entry.date}</td>
+                    <td>${formatMalaysiaDate(entry.date)}</td>
                     <td>${entry.pic}${editRequestBadge}</td>
                     <td><span class="badge bg-primary">${entry.destination}</span></td>
                     <td><span class="text-muted">${entry.cashbill || 'N/A'}</span></td>
@@ -1091,6 +1539,11 @@
         }
         
         function renderActionButtons(entry) {
+            debugLog('Rendering action buttons for entry:', entry);
+            debugLog('Current user:', currentUser);
+            debugLog('Is creator:', entry.createdBy === currentUser.id);
+            debugLog('Entry committed:', entry.committed);
+            
             if (showingDeleted) {
                 return currentUser.role === 'admin' ? `
                     <button class="btn btn-sm btn-success me-1" onclick="restoreEntry('${entry.id}')">
@@ -1103,28 +1556,36 @@
             }
             
             let buttons = '';
+            const isCreator = entry.createdBy === currentUser.id;
+            const isPIC = entry.pic === currentUser.name;
             
             // Edit button logic
             if (entry.committed) {
                 if (currentUser.role === 'admin') {
+                    debugLog('Showing edit button for admin');
                     buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
                         <i class="fas fa-edit"></i>
                     </button>`;
-                } else if (entry.createdBy === currentUser.id) {
-                    buttons += `<button class="btn btn-sm btn-warning me-1" onclick="requestEdit('${entry.id}')">
-                        <i class="fas fa-edit"></i>
+                } else {
+                    debugLog('Showing admin contact button for non-admin');
+                    buttons += `<button class="btn btn-sm admin-contact-btn me-1" onclick="showAdminContact()">
+                        <i class="fas fa-edit"></i> Edit
                     </button>`;
                 }
             } else {
-                if (currentUser.role === 'admin' || entry.createdBy === currentUser.id) {
+                if (currentUser.role === 'admin' || isCreator) {
+                    debugLog('Showing edit button for uncommitted entry');
                     buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
                         <i class="fas fa-edit"></i>
                     </button>`;
+                } else {
+                    debugLog('Not showing edit button for uncommitted entry - not admin or creator');
                 }
             }
             
             // Delete button
-            if (currentUser.role === 'admin' || (entry.createdBy === currentUser.id && !entry.committed)) {
+            if (currentUser.role === 'admin' || 
+                (isCreator && !entry.committed)) {
                 buttons += `<button class="btn btn-sm btn-danger me-1" onclick="deleteEntry('${entry.id}')">
                     <i class="fas fa-trash"></i>
                 </button>`;
@@ -1132,8 +1593,8 @@
             
             // Commit/Uncommit button
             if (!entry.committed) {
-                // Allow both users with commit permission AND the entry creator to commit
-                if (currentUser.canCommit || entry.createdBy === currentUser.id) {
+                // Allow both creator and admin to commit
+                if (isCreator || currentUser.role === 'admin') {
                     buttons += `<button class="btn btn-sm btn-success" onclick="commitEntry('${entry.id}')">
                         <i class="fas fa-lock"></i> Commit
                     </button>`;
@@ -1144,6 +1605,7 @@
                 </button>`;
             }
             
+            debugLog('Buttons HTML:', buttons);
             return buttons;
         }
         
@@ -1152,24 +1614,20 @@
             try {
                 debugLog('Generating next ID...');
                 
-                // Get all existing entries
                 const allEntries = [...logbookEntries, ...deletedEntries];
                 debugLog('Total entries found: ' + allEntries.length);
                 
-                // Filter entries that have the new format (start with "LBVM")
                 const lbvmEntries = allEntries.filter(entry => entry.id && entry.id.startsWith('LBVM'));
                 debugLog('LBVM entries found: ' + lbvmEntries.length);
                 
-                // If no entries with the new format, start at 001
                 if (lbvmEntries.length === 0) {
                     debugLog('No LBVM entries found, starting with LBVM001');
                     return "LBVM001";
                 }
                 
-                // Extract the numeric part from each ID (the last 3 digits)
                 let maxNum = 0;
                 lbvmEntries.forEach(entry => {
-                    const numStr = entry.id.substring(4); // Skip "LBVM"
+                    const numStr = entry.id.substring(4);
                     const num = parseInt(numStr, 10);
                     if (!isNaN(num) && num > maxNum) {
                         maxNum = num;
@@ -1178,7 +1636,6 @@
                 
                 debugLog('Max number found: ' + maxNum);
                 
-                // Increment and format as 3 digits
                 const nextNum = maxNum + 1;
                 const nextNumStr = String(nextNum).padStart(3, '0');
                 const newId = `LBVM${nextNumStr}`;
@@ -1187,7 +1644,6 @@
                 return newId;
             } catch (error) {
                 debugLog('Error generating ID: ' + error.message);
-                // Fallback to timestamp-based ID if there's an error
                 return "LBVM" + Date.now();
             }
         }
@@ -1197,7 +1653,10 @@
             currentEntryId = null;
             document.getElementById('entryModalTitle').textContent = 'Add New Entry';
             document.getElementById('entryForm').reset();
-            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            
+            const malaysiaDate = getMalaysiaTime();
+            document.getElementById('entryDate').value = malaysiaDate.toISOString().split('T')[0];
+            
             document.getElementById('entryPIC').value = currentUser.name;
             document.getElementById('entryCashbill').value = '';
             document.getElementById('entryConsignment').value = '';
@@ -1260,24 +1719,23 @@
                         entry.courierType = courierType;
                         entry.status = status;
                         if (photoData) entry.photo = photoData;
-                        entry.lastModified = new Date().toISOString();
+                        entry.lastModified = getMalaysiaTime().toISOString();
                         
                         if (remarks) {
                             if (!entryRemarks[currentEntryId]) entryRemarks[currentEntryId] = [];
                             entryRemarks[currentEntryId].push({
                                 text: remarks,
                                 author: currentUser.name,
-                                timestamp: new Date().toISOString()
+                                timestamp: getMalaysiaTime().toISOString()
                             });
                         }
                         
                         logActivity('Edit Entry', `Entry #${currentEntryId} edited by ${currentUser.name}`);
                         
-                        // Update Google Sheets
                         if (isOnline) {
                             updateGoogleSheet(entry);
                         } else {
-                            showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                            showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                         }
                     } else {
                         debugLog('Error: Entry not found for editing: ' + currentEntryId);
@@ -1289,6 +1747,8 @@
                     debugLog('Creating new entry...');
                     const newId = generateNextId();
                     debugLog('Generated new ID: ' + newId);
+                    
+                    const malaysiaTime = getMalaysiaTime();
                     
                     const newEntry = {
                         id: newId,
@@ -1302,8 +1762,8 @@
                         photo: photoData,
                         committed: false,
                         createdBy: currentUser.id,
-                        createdAt: new Date().toISOString(),
-                        lastModified: new Date().toISOString()
+                        createdAt: malaysiaTime.toISOString(),
+                        lastModified: malaysiaTime.toISOString()
                     };
                     
                     debugLog('Created new entry:', newEntry);
@@ -1315,13 +1775,12 @@
                         entryRemarks[newEntry.id] = [{
                             text: remarks,
                             author: currentUser.name,
-                            timestamp: new Date().toISOString()
+                            timestamp: malaysiaTime.toISOString()
                         }];
                     }
                     
                     logActivity('Add Entry', `New entry created by ${currentUser.name}`);
                     
-                    // Submit to Google Sheets
                     if (isOnline) {
                         debugLog('Submitting to Google Sheets...');
                         submitToGoogleSheet(newEntry);
@@ -1380,11 +1839,10 @@
                 deletedEntries.unshift(entry);
                 logActivity('Delete Entry', `Entry #${entryId} deleted by ${currentUser.name}`);
                 
-                // Update Google Sheets
                 if (isOnline) {
                     deleteFromGoogleSheet(entry);
                 } else {
-                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                 }
                 
                 saveToLocalStorage();
@@ -1397,19 +1855,22 @@
             if (entry) {
                 entry.committed = true;
                 entry.committedBy = currentUser.id;
-                entry.committedAt = new Date().toISOString();
+                entry.committedAt = getMalaysiaTime().toISOString();
+                
+                // Remove uncommit tracking if exists
+                delete entry.uncommittedBy;
+                delete entry.uncommittedAt;
+                
                 logActivity('Commit Entry', `Entry #${entryId} committed by ${currentUser.name}`);
                 
-                // Update Google Sheets
                 if (isOnline) {
                     updateGoogleSheet(entry);
                 } else {
-                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                 }
                 
                 saveToLocalStorage();
                 updateUI();
-                
                 showSuccessMessage('Entry committed successfully!');
             }
         }
@@ -1418,6 +1879,8 @@
             const entry = logbookEntries.find(e => e.id === entryId);
             if (entry) {
                 entry.committed = false;
+                entry.uncommittedBy = currentUser.id;
+                entry.uncommittedAt = getMalaysiaTime().toISOString();
                 delete entry.committedBy;
                 delete entry.committedAt;
                 
@@ -1426,23 +1889,48 @@
                     if (req.entryId === entryId) {
                         req.resolved = true;
                         req.resolvedBy = currentUser.id;
-                        req.resolvedAt = new Date().toISOString();
+                        req.resolvedAt = getMalaysiaTime().toISOString();
                     }
                 });
                 
                 logActivity('Uncommit Entry', `Entry #${entryId} uncommitted by ${currentUser.name}`);
                 
-                // Update Google Sheets
                 if (isOnline) {
                     updateGoogleSheet(entry);
                 } else {
-                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                 }
                 
                 saveToLocalStorage();
                 updateUI();
-                
                 showSuccessMessage('Entry uncommitted successfully!');
+            }
+        }
+        
+        function adminCommitEntry(entryId) {
+            const entry = logbookEntries.find(e => e.id === entryId);
+            if (entry) {
+                entry.committed = true;
+                entry.committedBy = currentUser.id;
+                entry.committedAt = getMalaysiaTime().toISOString();
+                entry.lastCommittedBy = currentUser.id;
+                entry.lastCommittedAt = getMalaysiaTime().toISOString();
+                
+                // Remove uncommit tracking
+                delete entry.uncommittedBy;
+                delete entry.uncommittedAt;
+                
+                logActivity('Admin Commit', `Entry #${entryId} re-committed by admin ${currentUser.name}`);
+                
+                if (isOnline) {
+                    updateGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
+                }
+                
+                saveToLocalStorage();
+                updateUI();
+                showSuccessMessage('Entry re-committed successfully by admin!');
             }
         }
         
@@ -1453,11 +1941,10 @@
                 logbookEntries.unshift(entry);
                 logActivity('Restore Entry', `Entry #${entryId} restored by ${currentUser.name}`);
                 
-                // Update Google Sheets
                 if (isOnline) {
                     updateGoogleSheet(entry);
                 } else {
-                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                 }
                 
                 saveToLocalStorage();
@@ -1474,11 +1961,10 @@
                 delete entryRemarks[entryId];
                 logActivity('Permanent Delete', `Entry #${entryId} permanently deleted by ${currentUser.name}`);
                 
-                // Delete from Google Sheets
                 if (isOnline) {
                     deleteFromGoogleSheet(entry);
                 } else {
-                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
                 }
                 
                 saveToLocalStorage();
@@ -1493,6 +1979,11 @@
                 '<i class="fas fa-list me-2"></i>View Active Entries' : 
                 '<i class="fas fa-trash me-2"></i>View Deleted Entries';
             renderLogbookEntries();
+        }
+        
+        // Admin Contact Modal
+        function showAdminContact() {
+            new bootstrap.Modal(document.getElementById('adminContactModal')).show();
         }
         
         // Remarks Management
@@ -1511,7 +2002,7 @@
                     remarkDiv.innerHTML = `
                         <div class="remark-author">${remark.author}</div>
                         <div>${remark.text}</div>
-                        <div class="remark-time">${new Date(remark.timestamp).toLocaleString()}</div>
+                        <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
                     `;
                     remarksList.appendChild(remarkDiv);
                 });
@@ -1532,7 +2023,7 @@
             entryRemarks[currentRemarksEntryId].push({
                 text: remarkText,
                 author: currentUser.name,
-                timestamp: new Date().toISOString()
+                timestamp: getMalaysiaTime().toISOString()
             });
             
             logActivity('Add Remark', `Remark added to entry #${currentRemarksEntryId} by ${currentUser.name}`);
@@ -1541,11 +2032,16 @@
             renderLogbookEntries();
         }
         
-        // Edit Request Management
+        // Edit Request Management with Enhanced Sync
         function requestEdit(entryId) {
+            debugLog('Requesting edit for entry:', entryId);
             currentEntryId = entryId;
             document.getElementById('editRequestReason').value = '';
-            new bootstrap.Modal(document.getElementById('editRequestModal')).show();
+            
+            // Ensure the modal is properly initialized
+            const modalElement = document.getElementById('editRequestModal');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
         }
         
         function submitEditRequest() {
@@ -1561,17 +2057,57 @@
                 requestedBy: currentUser.id,
                 requestedByName: currentUser.name,
                 reason: reason,
-                timestamp: new Date().toISOString(),
+                timestamp: getMalaysiaTime().toISOString(),
                 resolved: false
             };
             
             editRequests.unshift(request);
             logActivity('Edit Request', `Edit request submitted for entry #${currentEntryId} by ${currentUser.name}`);
+            
+            // Save locally first
             saveToLocalStorage();
             updateUI();
-            bootstrap.Modal.getInstance(document.getElementById('editRequestModal')).hide();
             
-            alert('Edit request submitted. Please contact Admin (Danial Danish - ID: 7434) for approval.');
+            // Sync with Google Sheets immediately
+            if (isOnline) {
+                syncEditRequestToGoogleSheets(request)
+                    .then(() => {
+                        showSuccessMessage('Edit request submitted and synced successfully!');
+                    })
+                    .catch(error => {
+                        debugLog('Failed to sync edit request: ' + error.message);
+                        showErrorMessage('Edit request submitted locally. Will sync when online.');
+                    });
+            } else {
+                showSuccessMessage('Edit request submitted. Will sync when online.');
+            }
+            
+            bootstrap.Modal.getInstance(document.getElementById('editRequestModal')).hide();
+        }
+        
+        // Sync edit request to Google Sheets
+        async function syncEditRequestToGoogleSheets(request) {
+            const formData = new FormData();
+            formData.append('action', 'sync_edit_request');
+            formData.append('requestId', request.id);
+            formData.append('entryId', request.entryId);
+            formData.append('requestedBy', request.requestedBy);
+            formData.append('requestedByName', request.requestedByName);
+            formData.append('reason', request.reason);
+            formData.append('timestamp', request.timestamp);
+            formData.append('resolved', request.resolved);
+            
+            const response = await fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            if (data.result !== 'success') {
+                throw new Error(data.error || 'Failed to sync edit request');
+            }
+            
+            return data;
         }
         
         function updateEditRequestBadge() {
@@ -1686,7 +2222,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <strong>${request.requestedByName}</strong> requests edit for Entry #${request.entryId}
-                                <br><small class="text-muted">${new Date(request.timestamp).toLocaleString()}</small>
+                                <br><small class="text-muted">${formatMalaysiaDateTime(request.timestamp)}</small>
                                 <br><em>"${request.reason}"</em>
                             </div>
                             <button class="btn btn-sm btn-success" onclick="approveEditRequest(${request.id})">
@@ -1695,6 +2231,39 @@
                         </div>
                     `;
                     activityLog.appendChild(requestDiv);
+                });
+            }
+            
+            // Show entries awaiting admin re-commit approval
+            const uncommittedEntries = logbookEntries.filter(e => !e.committed && e.uncommittedBy);
+            if (uncommittedEntries.length > 0) {
+                const uncommittedHeader = document.createElement('h6');
+                uncommittedHeader.className = 'text-info mb-3';
+                uncommittedHeader.innerHTML = '<i class="fas fa-clock me-2"></i>Entries Awaiting Re-commit Approval';
+                activityLog.appendChild(uncommittedHeader);
+                
+                uncommittedEntries.forEach(entry => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.className = 'activity-item bg-info bg-opacity-10 border border-info';
+                    entryDiv.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>Entry #${entry.id}</strong> is uncommitted and awaiting re-commit
+                                <br><small class="text-muted">Created by: ${entry.pic}</small>
+                                <br><small class="text-muted">Uncommitted by: ${users.find(u => u.id === entry.uncommittedBy)?.name || 'Unknown'}</small>
+                                <br><small class="text-muted">Uncommitted at: ${formatMalaysiaDateTime(entry.uncommittedAt)}</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-success me-1" onclick="adminCommitEntry('${entry.id}')">
+                                    <i class="fas fa-check"></i> Approve Commit
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="viewEntryDetails('${entry.id}')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    activityLog.appendChild(entryDiv);
                 });
             }
             
@@ -1712,7 +2281,7 @@
                     logDiv.innerHTML = `
                         <strong>${log.action}</strong>
                         <br><small class="text-muted">${log.details}</small>
-                        <br><small class="text-muted">${new Date(log.timestamp).toLocaleString()}</small>
+                        <br><small class="text-muted">${formatMalaysiaDateTime(log.timestamp)}</small>
                     `;
                     activityLog.appendChild(logDiv);
                 });
@@ -1722,8 +2291,229 @@
         function approveEditRequest(requestId) {
             const request = editRequests.find(r => r.id === requestId);
             if (request) {
-                uncommitEntry(request.entryId);
-                alert(`Edit request approved. Entry #${request.entryId} has been uncommitted and can now be edited.`);
+                // Update the request status
+                request.resolved = true;
+                request.resolvedBy = currentUser.id;
+                request.resolvedAt = getMalaysiaTime().toISOString();
+                request.status = 'approved';
+                
+                // Sync the approval to Google Sheets
+                if (isOnline) {
+                    syncEditRequestToGoogleSheets(request)
+                        .then(() => {
+                            uncommitEntry(request.entryId);
+                            showSuccessMessage(`Edit request approved and synced successfully!`);
+                        })
+                        .catch(error => {
+                            debugLog('Failed to sync approval: ' + error.message);
+                            uncommitEntry(request.entryId);
+                            showErrorMessage('Edit request approved. Sync will happen when online.');
+                        });
+                } else {
+                    uncommitEntry(request.entryId);
+                    showSuccessMessage('Edit request approved. Will sync when online.');
+                }
+            }
+        }
+        
+        function viewEntryDetails(entryId) {
+            const entry = logbookEntries.find(e => e.id === entryId);
+            if (!entry) return;
+            
+            const modalHtml = `
+            <div class="modal fade" id="entryDetailsModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Entry Details - #${entry.id}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Date:</strong> ${formatMalaysiaDate(entry.date)}</p>
+                                    <p><strong>PIC:</strong> ${entry.pic}</p>
+                                    <p><strong>Destination:</strong> ${entry.destination}</p>
+                                    <p><strong>Cashbill:</strong> ${entry.cashbill || 'N/A'}</p>
+                                    <p><strong>Consignment:</strong> ${entry.consignment || 'N/A'}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Courier Type:</strong> ${entry.courierType || 'N/A'}</p>
+                                    <p><strong>Status:</strong> ${entry.status || 'Not set'}</p>
+                                    <p><strong>Created By:</strong> ${users.find(u => u.id === entry.createdBy)?.name || 'Unknown'}</p>
+                                    <p><strong>Created At:</strong> ${formatMalaysiaDateTime(entry.createdAt)}</p>
+                                    <p><strong>Last Modified:</strong> ${formatMalaysiaDateTime(entry.lastModified)}</p>
+                                </div>
+                            </div>
+                            ${entry.photo ? `
+                            <div class="mt-3">
+                                <p><strong>Photo Proof:</strong></p>
+                                <img src="${entry.photo}" class="img-fluid" style="max-height: 300px;">
+                            </div>
+                            ` : ''}
+                            ${entryRemarks[entry.id] ? `
+                            <div class="mt-3">
+                                <p><strong>Remarks:</strong></p>
+                                <div class="remarks-list">
+                                    ${entryRemarks[entry.id].map(remark => `
+                                        <div class="remark-item">
+                                            <div class="remark-author">${remark.author}</div>
+                                            <div>${remark.text}</div>
+                                            <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" onclick="adminCommitEntry('${entry.id}'); bootstrap.Modal.getInstance(document.getElementById('entryDetailsModal')).hide();">
+                                <i class="fas fa-check"></i> Approve Commit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            
+            const existingModal = document.getElementById('entryDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            new bootstrap.Modal(document.getElementById('entryDetailsModal')).show();
+        }
+        
+        // Admin Approvals Management
+        function loadAdminApprovalsPage() {
+            // Load edit requests
+            const editRequestsList = document.getElementById('editRequestsList');
+            const pendingRequests = editRequests.filter(r => !r.resolved);
+            
+            document.getElementById('editRequestsCount').textContent = pendingRequests.length;
+            
+            if (pendingRequests.length === 0) {
+                editRequestsList.innerHTML = '<p class="text-muted">No pending edit requests.</p>';
+            } else {
+                editRequestsList.innerHTML = '';
+                pendingRequests.forEach(request => {
+                    const requestCard = document.createElement('div');
+                    requestCard.className = 'card request-card mb-3';
+                    requestCard.innerHTML = `
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="card-title">Edit Request for Entry #${request.entryId}</h6>
+                                    <p class="mb-1"><strong>Requested by:</strong> ${request.requestedByName}</p>
+                                    <p class="mb-1"><strong>Reason:</strong> ${request.reason}</p>
+                                    <p class="text-muted mb-0"><small>${formatMalaysiaDateTime(request.timestamp)}</small></p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-success me-2" onclick="approveEditRequest(${request.id})">
+                                        <i class="fas fa-check me-1"></i>Approve
+                                    </button>
+                                    <button class="btn btn-danger" onclick="rejectEditRequest(${request.id})">
+                                        <i class="fas fa-times me-1"></i>Reject
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    editRequestsList.appendChild(requestCard);
+                });
+            }
+            
+            // Load uncommitted entries
+            const uncommittedEntriesList = document.getElementById('uncommittedEntriesList');
+            const uncommittedEntries = logbookEntries.filter(e => !e.committed && e.uncommittedBy);
+            
+            document.getElementById('uncommittedCount').textContent = uncommittedEntries.length;
+            
+            if (uncommittedEntries.length === 0) {
+                uncommittedEntriesList.innerHTML = '<p class="text-muted">No entries awaiting re-commit approval.</p>';
+            } else {
+                uncommittedEntriesList.innerHTML = '';
+                uncommittedEntries.forEach(entry => {
+                    const entryCard = document.createElement('div');
+                    entryCard.className = 'card request-card mb-3';
+                    entryCard.innerHTML = `
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="card-title">Entry #${entry.id}</h6>
+                                    <p class="mb-1"><strong>PIC:</strong> ${entry.pic}</p>
+                                    <p class="mb-1"><strong>Destination:</strong> ${entry.destination}</p>
+                                    <p class="mb-1"><strong>Uncommitted by:</strong> ${users.find(u => u.id === entry.uncommittedBy)?.name || 'Unknown'}</p>
+                                    <p class="text-muted mb-0"><small>Uncommitted at: ${formatMalaysiaDateTime(entry.uncommittedAt)}</small></p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-success me-2" onclick="adminCommitEntry('${entry.id}')">
+                                        <i class="fas fa-check me-1"></i>Approve Commit
+                                    </button>
+                                    <button class="btn btn-primary" onclick="viewEntryDetails('${entry.id}')">
+                                        <i class="fas fa-eye me-1"></i>View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    uncommittedEntriesList.appendChild(entryCard);
+                });
+            }
+            
+            updateAdminApprovalBadge();
+        }
+        
+        function rejectEditRequest(requestId) {
+            if (!confirm('Are you sure you want to reject this edit request?')) return;
+            
+            const request = editRequests.find(r => r.id === requestId);
+            if (request) {
+                // Update the request status
+                request.resolved = true;
+                request.resolvedBy = currentUser.id;
+                request.resolvedAt = getMalaysiaTime().toISOString();
+                request.status = 'rejected';
+                
+                // Sync the rejection to Google Sheets
+                if (isOnline) {
+                    syncEditRequestToGoogleSheets(request)
+                        .then(() => {
+                            logActivity('Reject Edit Request', `Edit request for entry #${request.entryId} rejected by ${currentUser.name}`);
+                            saveToLocalStorage();
+                            loadAdminApprovalsPage();
+                            showSuccessMessage('Edit request rejected and synced successfully!');
+                        })
+                        .catch(error => {
+                            debugLog('Failed to sync rejection: ' + error.message);
+                            logActivity('Reject Edit Request', `Edit request for entry #${request.entryId} rejected by ${currentUser.name}`);
+                            saveToLocalStorage();
+                            loadAdminApprovalsPage();
+                            showErrorMessage('Edit request rejected. Sync will happen when online.');
+                        });
+                } else {
+                    logActivity('Reject Edit Request', `Edit request for entry #${request.entryId} rejected by ${currentUser.name}`);
+                    saveToLocalStorage();
+                    loadAdminApprovalsPage();
+                    showSuccessMessage('Edit request rejected. Will sync when online.');
+                }
+            }
+        }
+        
+        function updateAdminApprovalBadge() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            
+            const pendingRequests = editRequests.filter(r => !r.resolved).length;
+            const uncommittedEntries = logbookEntries.filter(e => !e.committed && e.uncommittedBy).length;
+            const total = pendingRequests + uncommittedEntries;
+            
+            const badge = document.getElementById('adminApprovalBadge');
+            if (total > 0) {
+                badge.textContent = total;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
             }
         }
         
@@ -1754,7 +2544,7 @@
                 details: details,
                 user: currentUser.name,
                 userId: currentUser.id,
-                timestamp: new Date().toISOString()
+                timestamp: getMalaysiaTime().toISOString()
             });
             saveToLocalStorage();
         }
@@ -1765,7 +2555,26 @@
                 if (document.getElementById('usersPage').classList.contains('active')) {
                     loadUsersPage();
                 }
+                if (document.getElementById('adminApprovalsPage').classList.contains('active')) {
+                    loadAdminApprovalsPage();
+                }
+                if (currentUser.role === 'admin') {
+                    updateAdminApprovalBadge();
+                }
             }
+        }
+        
+        // Force sync function
+        function forceSync() {
+            if (!currentUser) return;
+            
+            if (!isOnline) {
+                showErrorMessage('You are offline. Cannot sync with Google Sheets.');
+                return;
+            }
+            
+            showSuccessMessage('Force sync initiated...');
+            loadDataFromGoogleSheets();
         }
         
         // Google Sheets Integration Functions
@@ -1834,6 +2643,12 @@
             formData.append('lastModified', entryData.lastModified || '');
             formData.append('action', 'update');
             
+            // Add uncommit tracking if exists
+            if (entryData.uncommittedBy) {
+                formData.append('uncommittedBy', entryData.uncommittedBy);
+                formData.append('uncommittedAt', entryData.uncommittedAt);
+            }
+            
             fetch(GOOGLE_SHEETS_URL, {
                 method: 'POST',
                 body: formData
@@ -1898,25 +2713,32 @@
             
             showSyncIndicator();
             
-            fetch(GOOGLE_SHEETS_URL)
+            fetch(GOOGLE_SHEETS_URL + '?action=load_all&timestamp=' + Date.now())
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
-                    // Process the data from Google Sheets
                     const sheetData = data.data || [];
+                    const sheetEditRequests = data.editRequests || [];
                     
-                    // Create a map of existing entries by ID
+                    // Process logbook entries
                     const existingEntriesMap = {};
                     logbookEntries.forEach(entry => {
                         existingEntriesMap[entry.id] = entry;
                     });
                     
-                    // Process each row from Google Sheets
                     sheetData.forEach(row => {
                         if (row.id && !existingEntriesMap[row.id]) {
-                            // This entry exists in Google Sheets but not in our local storage
+                            // Try to find the user by name if createdBy is not available
+                            let createdBy = row.createdBy || '';
+                            if (!createdBy && row.pic) {
+                                const user = users.find(u => u.name === row.pic);
+                                if (user) {
+                                    createdBy = user.id;
+                                }
+                            }
+                            
                             const newEntry = {
-                                id: row.id, // Keep the ID as it is from Google Sheets
+                                id: row.id,
                                 date: row.date || '',
                                 pic: row.pic || '',
                                 destination: row.destination || '',
@@ -1925,16 +2747,48 @@
                                 courierType: row.courierType || '',
                                 status: row.status || '',
                                 committed: row.committed === 'TRUE' || row.committed === true,
-                                createdBy: row.createdBy || '',
+                                createdBy: createdBy,
                                 createdAt: row.createdAt || '',
                                 lastModified: row.lastModified || ''
                             };
+                            
+                            // Add uncommit tracking if exists
+                            if (row.uncommittedBy) {
+                                newEntry.uncommittedBy = row.uncommittedBy;
+                                newEntry.uncommittedAt = row.uncommittedAt;
+                            }
                             
                             logbookEntries.push(newEntry);
                         }
                     });
                     
-                    // Sort entries by date (newest first)
+                    // Process edit requests
+                    const existingRequestMap = {};
+                    editRequests.forEach(request => {
+                        existingRequestMap[request.id] = request;
+                    });
+                    
+                    sheetEditRequests.forEach(request => {
+                        if (!existingRequestMap[request.id]) {
+                            editRequests.push(request);
+                        } else {
+                            // Update existing request with server data
+                            const existingRequest = existingRequestMap[request.id];
+                            if (request.resolved && !existingRequest.resolved) {
+                                existingRequest.resolved = request.resolved;
+                                existingRequest.resolvedBy = request.resolvedBy;
+                                existingRequest.resolvedAt = request.resolvedAt;
+                                existingRequest.status = request.status;
+                                
+                                // Show notification if current user is affected
+                                if (request.requestedBy === currentUser.id) {
+                                    showSuccessMessage('Your edit request has been ' + (request.status || 'processed'));
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Sort entries by creation date
                     logbookEntries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     
                     saveToLocalStorage();
@@ -1946,7 +2800,6 @@
                     console.error('Error syncing with Google Sheets:', data.error);
                     hideSyncIndicator();
                     showErrorMessage('Error syncing with Google Sheets: ' + data.error);
-                    // Try to load from localStorage as fallback
                     loadFromLocalStorage();
                 }
             })
@@ -1954,7 +2807,6 @@
                 console.error('Error syncing with Google Sheets:', error);
                 hideSyncIndicator();
                 showErrorMessage('Network error while syncing with Google Sheets');
-                // Try to load from localStorage as fallback
                 loadFromLocalStorage();
             });
         }
@@ -1978,6 +2830,18 @@
             document.getElementById('syncIndicator').classList.remove('show');
         }
         
+        function showRealTimeIndicator() {
+            const indicator = document.getElementById('realTimeIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+        
+        function hideRealTimeIndicator() {
+            document.getElementById('realTimeIndicator').classList.remove('show');
+        }
+        
         function showSuccessMessage(message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
@@ -1988,7 +2852,6 @@
             `;
             document.body.appendChild(alertDiv);
             
-            // Auto dismiss after 3 seconds
             setTimeout(() => {
                 alertDiv.remove();
             }, 3000);
@@ -2004,7 +2867,6 @@
             `;
             document.body.appendChild(alertDiv);
             
-            // Auto dismiss after 3 seconds
             setTimeout(() => {
                 alertDiv.remove();
             }, 3000);
