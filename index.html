@@ -13,6 +13,7 @@
             --success: #27ae60;
             --danger: #e74c3c;
             --warning: #f39c12;
+            --info: #3498db;
             --light: #ffffff;
             --dark: #2c3e50;
             --soft-gray: #f8f9fa;
@@ -395,6 +396,53 @@
             padding: 2px 6px;
             border-radius: 4px;
         }
+        
+        .debug-panel {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 9999;
+        }
+        
+        .debug-panel.show {
+            display: block;
+        }
+        
+        .status-badge {
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+        
+        .status-pending {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .status-in-transit {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .status-delivered {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .status-return {
+            background-color: var(--danger);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -450,6 +498,9 @@
                             <span id="editRequestBadge" class="notification-badge" style="display: none;">0</span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="toggleDebug()">
+                                <i class="fas fa-bug me-2"></i>Toggle Debug
+                            </a></li>
                             <li><a class="dropdown-item" href="#" onclick="syncWithGoogleSheets()">
                                 <i class="fas fa-sync me-2"></i>Sync with Google Sheets
                             </a></li>
@@ -542,9 +593,11 @@
                                         <th>Destination</th>
                                         <th>Cashbill*</th>
                                         <th>Consignment*</th>
+                                        <th>Courier Type</th>
+                                        <th>Status</th>
                                         <th>Photo</th>
                                         <th>Remarks</th>
-                                        <th>Status</th>
+                                        <th>Entry Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -639,6 +692,32 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryCourierType" class="form-label">Courier Type</label>
+                                    <select class="form-select" id="entryCourierType" required>
+                                        <option value="">Select Courier</option>
+                                        <option value="eDHL">eDHL</option>
+                                        <option value="Poslaju">Poslaju</option>
+                                        <option value="GDex">GDex</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="entryStatus" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="In transit">In transit</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Return">Return</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="entryPhoto" class="form-label">Courier Photo Proof</label>
                             <input type="file" class="form-control" id="entryPhoto" accept="image/*">
@@ -720,6 +799,12 @@
         <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
     </div>
     
+    <!-- Debug Panel -->
+    <div id="debugPanel" class="debug-panel">
+        <div><strong>Debug Panel</strong></div>
+        <div id="debugContent"></div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Application State
@@ -728,6 +813,7 @@
         let currentRemarksEntryId = null;
         let showingDeleted = false;
         let isOnline = navigator.onLine;
+        let debugMode = false;
         
         // Google Sheets Integration
         const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzhv-AkEfllR9bWqb7AasRfxDCSGl_NnYGUHqePEiLOq4qM6_DAOBSNSbJd7pZECLuz5g/exec";
@@ -750,6 +836,28 @@
         let activityLogs = [];
         let entryRemarks = {};
         let lastSyncTime = null;
+        
+        // Debug function
+        function debugLog(message) {
+            if (debugMode) {
+                console.log(message);
+                const debugContent = document.getElementById('debugContent');
+                const timestamp = new Date().toLocaleTimeString();
+                debugContent.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+                debugContent.scrollTop = debugContent.scrollHeight;
+            }
+        }
+        
+        function toggleDebug() {
+            debugMode = !debugMode;
+            const debugPanel = document.getElementById('debugPanel');
+            debugPanel.classList.toggle('show', debugMode);
+            if (debugMode) {
+                debugLog('Debug mode enabled');
+                debugLog('Current user: ' + (currentUser ? currentUser.name : 'None'));
+                debugLog('Logbook entries: ' + logbookEntries.length);
+            }
+        }
         
         // Initialize Application
         document.addEventListener('DOMContentLoaded', function() {
@@ -805,6 +913,8 @@
             const password = document.getElementById('loginPassword').value;
             const rememberMe = document.getElementById('rememberMe').checked;
             
+            debugLog('Login attempt with ID: ' + id);
+            
             const user = users.find(u => u.id === id && u.password === password);
             
             if (user) {
@@ -837,10 +947,12 @@
             loadDataFromGoogleSheets();
             
             logActivity('Login', `${user.name} logged in`);
+            debugLog('User logged in: ' + user.name);
         }
         
         function logout() {
             logActivity('Logout', `${currentUser.name} logged out`);
+            debugLog('User logged out: ' + currentUser.name);
             currentUser = null;
             localStorage.removeItem('vmCourierUser');
             localStorage.removeItem('vmCourierRemember');
@@ -923,6 +1035,27 @@
                 const editRequestBadge = hasEditRequest ? 
                     '<span class="edit-request-badge ms-2">Edit Requested</span>' : '';
                 
+                // Status badge styling
+                let statusBadge = '';
+                if (entry.status) {
+                    let statusClass = '';
+                    switch(entry.status) {
+                        case 'Pending':
+                            statusClass = 'status-pending';
+                            break;
+                        case 'In transit':
+                            statusClass = 'status-in-transit';
+                            break;
+                        case 'Delivered':
+                            statusClass = 'status-delivered';
+                            break;
+                        case 'Return':
+                            statusClass = 'status-return';
+                            break;
+                    }
+                    statusBadge = `<span class="status-badge ${statusClass}">${entry.status}</span>`;
+                }
+                
                 row.innerHTML = `
                     <td><span class="entry-id">${entry.id}</span></td>
                     <td>${entry.date}</td>
@@ -930,6 +1063,8 @@
                     <td><span class="badge bg-primary">${entry.destination}</span></td>
                     <td><span class="text-muted">${entry.cashbill || 'N/A'}</span></td>
                     <td><span class="text-muted">${entry.consignment || 'N/A'}</span></td>
+                    <td>${entry.courierType || 'N/A'}</td>
+                    <td>${statusBadge || '<span class="text-muted">Not set</span>'}</td>
                     <td>
                         ${entry.photo ? 
                             `<img src="${entry.photo}" class="entry-photo" onclick="viewPhoto('${entry.photo}')">` : 
@@ -1014,31 +1149,47 @@
         
         // Generate LBVM sequential ID starting from LBVM001
         function generateNextId() {
-            // Get all existing entries
-            const allEntries = [...logbookEntries, ...deletedEntries];
-            
-            // Filter entries that have the new format (start with "LBVM")
-            const lbvmEntries = allEntries.filter(entry => entry.id && entry.id.startsWith('LBVM'));
-            
-            // If no entries with the new format, start at 001
-            if (lbvmEntries.length === 0) {
-                return "LBVM001";
-            }
-            
-            // Extract the numeric part from each ID (the last 3 digits)
-            let maxNum = 0;
-            lbvmEntries.forEach(entry => {
-                const numStr = entry.id.substring(4); // Skip "LBVM"
-                const num = parseInt(numStr, 10);
-                if (!isNaN(num) && num > maxNum) {
-                    maxNum = num;
+            try {
+                debugLog('Generating next ID...');
+                
+                // Get all existing entries
+                const allEntries = [...logbookEntries, ...deletedEntries];
+                debugLog('Total entries found: ' + allEntries.length);
+                
+                // Filter entries that have the new format (start with "LBVM")
+                const lbvmEntries = allEntries.filter(entry => entry.id && entry.id.startsWith('LBVM'));
+                debugLog('LBVM entries found: ' + lbvmEntries.length);
+                
+                // If no entries with the new format, start at 001
+                if (lbvmEntries.length === 0) {
+                    debugLog('No LBVM entries found, starting with LBVM001');
+                    return "LBVM001";
                 }
-            });
-            
-            // Increment and format as 3 digits
-            const nextNum = maxNum + 1;
-            const nextNumStr = String(nextNum).padStart(3, '0');
-            return `LBVM${nextNumStr}`;
+                
+                // Extract the numeric part from each ID (the last 3 digits)
+                let maxNum = 0;
+                lbvmEntries.forEach(entry => {
+                    const numStr = entry.id.substring(4); // Skip "LBVM"
+                    const num = parseInt(numStr, 10);
+                    if (!isNaN(num) && num > maxNum) {
+                        maxNum = num;
+                    }
+                });
+                
+                debugLog('Max number found: ' + maxNum);
+                
+                // Increment and format as 3 digits
+                const nextNum = maxNum + 1;
+                const nextNumStr = String(nextNum).padStart(3, '0');
+                const newId = `LBVM${nextNumStr}`;
+                
+                debugLog('Generated new ID: ' + newId);
+                return newId;
+            } catch (error) {
+                debugLog('Error generating ID: ' + error.message);
+                // Fallback to timestamp-based ID if there's an error
+                return "LBVM" + Date.now();
+            }
         }
         
         // Entry Management
@@ -1050,105 +1201,149 @@
             document.getElementById('entryPIC').value = currentUser.name;
             document.getElementById('entryCashbill').value = '';
             document.getElementById('entryConsignment').value = '';
+            document.getElementById('entryCourierType').value = '';
+            document.getElementById('entryStatus').value = '';
             document.getElementById('photoPreview').innerHTML = '';
             document.getElementById('saveButtonText').textContent = 'Save Entry';
+            debugLog('Opened add entry modal');
         }
         
         function saveEntry() {
+            debugLog('Save entry called');
+            
             const date = document.getElementById('entryDate').value;
             const destination = document.getElementById('entryDestination').value;
             const cashbill = document.getElementById('entryCashbill').value;
             const consignment = document.getElementById('entryConsignment').value;
+            const courierType = document.getElementById('entryCourierType').value;
+            const status = document.getElementById('entryStatus').value;
             const photoFile = document.getElementById('entryPhoto').files[0];
             const remarks = document.getElementById('entryRemarks').value;
             
-            if (!date || !destination || !cashbill || !consignment) {
+            debugLog('Form data:', { date, destination, cashbill, consignment, courierType, status, remarks, hasPhoto: !!photoFile });
+            
+            if (!date || !destination || !cashbill || !consignment || !courierType || !status) {
+                debugLog('Validation failed - missing required fields');
                 alert('Please fill in all required fields');
                 return;
             }
             
             let photoData = null;
             if (photoFile) {
+                debugLog('Processing photo file...');
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, e.target.result);
+                    photoData = e.target.result;
+                    debugLog('Photo loaded, size: ' + photoData.length);
+                    saveEntryWithPhoto(date, destination, cashbill, consignment, courierType, status, remarks, photoData);
                 };
                 reader.readAsDataURL(photoFile);
             } else {
-                saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, null);
+                debugLog('No photo file, proceeding without photo');
+                saveEntryWithPhoto(date, destination, cashbill, consignment, courierType, status, remarks, null);
             }
         }
         
-        function saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, photoData) {
-            if (currentEntryId) {
-                // Edit existing entry
-                const entry = logbookEntries.find(e => e.id === currentEntryId);
-                if (entry) {
-                    entry.date = date;
-                    entry.destination = destination;
-                    entry.cashbill = cashbill;
-                    entry.consignment = consignment;
-                    if (photoData) entry.photo = photoData;
-                    entry.lastModified = new Date().toISOString();
+        function saveEntryWithPhoto(date, destination, cashbill, consignment, courierType, status, remarks, photoData) {
+            try {
+                debugLog('Saving entry with photo:', { date, destination, cashbill, consignment, courierType, status, hasPhoto: !!photoData });
+                
+                if (currentEntryId) {
+                    // Edit existing entry
+                    debugLog('Editing existing entry: ' + currentEntryId);
+                    const entry = logbookEntries.find(e => e.id === currentEntryId);
+                    if (entry) {
+                        entry.date = date;
+                        entry.destination = destination;
+                        entry.cashbill = cashbill;
+                        entry.consignment = consignment;
+                        entry.courierType = courierType;
+                        entry.status = status;
+                        if (photoData) entry.photo = photoData;
+                        entry.lastModified = new Date().toISOString();
+                        
+                        if (remarks) {
+                            if (!entryRemarks[currentEntryId]) entryRemarks[currentEntryId] = [];
+                            entryRemarks[currentEntryId].push({
+                                text: remarks,
+                                author: currentUser.name,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                        
+                        logActivity('Edit Entry', `Entry #${currentEntryId} edited by ${currentUser.name}`);
+                        
+                        // Update Google Sheets
+                        if (isOnline) {
+                            updateGoogleSheet(entry);
+                        } else {
+                            showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                        }
+                    } else {
+                        debugLog('Error: Entry not found for editing: ' + currentEntryId);
+                        alert('Error: Entry not found');
+                        return;
+                    }
+                } else {
+                    // Add new entry with LBVM sequential ID
+                    debugLog('Creating new entry...');
+                    const newId = generateNextId();
+                    debugLog('Generated new ID: ' + newId);
+                    
+                    const newEntry = {
+                        id: newId,
+                        date: date,
+                        pic: currentUser.name,
+                        destination: destination,
+                        cashbill: cashbill,
+                        consignment: consignment,
+                        courierType: courierType,
+                        status: status,
+                        photo: photoData,
+                        committed: false,
+                        createdBy: currentUser.id,
+                        createdAt: new Date().toISOString(),
+                        lastModified: new Date().toISOString()
+                    };
+                    
+                    debugLog('Created new entry:', newEntry);
+                    
+                    logbookEntries.unshift(newEntry);
+                    debugLog('Added entry to logbookEntries. Total entries: ' + logbookEntries.length);
                     
                     if (remarks) {
-                        if (!entryRemarks[currentEntryId]) entryRemarks[currentEntryId] = [];
-                        entryRemarks[currentEntryId].push({
+                        entryRemarks[newEntry.id] = [{
                             text: remarks,
                             author: currentUser.name,
                             timestamp: new Date().toISOString()
-                        });
+                        }];
                     }
                     
-                    logActivity('Edit Entry', `Entry #${currentEntryId} edited by ${currentUser.name}`);
+                    logActivity('Add Entry', `New entry created by ${currentUser.name}`);
                     
-                    // Update Google Sheets
+                    // Submit to Google Sheets
                     if (isOnline) {
-                        updateGoogleSheet(entry);
+                        debugLog('Submitting to Google Sheets...');
+                        submitToGoogleSheet(newEntry);
+                        showSuccessMessage('Entry created successfully and submitted to Google Sheets!');
                     } else {
-                        showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                        debugLog('Offline mode - saving locally only');
+                        showErrorMessage('You are offline. Entry saved locally and will be synced when you reconnect.');
                     }
                 }
-            } else {
-                // Add new entry with LBVM sequential ID
-                const newEntry = {
-                    id: generateNextId(), // Use LBVM sequential ID generation
-                    date: date,
-                    pic: currentUser.name,
-                    destination: destination,
-                    cashbill: cashbill,
-                    consignment: consignment,
-                    photo: photoData,
-                    committed: false,
-                    createdBy: currentUser.id,
-                    createdAt: new Date().toISOString(),
-                    lastModified: new Date().toISOString()
-                };
                 
-                logbookEntries.unshift(newEntry);
-                
-                if (remarks) {
-                    entryRemarks[newEntry.id] = [{
-                        text: remarks,
-                        author: currentUser.name,
-                        timestamp: new Date().toISOString()
-                    }];
-                }
-                
-                logActivity('Add Entry', `New entry created by ${currentUser.name}`);
-                
-                // Submit to Google Sheets
-                if (isOnline) {
-                    submitToGoogleSheet(newEntry);
-                    showSuccessMessage('Entry created successfully and submitted to Google Sheets!');
-                } else {
-                    showErrorMessage('You are offline. Entry saved locally and will be synced when you reconnect.');
-                }
+                debugLog('Saving to localStorage...');
+                saveToLocalStorage();
+                debugLog('Updating UI...');
+                updateUI();
+                debugLog('Closing modal...');
+                bootstrap.Modal.getInstance(document.getElementById('entryModal')).hide();
+                debugLog('Entry saved successfully');
+            } catch (error) {
+                debugLog('Error saving entry: ' + error.message);
+                console.error('Error saving entry:', error);
+                alert('Error saving entry: ' + error.message);
             }
-            
-            saveToLocalStorage();
-            updateUI();
-            bootstrap.Modal.getInstance(document.getElementById('entryModal')).hide();
         }
         
         function editEntry(entryId) {
@@ -1162,6 +1357,8 @@
             document.getElementById('entryDestination').value = entry.destination;
             document.getElementById('entryCashbill').value = entry.cashbill || '';
             document.getElementById('entryConsignment').value = entry.consignment || '';
+            document.getElementById('entryCourierType').value = entry.courierType || '';
+            document.getElementById('entryStatus').value = entry.status || '';
             document.getElementById('entryRemarks').value = '';
             document.getElementById('saveButtonText').textContent = 'Update Entry';
             
@@ -1573,6 +1770,7 @@
         
         // Google Sheets Integration Functions
         function submitToGoogleSheet(entryData) {
+            debugLog('Submitting to Google Sheets:', entryData);
             showSyncIndicator();
             
             const formData = new FormData();
@@ -1581,6 +1779,8 @@
             formData.append('destination', entryData.destination || '');
             formData.append('cashbill', entryData.cashbill || '');
             formData.append('consignment', entryData.consignment || '');
+            formData.append('courierType', entryData.courierType || '');
+            formData.append('status', entryData.status || '');
             formData.append('id', entryData.id || '');
             formData.append('committed', entryData.committed);
             formData.append('createdBy', entryData.createdBy || '');
@@ -1592,8 +1792,12 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                debugLog('Google Sheets response status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                debugLog('Google Sheets response data:', data);
                 if (data.result === 'success') {
                     console.log('Data submitted to Google Sheets successfully');
                     hideSyncIndicator();
@@ -1621,6 +1825,8 @@
             formData.append('destination', entryData.destination || '');
             formData.append('cashbill', entryData.cashbill || '');
             formData.append('consignment', entryData.consignment || '');
+            formData.append('courierType', entryData.courierType || '');
+            formData.append('status', entryData.status || '');
             formData.append('id', entryData.id || '');
             formData.append('committed', entryData.committed);
             formData.append('createdBy', entryData.createdBy || '');
@@ -1716,10 +1922,12 @@
                                 destination: row.destination || '',
                                 cashbill: row.cashbill || '',
                                 consignment: row.consignment || '',
+                                courierType: row.courierType || '',
+                                status: row.status || '',
                                 committed: row.committed === 'TRUE' || row.committed === true,
-                                createdBy: row.createdby || '',
-                                createdAt: row.createdat || '',
-                                lastModified: row.lastmodified || ''
+                                createdBy: row.createdBy || '',
+                                createdAt: row.createdAt || '',
+                                lastModified: row.lastModified || ''
                             };
                             
                             logbookEntries.push(newEntry);
@@ -1804,29 +2012,42 @@
         
         // Storage Management
         function saveToLocalStorage() {
-            localStorage.setItem('vmCourierData', JSON.stringify({
-                users: users,
-                logbookEntries: logbookEntries,
-                deletedEntries: deletedEntries,
-                editRequests: editRequests,
-                activityLogs: activityLogs,
-                entryRemarks: entryRemarks,
-                lastSyncTime: lastSyncTime
-            }));
+            try {
+                const dataToSave = {
+                    users: users,
+                    logbookEntries: logbookEntries,
+                    deletedEntries: deletedEntries,
+                    editRequests: editRequests,
+                    activityLogs: activityLogs,
+                    entryRemarks: entryRemarks,
+                    lastSyncTime: lastSyncTime
+                };
+                localStorage.setItem('vmCourierData', JSON.stringify(dataToSave));
+                debugLog('Data saved to localStorage successfully');
+            } catch (error) {
+                debugLog('Error saving to localStorage: ' + error.message);
+                console.error('Error saving to localStorage:', error);
+            }
         }
         
         function loadFromLocalStorage() {
-            const data = localStorage.getItem('vmCourierData');
-            if (data) {
-                const parsed = JSON.parse(data);
-                users = parsed.users || users;
-                logbookEntries = parsed.logbookEntries || [];
-                deletedEntries = parsed.deletedEntries || [];
-                editRequests = parsed.editRequests || [];
-                activityLogs = parsed.activityLogs || [];
-                entryRemarks = parsed.entryRemarks || {};
-                lastSyncTime = parsed.lastSyncTime || null;
-                updateUI();
+            try {
+                const data = localStorage.getItem('vmCourierData');
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    users = parsed.users || users;
+                    logbookEntries = parsed.logbookEntries || [];
+                    deletedEntries = parsed.deletedEntries || [];
+                    editRequests = parsed.editRequests || [];
+                    activityLogs = parsed.activityLogs || [];
+                    entryRemarks = parsed.entryRemarks || {};
+                    lastSyncTime = parsed.lastSyncTime || null;
+                    updateUI();
+                    debugLog('Data loaded from localStorage successfully');
+                }
+            } catch (error) {
+                debugLog('Error loading from localStorage: ' + error.message);
+                console.error('Error loading from localStorage:', error);
             }
         }
     </script>
