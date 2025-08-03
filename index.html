@@ -3,1001 +3,1832 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Outlet Courier Logbook</title>
+    <title>VM Courier Logbook Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #95a5a6;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ffffff;
+            --dark: #2c3e50;
+            --soft-gray: #f8f9fa;
+            --border-light: #e9ecef;
         }
-
+        
         body {
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #2c3e50;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background-color: #f8f8f8;
-            padding: 15px 0;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 30px;
-        }
-
-        h1, h2, h3 {
-            color: #000000;
-            margin-bottom: 15px;
-        }
-
-        .card {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333333;
-            font-weight: 500;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cccccc;
-            border-radius: 4px;
-            font-size: 16px;
-            background-color: #ffffff;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #2C2C2C;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #2C2C2C;
-            color: #ffffff;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: background-color 0.3s, transform 0.2s;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            background-color: #1E1E1E;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            color: #212529;
-        }
-
-        .btn-warning:hover {
-            background-color: #e0a800;
-        }
-
-        .btn-group {
+        
+        .login-container {
+            min-height: 100vh;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-
-        .table {
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            padding: 3rem;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            max-width: 420px;
+            border: 1px solid var(--border-light);
         }
-
-        .table th, .table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
-
-        .table th {
-            background-color: #f8f8f8;
+        
+        .login-header h2 {
+            color: var(--primary);
             font-weight: 600;
-            color: #333333;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
         }
-
-        .table tr:hover {
-            background-color: #f5f5f5;
+        
+        .login-header p {
+            color: var(--secondary);
+            margin: 0;
+            font-weight: 400;
         }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+        
+        .form-control {
+            border-radius: 12px;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-size: 0.95rem;
         }
-
-        .user-info {
-            display: flex;
-            align-items: center;
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(44,62,80,0.15);
+            background: #ffffff;
         }
-
+        
+        .btn-login {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .btn-login:hover {
+            background: #34495e;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(44,62,80,0.15);
+        }
+        
+        .main-container {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            margin: 0 8px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            color: var(--primary) !important;
+            padding: 8px 16px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+        
+        .card {
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .card-header {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--soft-gray);
+            font-size: 1.1rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+            background: white;
+        }
+        
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #34495e;
+        }
+        
+        .badge {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+        
+        .table {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+        
+        .table thead th {
+            background: var(--soft-gray);
+            border: none;
+            font-weight: 600;
+            color: var(--primary);
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .table tbody tr {
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(44,62,80,0.02);
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        
+        .entry-photo {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid var(--border-light);
+        }
+        
+        .committed-entry {
+            background: rgba(39,174,96,0.03);
+            border-left: 4px solid var(--success);
+        }
+        
+        .edit-request-badge {
+            background: var(--warning);
+            color: white;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        
+        .activity-item {
+            border-left: 4px solid var(--primary);
+            background: white;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: 0 12px 12px 0;
+            border: 1px solid var(--border-light);
+        }
+        
         .user-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background-color: #2C2C2C;
+            background: var(--primary);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin-right: 15px;
+            font-weight: 600;
         }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 4px;
+        
+        .modal-header {
+            background: var(--primary);
             color: white;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            max-width: 300px;
-            transform: translateX(400px);
-            transition: transform 0.4s ease;
+            border-radius: 16px 16px 0 0;
         }
-
-        .notification.show {
-            transform: translateX(0);
+        
+        .modal-content {
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
         }
-
-        .notification.success {
-            background-color: #28a745;
-            border-left: 4px solid #1e7e34;
+        
+        .photo-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 2px solid var(--border-light);
         }
-
-        .notification.error {
-            background-color: #dc3545;
-            border-left: 4px solid #c82333;
+        
+        .remarks-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px;
+            background: var(--soft-gray);
         }
-
-        .notification.warning {
-            background-color: #ffc107;
-            color: #212529;
-            border-left: 4px solid #e0a800;
+        
+        .remark-item {
+            background: white;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-
-        .notification.info {
-            background-color: #17a2b8;
-            border-left: 4px solid #138496;
+        
+        .remark-author {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
-
-        .hidden {
+        
+        .remark-time {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        .page-section {
             display: none;
         }
-
-        .clock {
-            font-size: 18px;
-            font-weight: 500;
-            color: #2C2C2C;
-            text-align: center;
-            margin: 15px 0;
+        
+        .page-section.active {
+            display: block;
         }
-
-        .log-entry-actions {
+        
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(44,62,80,0.15);
+        }
+        
+        .stats-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.75rem;
             display: flex;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
         }
-
-        .activity-log {
-            max-height: 400px;
-            overflow-y: auto;
+        
+        .container {
+            max-width: 1200px;
         }
-
-        .status-badge {
-            padding: 4px 8px;
+        
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .form-select {
+            border-radius: 12px;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            background: white;
+        }
+        
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(44,62,80,0.15);
+        }
+        
+        .sync-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .sync-indicator.show {
+            display: block;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .entry-id {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(44,62,80,0.05);
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .status-committed {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-uncommitted {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .user-info {
-                margin-bottom: 15px;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
-    <div id="app">
-        <!-- Login Section -->
-        <section id="login-section" class="container">
-            <div class="card" style="max-width: 500px; margin: 100px auto;">
-                <h1 style="text-align: center; margin-bottom: 30px;">Switch Village Mall</h1>
-                <h4 style="text-align: center; margin-bottom: 10px;">Courier Logbook System</h4>
-
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="user-id">User ID</label>
-                        <input type="text" id="user-id" placeholder="Enter your User ID" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="btn" style="width: 100%;">Login</button>
-                </form>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-clipboard-list fa-3x text-primary mb-3"></i>
+                <h2>VM Courier Logbook</h2>
+                <p>Village Mall Portal</p>
             </div>
-        </section>
-
-        <!-- Dashboard Section -->
-        <section id="dashboard-section" class="container hidden">
-            <header>
-                <div class="dashboard-header">
-                    <div class="user-info">
-                        <div class="user-avatar" id="user-avatar">MD</div>
-                        <div>
-                            <h2 id="user-name">Muhammad Danial Danish</h2>
-                            <p id="user-role">Admin | ID: 7434</p>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="loginId" class="form-label">User ID</label>
+                    <input type="text" class="form-control" id="loginId" required>
+                </div>
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                </div>
+            </form>
+            <div id="loginError" class="alert alert-danger mt-3" style="display: none;"></div>
+        </div>
+    </div>
+    <!-- Main Application -->
+    <div id="mainApp" class="main-container" style="display: none;">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <span class="navbar-brand">
+                    <i class="fas fa-clipboard-list me-2"></i>VM Courier Logbook
+                </span>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="#" onclick="showPage('logbook')">
+                        <i class="fas fa-book me-1"></i>Logbook
+                    </a>
+                    <a class="nav-link" href="#" onclick="showPage('users')">
+                        <i class="fas fa-users me-1"></i>Users
+                    </a>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar d-inline-flex me-2" id="userAvatar"></div>
+                            <span id="currentUserName"></span>
+                            <span id="editRequestBadge" class="notification-badge" style="display: none;">0</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="syncWithGoogleSheets()">
+                                <i class="fas fa-sync me-2"></i>Sync with Google Sheets
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Logbook Page -->
+        <div id="logbookPage" class="page-section active">
+            <div class="container mt-4">
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="totalEntries">0</div>
+                                    <div>Total Entries</div>
+                                </div>
+                                <i class="fas fa-clipboard-list fa-2x opacity-75"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="clock" id="live-clock">Loading...</div>
-                    <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="committedEntries">0</div>
+                                    <div>Committed</div>
+                                </div>
+                                <i class="fas fa-lock fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="myEntries">0</div>
+                                    <div>My Entries</div>
+                                </div>
+                                <i class="fas fa-user fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="pendingRequests">0</div>
+                                    <div>Edit Requests</div>
+                                </div>
+                                <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </header>
-
-            <div class="card">
-                <h3>System Navigation</h3>
-                <div class="btn-group">
-                    <button id="logbook-btn" class="btn">Logbook</button>
-                    <button id="admin-panel-btn" class="btn hidden">Admin Panel</button>
+                <!-- Add Entry Button -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#entryModal" onclick="openAddEntryModal()">
+                            <i class="fas fa-plus me-2"></i>Add New Entry
+                        </button>
+                        <button id="viewDeletedBtn" class="btn btn-outline-secondary ms-2" onclick="toggleDeletedEntries()" style="display: none;">
+                            <i class="fas fa-trash me-2"></i>View Deleted Entries
+                        </button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card">
-                <h3>Recent Activity</h3>
-                <div id="recent-activity">
-                    <p>No recent activity</p>
+                <!-- Logbook Entries -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>Logbook Entries
+                            <span id="entriesTitle">All Entries</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date</th>
+                                        <th>PIC</th>
+                                        <th>Destination</th>
+                                        <th>Cashbill*</th>
+                                        <th>Consignment*</th>
+                                        <th>Photo</th>
+                                        <th>Remarks</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="entriesTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Logbook Section -->
-        <section id="logbook-section" class="container hidden">
-            <div class="dashboard-header">
-                <h1>Courier Logbook</h1>
-                <button id="back-to-dashboard-btn" class="btn btn-secondary">Back to Dashboard</button>
-            </div>
-
-            <div class="card">
-                <h3>Add New Log Entry</h3>
-                <form id="log-entry-form">
-                    <div class="form-group">
-                        <label for="pickup-date">Pickup Date</label>
-                        <input type="date" id="pickup-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" required>
-                            <option value="">Select Status</option>
-                            <option value="Pending">Pending</option>
-                            <option value="In Transit">In Transit</option>
-                            <option value="Delivered">Delivered</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="courier-type">Courier Type</label>
-                        <select id="courier-type" required>
-                            <option value="">Select Courier Type</option>
-                            <option value="eDHL">eDHL</option>
-                            <option value="Poslaju">Poslaju</option>
-                            <option value="GDex">GDex</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="consignment-number">Consignment Number</label>
-                        <input type="text" id="consignment-number" placeholder="*Insert consignment number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cashbill-number">Cashbill Number</label>
-                        <input type="text" id="cashbill-number" placeholder="To ENB/Remobie cashbill number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="destination-partner">Destination Partner</label>
-                        <select id="destination-partner" required>
-                            <option value="">Select Destination Partner</option>
-                            <option value="ENB">ENB</option>
-                            <option value="Remobie">Remobie</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="pic">Person In Charge (PIC)</label>
-                        <input type="text" id="pic" readonly>
-                    </div>
-                    <button type="submit" class="btn">Add Log Entry</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <h3>Logbook Entries</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Pickup Date</th>
-                                <th>Status</th>
-                                <th>Courier Type</th>
-                                <th>Consignment No.</th>
-                                <th>Cashbill No.</th>
-                                <th>Destination</th>
-                                <th>PIC</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="logbook-entries">
-                            <tr>
-                                <td colspan="9">No entries found</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Admin Panel Section -->
-        <section id="admin-panel-section" class="container hidden">
-            <div class="dashboard-header">
-                <h1>Admin Panel</h1>
-                <button id="back-to-dashboard-btn2" class="btn btn-secondary">Back to Dashboard</button>
-            </div>
-
-            <div class="card">
-                <h3>User Management</h3>
-                <div class="btn-group">
-                    <button id="add-user-btn" class="btn">Add New User</button>
-                    <button id="view-users-btn" class="btn">View All Users</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>Activity Log</h3>
-                <div class="activity-log">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Action</th>
-                                <th>Timestamp</th>
-                                <th>IP Address</th>
-                            </tr>
-                        </thead>
-                        <tbody id="activity-logs">
-                            <tr>
-                                <td colspan="4">No activity logs found</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Add User Modal -->
-        <div id="add-user-modal" class="modal hidden">
-            <div class="modal-content card">
-                <span class="close">&times;</span>
-                <h3>Add New User</h3>
-                <form id="add-user-form">
-                    <div class="form-group">
-                        <label for="new-user-id">User ID</label>
-                        <input type="text" id="new-user-id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-user-name">Full Name</label>
-                        <input type="text" id="new-user-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-user-role">Role</label>
-                        <select id="new-user-role" required>
-                            <option value="">Select Role</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Retail Sales Executive">Retail Sales Executive</option>
-                            <option value="Retail Sales Assistant">Retail Sales Assistant</option>
-                            <option value="Area Head">Area Head</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-user-password">Password</label>
-                        <input type="password" id="new-user-password" required>
-                    </div>
-                    <button type="submit" class="btn">Add User</button>
-                </form>
             </div>
         </div>
-
-        <!-- Notification Container -->
-        <div id="notification-container"></div>
+        <!-- User Management Page -->
+        <div id="usersPage" class="page-section">
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- User Profile/List -->
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-users me-2"></i><span id="usersTitle">User Management</span>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="usersList"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Log (Admin Only) -->
+                    <div class="col-md-4" id="activityLogSection" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-history me-2"></i>Recent Activity
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="activityLog" style="max-height: 400px; overflow-y: auto;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
+    <!-- Entry Modal -->
+    <div class="modal fade" id="entryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="entryModalTitle">Add New Entry</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="entryForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="entryDate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryPIC" class="form-label">PIC (Person in Charge)</label>
+                                    <input type="text" class="form-control" id="entryPIC" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="entryDestination" class="form-label">Destination Trade In Partner</label>
+                            <select class="form-select" id="entryDestination" required>
+                                <option value="">Select Destination</option>
+                                <option value="ENB">ENB</option>
+                                <option value="Remobie">Remobie</option>
+                                <option value="Miifix">Miifix</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryCashbill" class="form-label">Cashbill Number *</label>
+                                    <input type="text" class="form-control" id="entryCashbill" required placeholder="Enter cashbill number">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entryConsignment" class="form-label">Consignment Number *</label>
+                                    <input type="text" class="form-control" id="entryConsignment" required placeholder="Enter consignment number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="entryPhoto" class="form-label">Courier Photo Proof</label>
+                            <input type="file" class="form-control" id="entryPhoto" accept="image/*">
+                            <div id="photoPreview"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="entryRemarks" class="form-label">Initial Remarks (Optional)</label>
+                            <textarea class="form-control" id="entryRemarks" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEntry()">
+                        <span id="saveButtonText">Save Entry</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Remarks Modal -->
+    <div class="modal fade" id="remarksModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Entry Remarks</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="remarks-list" id="remarksList"></div>
+                    <div class="mt-3">
+                        <label for="newRemark" class="form-label">Add New Remark</label>
+                        <textarea class="form-control" id="newRemark" rows="3" placeholder="Enter your remark..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addRemark()">Add Remark</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Request Modal -->
+    <div class="modal fade" id="editRequestModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Request Edit Permission</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This entry is committed and locked. Please provide a reason for requesting edit permission:</p>
+                    <textarea class="form-control" id="editRequestReason" rows="4" placeholder="Reason for edit request..." required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning" onclick="submitEditRequest()">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Photo View Modal -->
+    <div class="modal fade" id="photoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Courier Photo Proof</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalPhoto" class="img-fluid" style="max-height: 70vh;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sync Indicator -->
+    <div id="syncIndicator" class="sync-indicator">
+        <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // System state and data
+        // Application State
         let currentUser = null;
-        let logbookEntries = [];
-        let activityLogs = [];
+        let currentEntryId = null;
+        let currentRemarksEntryId = null;
+        let showingDeleted = false;
+        let isOnline = navigator.onLine;
+        
+        // Google Sheets Integration
+        const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzhv-AkEfllR9bWqb7AasRfxDCSGl_NnYGUHqePEiLOq4qM6_DAOBSNSbJd7pZECLuz5g/exec";
+        
+        // Data Storage
         let users = [
-            { id: '7434', name: 'Muhammad Danial Danish', role: 'Admin', password: 'Dd123', canCommit: true },
-            { id: '5546', name: 'Cindamani Anam', role: 'Retail Sales Executive', password: 'Ann123', canCommit: false },
-            { id: '6435', name: 'Lee Shean Yi', role: 'Retail Sales Assistant', password: 'Lee123', canCommit: false },
-            { id: '7701', name: 'Muhammad Syarifuddin', role: 'Retail Sales Assistant', password: 'Ann123', canCommit: false },
-            { id: '7940', name: 'Eisya Nasir', role: 'Retail Sales Assistant', password: 'Eisya123', canCommit: false },
-            { id: '7407', name: 'Nur Sabrina', role: 'Retail Sales Assistant', password: 'Sab123', canCommit: false },
-            { id: '4545', name: 'Ain Ismail', role: 'Retail Sales Assistant', password: 'Ain123', canCommit: false },
-            { id: '0690', name: 'Kavindhran', role: 'Area Head', password: 'Kavin123', canCommit: false }
+            { id: '7434', name: 'Danial Danish', role: 'admin', password: 'Dd123', canCommit: true },
+            { id: '4545', name: 'Ain Ismail', role: 'TL', password: 'Ain123', canCommit: false },
+            { id: '5546', name: 'Cindamani Anam', role: 'RSE', password: 'Ann123', canCommit: false },
+            { id: '7701', name: 'Syarifuddin Mat Razali', role: 'RSA', password: 'Din123', canCommit: false },
+            { id: '7407', name: 'Nur Sabrina', role: 'RSA', password: 'Sab123', canCommit: false },
+            { id: '7940', name: 'Eisya Nasir', role: 'RSA', password: 'Eisya123', canCommit: false },
+            { id: '6435', name: 'Lee Shean Yi', role: 'RSA', password: 'Lee123', canCommit: false },
+            { id: '0690', name: 'Kavindhran', role: 'AH', password: 'Kavin123', canCommit: false }
         ];
-
-        // Initialize the system
-        function initSystem() {
-            // Load data from localStorage if available
-            const savedUsers = localStorage.getItem('courierUsers');
-            if (savedUsers) {
-                users = JSON.parse(savedUsers);
-            } else {
-                // Initialize with default users
-                localStorage.setItem('courierUsers', JSON.stringify(users));
-            }
-
-            const savedEntries = localStorage.getItem('logbookEntries');
-            if (savedEntries) {
-                logbookEntries = JSON.parse(savedEntries);
-            }
-
-            const savedLogs = localStorage.getItem('activityLogs');
-            if (savedLogs) {
-                activityLogs = JSON.parse(savedLogs);
-            }
-
-            // Check if user is already logged in
-            const sessionUser = sessionStorage.getItem('currentUser');
-            if (sessionUser) {
-                currentUser = JSON.parse(sessionUser);
-                showDashboard();
-            }
-
-            // Start the clock
-            updateClock();
-            setInterval(updateClock, 1000);
+        
+        let logbookEntries = [];
+        let deletedEntries = [];
+        let editRequests = [];
+        let activityLogs = [];
+        let entryRemarks = {};
+        let lastSyncTime = null;
+        
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            checkLoginStatus();
+            
+            // Monitor online/offline status
+            window.addEventListener('online', () => {
+                isOnline = true;
+                showSuccessMessage('You are back online!');
+                syncWithGoogleSheets();
+            });
+            
+            window.addEventListener('offline', () => {
+                isOnline = false;
+                showErrorMessage('You are offline. Changes will be saved locally and synced when you reconnect.');
+            });
+            
+            // Auto-sync with Google Sheets every 5 minutes when online
+            setInterval(() => {
+                if (isOnline && currentUser) {
+                    syncWithGoogleSheets();
+                }
+            }, 300000);
+        });
+        
+        // Event Listeners
+        function setupEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('entryPhoto').addEventListener('change', handlePhotoPreview);
         }
-
-        // Update live clock
-        function updateClock() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit' 
-            };
-            const timeString = now.toLocaleDateString('en-US', options);
-            document.getElementById('live-clock').textContent = timeString;
-        }
-
-        // Show notification
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
+        
+        // Login Management
+        function checkLoginStatus() {
+            const savedUser = localStorage.getItem('vmCourierUser');
+            const rememberMe = localStorage.getItem('vmCourierRemember');
             
-            document.getElementById('notification-container').appendChild(notification);
-            
-            // Trigger animation
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            
-            // Remove notification after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 400);
-            }, 5000);
-        }
-
-        // Log activity
-        function logActivity(userId, action) {
-            const now = new Date();
-            const timestamp = now.toISOString();
-            
-            // Get IP address (simulated)
-            const ipAddress = '192.168.1.' + Math.floor(Math.random() * 255);
-            
-            const logEntry = {
-                userId,
-                action,
-                timestamp,
-                ipAddress
-            };
-            
-            activityLogs.unshift(logEntry);
-            localStorage.setItem('activityLogs', JSON.stringify(activityLogs));
-            
-            // Update activity log display if in admin panel
-            if (document.getElementById('admin-panel-section').classList.contains('hidden') === false) {
-                renderActivityLogs();
+            if (savedUser && rememberMe === 'true') {
+                const userData = JSON.parse(savedUser);
+                const user = users.find(u => u.id === userData.id);
+                if (user) {
+                    loginUser(user);
+                    return;
+                }
             }
             
-            // Show notification to admin
-            if (currentUser && currentUser.id === '7434') {
-                showNotification(`Activity: ${action} by ${userId}`, 'info');
-            }
+            showLoginPage();
         }
-
-        // Login functionality
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        
+        function handleLogin(e) {
             e.preventDefault();
+            const id = document.getElementById('loginId').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             
-            const userId = document.getElementById('user-id').value;
-            const password = document.getElementById('password').value;
-            
-            // Find user
-            const user = users.find(u => u.id === userId && u.password === password);
+            const user = users.find(u => u.id === id && u.password === password);
             
             if (user) {
-                currentUser = user;
-                sessionStorage.setItem('currentUser', JSON.stringify(user));
-                logActivity(user.id, 'User logged in');
-                showDashboard();
-                showNotification(`Welcome, ${user.name}!`, 'success');
+                if (rememberMe) {
+                    localStorage.setItem('vmCourierUser', JSON.stringify({id: user.id}));
+                    localStorage.setItem('vmCourierRemember', 'true');
+                }
+                loginUser(user);
             } else {
-                showNotification('Invalid User ID or password', 'error');
+                showLoginError('Invalid ID or password');
             }
-        });
-
-        // Show dashboard
-        function showDashboard() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('dashboard-section').classList.remove('hidden');
-            
-            // Update user info
-            document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-role').textContent = `${currentUser.role} | ID: ${currentUser.id}`;
-            
-            // Set user avatar initials
-            const initials = currentUser.name.split(' ').map(n => n[0]).join('');
-            document.getElementById('user-avatar').textContent = initials;
-            
-            // Show admin panel button if admin
-            if (currentUser.id === '7434') {
-                document.getElementById('admin-panel-btn').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-panel-btn').classList.add('hidden');
-            }
-            
-            // Update recent activity
-            updateRecentActivity();
         }
-
-        // Update recent activity
-        function updateRecentActivity() {
-            const recentActivityDiv = document.getElementById('recent-activity');
+        
+        function loginUser(user) {
+            currentUser = user;
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
             
-            if (activityLogs.length === 0) {
-                recentActivityDiv.innerHTML = '<p>No recent activity</p>';
-                return;
+            // Update UI
+            document.getElementById('currentUserName').textContent = user.name;
+            document.getElementById('userAvatar').textContent = user.name.charAt(0);
+            
+            // Show admin features
+            if (user.role === 'admin') {
+                document.getElementById('viewDeletedBtn').style.display = 'inline-block';
+                document.getElementById('activityLogSection').style.display = 'block';
             }
             
-            const recentLogs = activityLogs.slice(0, 5);
-            let html = '<ul>';
+            // Load data from Google Sheets
+            loadDataFromGoogleSheets();
             
-            recentLogs.forEach(log => {
-                const date = new Date(log.timestamp);
-                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                html += `<li><strong>${log.action}</strong> by ${log.userId} on ${formattedDate}</li>`;
+            logActivity('Login', `${user.name} logged in`);
+        }
+        
+        function logout() {
+            logActivity('Logout', `${currentUser.name} logged out`);
+            currentUser = null;
+            localStorage.removeItem('vmCourierUser');
+            localStorage.removeItem('vmCourierRemember');
+            showLoginPage();
+        }
+        
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').style.display = 'none';
+        }
+        
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        // Page Navigation
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
             });
             
-            html += '</ul>';
-            recentActivityDiv.innerHTML = html;
+            // Remove active class from nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(page + 'Page').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (page === 'users') {
+                loadUsersPage();
+            } else if (page === 'logbook') {
+                loadLogbookPage();
+            }
         }
-
-        // Logout functionality
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            if (currentUser) {
-                logActivity(currentUser.id, 'User logged out');
-                sessionStorage.removeItem('currentUser');
-                currentUser = null;
-                showNotification('You have been logged out', 'info');
-            }
-            
-            document.getElementById('dashboard-section').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-        });
-
-        // Navigation buttons
-        document.getElementById('logbook-btn').addEventListener('click', function() {
-            document.getElementById('dashboard-section').classList.add('hidden');
-            document.getElementById('logbook-section').classList.remove('hidden');
-            
-            // Set PIC field
-            document.getElementById('pic').value = currentUser.name;
-            
-            // Render logbook entries
+        
+        // Logbook Management
+        function loadLogbookPage() {
+            updateStats();
             renderLogbookEntries();
-        });
-
-        document.getElementById('admin-panel-btn').addEventListener('click', function() {
-            document.getElementById('dashboard-section').classList.add('hidden');
-            document.getElementById('admin-panel-section').classList.remove('hidden');
+            updateEditRequestBadge();
+        }
+        
+        function updateStats() {
+            const total = logbookEntries.length;
+            const committed = logbookEntries.filter(e => e.committed).length;
+            const myEntries = logbookEntries.filter(e => e.createdBy === currentUser.id).length;
+            const requests = editRequests.filter(r => !r.resolved).length;
             
-            // Render activity logs
-            renderActivityLogs();
-        });
-
-        document.getElementById('back-to-dashboard-btn').addEventListener('click', function() {
-            document.getElementById('logbook-section').classList.add('hidden');
-            document.getElementById('dashboard-section').classList.remove('hidden');
-        });
-
-        document.getElementById('back-to-dashboard-btn2').addEventListener('click', function() {
-            document.getElementById('admin-panel-section').classList.add('hidden');
-            document.getElementById('dashboard-section').classList.remove('hidden');
-        });
-
-        // Add log entry
-        document.getElementById('log-entry-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const newEntry = {
-                id: String(logbookEntries.length + 1).padStart(6, '0'),
-                pickupDate: document.getElementById('pickup-date').value,
-                status: document.getElementById('status').value,
-                courierType: document.getElementById('courier-type').value,
-                consignmentNumber: document.getElementById('consignment-number').value,
-                cashbillNumber: document.getElementById('cashbill-number').value,
-                destinationPartner: document.getElementById('destination-partner').value,
-                pic: document.getElementById('pic').value,
-                committed: false,
-                createdBy: currentUser.id
-            };
-            
-            logbookEntries.push(newEntry);
-            localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
-            
-            logActivity(currentUser.id, `Added log entry ${newEntry.id}`);
-            showNotification(`Log entry ${newEntry.id} added successfully!`, 'success');
-            
-            // Reset form
-            this.reset();
-            document.getElementById('pic').value = currentUser.name;
-            
-            // Update logbook display
-            renderLogbookEntries();
-        });
-
-        // Render logbook entries
+            document.getElementById('totalEntries').textContent = total;
+            document.getElementById('committedEntries').textContent = committed;
+            document.getElementById('myEntries').textContent = myEntries;
+            document.getElementById('pendingRequests').textContent = requests;
+        }
+        
         function renderLogbookEntries() {
-            const tbody = document.getElementById('logbook-entries');
-            
-            if (logbookEntries.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9">No entries found</td></tr>';
-                return;
-            }
-            
+            const tbody = document.getElementById('entriesTableBody');
             tbody.innerHTML = '';
             
-            logbookEntries.forEach(entry => {
-                const tr = document.createElement('tr');
-                
-                // Status badge
-                let statusClass = '';
+            const entriesToShow = showingDeleted ? deletedEntries : logbookEntries;
+            const filteredEntries = currentUser.role === 'admin' ? entriesToShow : 
+                entriesToShow.filter(e => e.createdBy === currentUser.id);
+            
+            document.getElementById('entriesTitle').textContent = showingDeleted ? 
+                'Deleted Entries' : (currentUser.role === 'admin' ? 'All Entries' : 'My Entries');
+            
+            filteredEntries.forEach(entry => {
+                const row = document.createElement('tr');
                 if (entry.committed) {
-                    statusClass = 'status-committed';
-                } else {
-                    statusClass = 'status-uncommitted';
+                    row.classList.add('committed-entry');
                 }
                 
-                tr.innerHTML = `
-                    <td>${entry.id}</td>
-                    <td>${entry.pickupDate}</td>
-                    <td><span class="status-badge ${statusClass}">${entry.status}</span></td>
-                    <td>${entry.courierType}</td>
-                    <td>${entry.consignmentNumber}</td>
-                    <td>${entry.cashbillNumber}</td>
-                    <td>${entry.destinationPartner}</td>
-                    <td>${entry.pic}</td>
-                    <td class="log-entry-actions">
-                        ${!entry.committed ? `<button class="btn btn-success" onclick="commitEntry('${entry.id}')">Commit</button>` : ''}
-                        ${entry.committed && currentUser.id === '7434' ? `<button class="btn btn-warning" onclick="uncommitEntry('${entry.id}')">Uncommit</button>` : ''}
-                        ${!entry.committed ? `<button class="btn btn-secondary" onclick="editEntry('${entry.id}')">Edit</button>` : ''}
-                        ${!entry.committed ? `<button class="btn btn-danger" onclick="deleteEntry('${entry.id}')">Delete</button>` : ''}
+                const hasEditRequest = editRequests.some(r => r.entryId === entry.id && !r.resolved);
+                const editRequestBadge = hasEditRequest ? 
+                    '<span class="edit-request-badge ms-2">Edit Requested</span>' : '';
+                
+                row.innerHTML = `
+                    <td><span class="entry-id">${entry.id}</span></td>
+                    <td>${entry.date}</td>
+                    <td>${entry.pic}${editRequestBadge}</td>
+                    <td><span class="badge bg-primary">${entry.destination}</span></td>
+                    <td><span class="text-muted">${entry.cashbill || 'N/A'}</span></td>
+                    <td><span class="text-muted">${entry.consignment || 'N/A'}</span></td>
+                    <td>
+                        ${entry.photo ? 
+                            `<img src="${entry.photo}" class="entry-photo" onclick="viewPhoto('${entry.photo}')">` : 
+                            '<span class="text-muted">No photo</span>'
+                        }
                     </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-info" onclick="viewRemarks('${entry.id}')">
+                            <i class="fas fa-comment"></i> 
+                            ${entryRemarks[entry.id] ? entryRemarks[entry.id].length : 0}
+                        </button>
+                    </td>
+                    <td>
+                        ${entry.committed ? 
+                            '<span class="badge bg-success"><i class="fas fa-lock"></i> Committed</span>' : 
+                            '<span class="badge bg-warning text-dark">Draft</span>'
+                        }
+                    </td>
+                    <td>${renderActionButtons(entry)}</td>
                 `;
                 
-                tbody.appendChild(tr);
+                tbody.appendChild(row);
             });
         }
-
-        // Commit entry
+        
+        function renderActionButtons(entry) {
+            if (showingDeleted) {
+                return currentUser.role === 'admin' ? `
+                    <button class="btn btn-sm btn-success me-1" onclick="restoreEntry('${entry.id}')">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="permanentlyDeleteEntry('${entry.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ` : '';
+            }
+            
+            let buttons = '';
+            
+            // Edit button logic
+            if (entry.committed) {
+                if (currentUser.role === 'admin') {
+                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>`;
+                } else if (entry.createdBy === currentUser.id) {
+                    buttons += `<button class="btn btn-sm btn-warning me-1" onclick="requestEdit('${entry.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>`;
+                }
+            } else {
+                if (currentUser.role === 'admin' || entry.createdBy === currentUser.id) {
+                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>`;
+                }
+            }
+            
+            // Delete button
+            if (currentUser.role === 'admin' || (entry.createdBy === currentUser.id && !entry.committed)) {
+                buttons += `<button class="btn btn-sm btn-danger me-1" onclick="deleteEntry('${entry.id}')">
+                    <i class="fas fa-trash"></i>
+                </button>`;
+            }
+            
+            // Commit/Uncommit button
+            if (!entry.committed) {
+                // Allow both users with commit permission AND the entry creator to commit
+                if (currentUser.canCommit || entry.createdBy === currentUser.id) {
+                    buttons += `<button class="btn btn-sm btn-success" onclick="commitEntry('${entry.id}')">
+                        <i class="fas fa-lock"></i> Commit
+                    </button>`;
+                }
+            } else if (currentUser.role === 'admin') {
+                buttons += `<button class="btn btn-sm btn-secondary" onclick="uncommitEntry('${entry.id}')">
+                    <i class="fas fa-unlock"></i>
+                </button>`;
+            }
+            
+            return buttons;
+        }
+        
+        // Generate LBVM sequential ID starting from LBVM001
+        function generateNextId() {
+            // Get all existing entries
+            const allEntries = [...logbookEntries, ...deletedEntries];
+            
+            // Filter entries that have the new format (start with "LBVM")
+            const lbvmEntries = allEntries.filter(entry => entry.id && entry.id.startsWith('LBVM'));
+            
+            // If no entries with the new format, start at 001
+            if (lbvmEntries.length === 0) {
+                return "LBVM001";
+            }
+            
+            // Extract the numeric part from each ID (the last 3 digits)
+            let maxNum = 0;
+            lbvmEntries.forEach(entry => {
+                const numStr = entry.id.substring(4); // Skip "LBVM"
+                const num = parseInt(numStr, 10);
+                if (!isNaN(num) && num > maxNum) {
+                    maxNum = num;
+                }
+            });
+            
+            // Increment and format as 3 digits
+            const nextNum = maxNum + 1;
+            const nextNumStr = String(nextNum).padStart(3, '0');
+            return `LBVM${nextNumStr}`;
+        }
+        
+        // Entry Management
+        function openAddEntryModal() {
+            currentEntryId = null;
+            document.getElementById('entryModalTitle').textContent = 'Add New Entry';
+            document.getElementById('entryForm').reset();
+            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('entryPIC').value = currentUser.name;
+            document.getElementById('entryCashbill').value = '';
+            document.getElementById('entryConsignment').value = '';
+            document.getElementById('photoPreview').innerHTML = '';
+            document.getElementById('saveButtonText').textContent = 'Save Entry';
+        }
+        
+        function saveEntry() {
+            const date = document.getElementById('entryDate').value;
+            const destination = document.getElementById('entryDestination').value;
+            const cashbill = document.getElementById('entryCashbill').value;
+            const consignment = document.getElementById('entryConsignment').value;
+            const photoFile = document.getElementById('entryPhoto').files[0];
+            const remarks = document.getElementById('entryRemarks').value;
+            
+            if (!date || !destination || !cashbill || !consignment) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            let photoData = null;
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, e.target.result);
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, null);
+            }
+        }
+        
+        function saveEntryWithPhoto(date, destination, cashbill, consignment, remarks, photoData) {
+            if (currentEntryId) {
+                // Edit existing entry
+                const entry = logbookEntries.find(e => e.id === currentEntryId);
+                if (entry) {
+                    entry.date = date;
+                    entry.destination = destination;
+                    entry.cashbill = cashbill;
+                    entry.consignment = consignment;
+                    if (photoData) entry.photo = photoData;
+                    entry.lastModified = new Date().toISOString();
+                    
+                    if (remarks) {
+                        if (!entryRemarks[currentEntryId]) entryRemarks[currentEntryId] = [];
+                        entryRemarks[currentEntryId].push({
+                            text: remarks,
+                            author: currentUser.name,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                    
+                    logActivity('Edit Entry', `Entry #${currentEntryId} edited by ${currentUser.name}`);
+                    
+                    // Update Google Sheets
+                    if (isOnline) {
+                        updateGoogleSheet(entry);
+                    } else {
+                        showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                    }
+                }
+            } else {
+                // Add new entry with LBVM sequential ID
+                const newEntry = {
+                    id: generateNextId(), // Use LBVM sequential ID generation
+                    date: date,
+                    pic: currentUser.name,
+                    destination: destination,
+                    cashbill: cashbill,
+                    consignment: consignment,
+                    photo: photoData,
+                    committed: false,
+                    createdBy: currentUser.id,
+                    createdAt: new Date().toISOString(),
+                    lastModified: new Date().toISOString()
+                };
+                
+                logbookEntries.unshift(newEntry);
+                
+                if (remarks) {
+                    entryRemarks[newEntry.id] = [{
+                        text: remarks,
+                        author: currentUser.name,
+                        timestamp: new Date().toISOString()
+                    }];
+                }
+                
+                logActivity('Add Entry', `New entry created by ${currentUser.name}`);
+                
+                // Submit to Google Sheets
+                if (isOnline) {
+                    submitToGoogleSheet(newEntry);
+                    showSuccessMessage('Entry created successfully and submitted to Google Sheets!');
+                } else {
+                    showErrorMessage('You are offline. Entry saved locally and will be synced when you reconnect.');
+                }
+            }
+            
+            saveToLocalStorage();
+            updateUI();
+            bootstrap.Modal.getInstance(document.getElementById('entryModal')).hide();
+        }
+        
+        function editEntry(entryId) {
+            const entry = logbookEntries.find(e => e.id === entryId);
+            if (!entry) return;
+            
+            currentEntryId = entryId;
+            document.getElementById('entryModalTitle').textContent = 'Edit Entry';
+            document.getElementById('entryDate').value = entry.date;
+            document.getElementById('entryPIC').value = entry.pic;
+            document.getElementById('entryDestination').value = entry.destination;
+            document.getElementById('entryCashbill').value = entry.cashbill || '';
+            document.getElementById('entryConsignment').value = entry.consignment || '';
+            document.getElementById('entryRemarks').value = '';
+            document.getElementById('saveButtonText').textContent = 'Update Entry';
+            
+            if (entry.photo) {
+                document.getElementById('photoPreview').innerHTML = `
+                    <img src="${entry.photo}" class="photo-preview">
+                `;
+            }
+            
+            new bootstrap.Modal(document.getElementById('entryModal')).show();
+        }
+        
+        function deleteEntry(entryId) {
+            if (!confirm('Are you sure you want to delete this entry?')) return;
+            
+            const entryIndex = logbookEntries.findIndex(e => e.id === entryId);
+            if (entryIndex !== -1) {
+                const entry = logbookEntries.splice(entryIndex, 1)[0];
+                deletedEntries.unshift(entry);
+                logActivity('Delete Entry', `Entry #${entryId} deleted by ${currentUser.name}`);
+                
+                // Update Google Sheets
+                if (isOnline) {
+                    deleteFromGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                }
+                
+                saveToLocalStorage();
+                updateUI();
+            }
+        }
+        
         function commitEntry(entryId) {
             const entry = logbookEntries.find(e => e.id === entryId);
             if (entry) {
                 entry.committed = true;
-                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
+                entry.committedBy = currentUser.id;
+                entry.committedAt = new Date().toISOString();
+                logActivity('Commit Entry', `Entry #${entryId} committed by ${currentUser.name}`);
                 
-                logActivity(currentUser.id, `Committed log entry ${entryId}`);
-                showNotification(`Log entry ${entryId} committed successfully!`, 'success');
+                // Update Google Sheets
+                if (isOnline) {
+                    updateGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                }
                 
-                renderLogbookEntries();
+                saveToLocalStorage();
+                updateUI();
+                
+                showSuccessMessage('Entry committed successfully!');
             }
         }
-
-        // Uncommit entry (Admin only)
+        
         function uncommitEntry(entryId) {
-            if (currentUser.id !== '7434') {
-                showNotification('Only Admin can uncommit entries', 'error');
-                return;
-            }
-            
             const entry = logbookEntries.find(e => e.id === entryId);
             if (entry) {
                 entry.committed = false;
-                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
+                delete entry.committedBy;
+                delete entry.committedAt;
                 
-                logActivity(currentUser.id, `Uncommitted log entry ${entryId}`);
-                showNotification(`Log entry ${entryId} uncommitted!`, 'warning');
+                // Resolve any edit requests for this entry
+                editRequests.forEach(req => {
+                    if (req.entryId === entryId) {
+                        req.resolved = true;
+                        req.resolvedBy = currentUser.id;
+                        req.resolvedAt = new Date().toISOString();
+                    }
+                });
                 
-                renderLogbookEntries();
+                logActivity('Uncommit Entry', `Entry #${entryId} uncommitted by ${currentUser.name}`);
+                
+                // Update Google Sheets
+                if (isOnline) {
+                    updateGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                }
+                
+                saveToLocalStorage();
+                updateUI();
+                
+                showSuccessMessage('Entry uncommitted successfully!');
             }
         }
-
-        // Edit entry
-        function editEntry(entryId) {
-            if (currentUser.id !== '7434') {
-                showNotification('Any edit/delete action requires permission from user ID 7434 to uncommit the log entry.', 'warning');
+        
+        function restoreEntry(entryId) {
+            const entryIndex = deletedEntries.findIndex(e => e.id === entryId);
+            if (entryIndex !== -1) {
+                const entry = deletedEntries.splice(entryIndex, 1)[0];
+                logbookEntries.unshift(entry);
+                logActivity('Restore Entry', `Entry #${entryId} restored by ${currentUser.name}`);
+                
+                // Update Google Sheets
+                if (isOnline) {
+                    updateGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                }
+                
+                saveToLocalStorage();
+                updateUI();
+            }
+        }
+        
+        function permanentlyDeleteEntry(entryId) {
+            if (!confirm('Are you sure you want to permanently delete this entry? This cannot be undone.')) return;
+            
+            const entryIndex = deletedEntries.findIndex(e => e.id === entryId);
+            if (entryIndex !== -1) {
+                const entry = deletedEntries.splice(entryIndex, 1)[0];
+                delete entryRemarks[entryId];
+                logActivity('Permanent Delete', `Entry #${entryId} permanently deleted by ${currentUser.name}`);
+                
+                // Delete from Google Sheets
+                if (isOnline) {
+                    deleteFromGoogleSheet(entry);
+                } else {
+                    showErrorMessage('You are offline. Changes will be synced when you reconnect.');
+                }
+                
+                saveToLocalStorage();
+                updateUI();
+            }
+        }
+        
+        function toggleDeletedEntries() {
+            showingDeleted = !showingDeleted;
+            const btn = document.getElementById('viewDeletedBtn');
+            btn.innerHTML = showingDeleted ? 
+                '<i class="fas fa-list me-2"></i>View Active Entries' : 
+                '<i class="fas fa-trash me-2"></i>View Deleted Entries';
+            renderLogbookEntries();
+        }
+        
+        // Remarks Management
+        function viewRemarks(entryId) {
+            currentRemarksEntryId = entryId;
+            const remarks = entryRemarks[entryId] || [];
+            const remarksList = document.getElementById('remarksList');
+            
+            remarksList.innerHTML = '';
+            if (remarks.length === 0) {
+                remarksList.innerHTML = '<p class="text-muted">No remarks yet.</p>';
+            } else {
+                remarks.forEach(remark => {
+                    const remarkDiv = document.createElement('div');
+                    remarkDiv.className = 'remark-item';
+                    remarkDiv.innerHTML = `
+                        <div class="remark-author">${remark.author}</div>
+                        <div>${remark.text}</div>
+                        <div class="remark-time">${new Date(remark.timestamp).toLocaleString()}</div>
+                    `;
+                    remarksList.appendChild(remarkDiv);
+                });
+            }
+            
+            document.getElementById('newRemark').value = '';
+            new bootstrap.Modal(document.getElementById('remarksModal')).show();
+        }
+        
+        function addRemark() {
+            const remarkText = document.getElementById('newRemark').value.trim();
+            if (!remarkText) return;
+            
+            if (!entryRemarks[currentRemarksEntryId]) {
+                entryRemarks[currentRemarksEntryId] = [];
+            }
+            
+            entryRemarks[currentRemarksEntryId].push({
+                text: remarkText,
+                author: currentUser.name,
+                timestamp: new Date().toISOString()
+            });
+            
+            logActivity('Add Remark', `Remark added to entry #${currentRemarksEntryId} by ${currentUser.name}`);
+            saveToLocalStorage();
+            viewRemarks(currentRemarksEntryId);
+            renderLogbookEntries();
+        }
+        
+        // Edit Request Management
+        function requestEdit(entryId) {
+            currentEntryId = entryId;
+            document.getElementById('editRequestReason').value = '';
+            new bootstrap.Modal(document.getElementById('editRequestModal')).show();
+        }
+        
+        function submitEditRequest() {
+            const reason = document.getElementById('editRequestReason').value.trim();
+            if (!reason) {
+                alert('Please provide a reason for the edit request');
                 return;
             }
             
-            const entry = logbookEntries.find(e => e.id === entryId);
-            if (entry) {
-                // Populate form with entry data
-                document.getElementById('pickup-date').value = entry.pickupDate;
-                document.getElementById('status').value = entry.status;
-                document.getElementById('courier-type').value = entry.courierType;
-                document.getElementById('consignment-number').value = entry.consignmentNumber;
-                document.getElementById('cashbill-number').value = entry.cashbillNumber;
-                document.getElementById('destination-partner').value = entry.destinationPartner;
-                document.getElementById('pic').value = entry.pic;
-                
-                // Remove the entry temporarily
-                logbookEntries = logbookEntries.filter(e => e.id !== entryId);
-                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
-                
-                logActivity(currentUser.id, `Editing log entry ${entryId}`);
-                showNotification(`Editing log entry ${entryId}`, 'info');
-                
-                renderLogbookEntries();
-            }
-        }
-
-        // Delete entry
-        function deleteEntry(entryId) {
-            if (currentUser.id !== '7434') {
-                showNotification('Any edit/delete action requires permission from user ID 7434 to uncommit the log entry.', 'warning');
-                return;
-            }
-            
-            if (confirm(`Are you sure you want to delete log entry ${entryId}?`)) {
-                logbookEntries = logbookEntries.filter(e => e.id !== entryId);
-                localStorage.setItem('logbookEntries', JSON.stringify(logbookEntries));
-                
-                logActivity(currentUser.id, `Deleted log entry ${entryId}`);
-                showNotification(`Log entry ${entryId} deleted`, 'warning');
-                
-                renderLogbookEntries();
-            }
-        }
-
-        // Admin Panel - Add User
-        document.getElementById('add-user-btn').addEventListener('click', function() {
-            document.getElementById('add-user-modal').classList.remove('hidden');
-        });
-
-        // Close modal
-        document.querySelector('.close').addEventListener('click', function() {
-            document.getElementById('add-user-modal').classList.add('hidden');
-        });
-
-        // Add new user form
-        document.getElementById('add-user-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const newUser = {
-                id: document.getElementById('new-user-id').value,
-                name: document.getElementById('new-user-name').value,
-                role: document.getElementById('new-user-role').value,
-                password: document.getElementById('new-user-password').value,
-                canCommit: document.getElementById('new-user-role').value === 'Admin'
+            const request = {
+                id: Date.now(),
+                entryId: currentEntryId,
+                requestedBy: currentUser.id,
+                requestedByName: currentUser.name,
+                reason: reason,
+                timestamp: new Date().toISOString(),
+                resolved: false
             };
             
-            // Check if user ID already exists
-            if (users.some(u => u.id === newUser.id)) {
-                showNotification('User ID already exists', 'error');
-                return;
+            editRequests.unshift(request);
+            logActivity('Edit Request', `Edit request submitted for entry #${currentEntryId} by ${currentUser.name}`);
+            saveToLocalStorage();
+            updateUI();
+            bootstrap.Modal.getInstance(document.getElementById('editRequestModal')).hide();
+            
+            alert('Edit request submitted. Please contact Admin (Danial Danish - ID: 7434) for approval.');
+        }
+        
+        function updateEditRequestBadge() {
+            const pendingRequests = editRequests.filter(r => !r.resolved).length;
+            const badge = document.getElementById('editRequestBadge');
+            
+            if (currentUser.role === 'admin' && pendingRequests > 0) {
+                badge.textContent = pendingRequests;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        // User Management
+        function loadUsersPage() {
+            const usersList = document.getElementById('usersList');
+            const usersTitle = document.getElementById('usersTitle');
+            
+            if (currentUser.role === 'admin') {
+                usersTitle.textContent = 'All Users';
+                usersList.innerHTML = '';
+                
+                users.forEach(user => {
+                    const userCard = document.createElement('div');
+                    userCard.className = 'card mb-3';
+                    userCard.innerHTML = `
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <div class="user-avatar mx-auto">${user.name.charAt(0)}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-1">${user.name}</h6>
+                                    <p class="mb-1">ID: ${user.id}</p>
+                                    <span class="badge ${user.role === 'admin' ? 'bg-primary' : 'bg-secondary'}">${user.role}</span>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="commit${user.id}" 
+                                               ${user.canCommit ? 'checked' : ''} 
+                                               onchange="toggleCommitPermission('${user.id}')"
+                                               ${user.role === 'admin' ? 'disabled' : ''}>
+                                        <label class="form-check-label" for="commit${user.id}">
+                                            Can Commit
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    usersList.appendChild(userCard);
+                });
+                
+                loadActivityLog();
+            } else {
+                usersTitle.textContent = 'My Profile';
+                usersList.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="user-avatar mx-auto" style="width: 80px; height: 80px; font-size: 2rem;">
+                                        ${currentUser.name.charAt(0)}
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <h4>${currentUser.name}</h4>
+                                    <p class="mb-1"><strong>ID:</strong> ${currentUser.id}</p>
+                                    <p class="mb-1"><strong>Role:</strong> 
+                                        <span class="badge ${currentUser.role === 'admin' ? 'bg-primary' : 'bg-secondary'}">${currentUser.role}</span>
+                                    </p>
+                                    <p class="mb-1"><strong>Outlet:</strong> VM:Switch VillageMall</p>
+                                    <p class="mb-0"><strong>Can Commit:</strong> 
+                                        <span class="badge ${currentUser.canCommit ? 'bg-success' : 'bg-danger'}">
+                                            ${currentUser.canCommit ? 'Yes' : 'No'}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function toggleCommitPermission(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user && user.role !== 'admin') {
+                user.canCommit = !user.canCommit;
+                logActivity('Toggle Permission', `Commit permission ${user.canCommit ? 'granted to' : 'revoked from'} ${user.name}`);
+                saveToLocalStorage();
+            }
+        }
+        
+        function loadActivityLog() {
+            const activityLog = document.getElementById('activityLog');
+            activityLog.innerHTML = '';
+            
+            // Show edit requests first
+            const pendingRequests = editRequests.filter(r => !r.resolved);
+            if (pendingRequests.length > 0) {
+                const requestsHeader = document.createElement('h6');
+                requestsHeader.className = 'text-warning mb-3';
+                requestsHeader.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Pending Edit Requests';
+                activityLog.appendChild(requestsHeader);
+                
+                pendingRequests.forEach(request => {
+                    const requestDiv = document.createElement('div');
+                    requestDiv.className = 'activity-item bg-warning bg-opacity-10 border border-warning';
+                    requestDiv.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>${request.requestedByName}</strong> requests edit for Entry #${request.entryId}
+                                <br><small class="text-muted">${new Date(request.timestamp).toLocaleString()}</small>
+                                <br><em>"${request.reason}"</em>
+                            </div>
+                            <button class="btn btn-sm btn-success" onclick="approveEditRequest(${request.id})">
+                                Approve
+                            </button>
+                        </div>
+                    `;
+                    activityLog.appendChild(requestDiv);
+                });
             }
             
-            users.push(newUser);
-            localStorage.setItem('courierUsers', JSON.stringify(users));
-            
-            logActivity(currentUser.id, `Added new user ${newUser.id} (${newUser.name})`);
-            showNotification(`User ${newUser.name} added successfully!`, 'success');
-            
-            // Reset form and close modal
-            this.reset();
-            document.getElementById('add-user-modal').classList.add('hidden');
-        });
-
-        // View all users
-        document.getElementById('view-users-btn').addEventListener('click', function() {
-            let userTable = `
-                <div class="card">
-                    <h3>All Users</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Can Commit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            users.forEach(user => {
-                userTable += `
-                    <tr>
-                        <td>${user.id}</td>
-                        <td>${user.name}</td>
-                        <td>${user.role}</td>
-                        <td>${user.canCommit ? 'Yes' : 'No'}</td>
-                    </tr>
-                `;
-            });
-            
-            userTable += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            
-            // Create a temporary modal to show users
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.innerHTML = `
-                <div class="modal-content card">
-                    <span class="close">&times;</span>
-                    ${userTable}
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            modal.classList.remove('hidden');
-            
-            // Close modal
-            modal.querySelector('.close').addEventListener('click', function() {
-                modal.remove();
-            });
-        });
-
-        // Render activity logs
-        function renderActivityLogs() {
-            const tbody = document.getElementById('activity-logs');
-            
-            if (activityLogs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4">No activity logs found</td></tr>';
-                return;
+            // Show recent activity
+            const recentLogs = activityLogs.slice(0, 10);
+            if (recentLogs.length > 0) {
+                const logsHeader = document.createElement('h6');
+                logsHeader.className = 'text-primary mb-3 mt-4';
+                logsHeader.innerHTML = '<i class="fas fa-history me-2"></i>Recent Activity';
+                activityLog.appendChild(logsHeader);
+                
+                recentLogs.forEach(log => {
+                    const logDiv = document.createElement('div');
+                    logDiv.className = 'activity-item';
+                    logDiv.innerHTML = `
+                        <strong>${log.action}</strong>
+                        <br><small class="text-muted">${log.details}</small>
+                        <br><small class="text-muted">${new Date(log.timestamp).toLocaleString()}</small>
+                    `;
+                    activityLog.appendChild(logDiv);
+                });
             }
+        }
+        
+        function approveEditRequest(requestId) {
+            const request = editRequests.find(r => r.id === requestId);
+            if (request) {
+                uncommitEntry(request.entryId);
+                alert(`Edit request approved. Entry #${request.entryId} has been uncommitted and can now be edited.`);
+            }
+        }
+        
+        // Utility Functions
+        function handlePhotoPreview() {
+            const file = document.getElementById('entryPhoto').files[0];
+            const preview = document.getElementById('photoPreview');
             
-            tbody.innerHTML = '';
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" class="photo-preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        }
+        
+        function viewPhoto(photoSrc) {
+            document.getElementById('modalPhoto').src = photoSrc;
+            new bootstrap.Modal(document.getElementById('photoModal')).show();
+        }
+        
+        function logActivity(action, details) {
+            activityLogs.unshift({
+                action: action,
+                details: details,
+                user: currentUser.name,
+                userId: currentUser.id,
+                timestamp: new Date().toISOString()
+            });
+            saveToLocalStorage();
+        }
+        
+        function updateUI() {
+            if (currentUser) {
+                loadLogbookPage();
+                if (document.getElementById('usersPage').classList.contains('active')) {
+                    loadUsersPage();
+                }
+            }
+        }
+        
+        // Google Sheets Integration Functions
+        function submitToGoogleSheet(entryData) {
+            showSyncIndicator();
             
-            activityLogs.forEach(log => {
-                const tr = document.createElement('tr');
-                const date = new Date(log.timestamp);
-                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                
-                tr.innerHTML = `
-                    <td>${log.userId}</td>
-                    <td>${log.action}</td>
-                    <td>${formattedDate}</td>
-                    <td>${log.ipAddress}</td>
-                `;
-                
-                tbody.appendChild(tr);
+            const formData = new FormData();
+            formData.append('date', entryData.date || '');
+            formData.append('pic', entryData.pic || '');
+            formData.append('destination', entryData.destination || '');
+            formData.append('cashbill', entryData.cashbill || '');
+            formData.append('consignment', entryData.consignment || '');
+            formData.append('id', entryData.id || '');
+            formData.append('committed', entryData.committed);
+            formData.append('createdBy', entryData.createdBy || '');
+            formData.append('createdAt', entryData.createdAt || '');
+            formData.append('lastModified', entryData.lastModified || '');
+            formData.append('action', 'submit');
+            
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    console.log('Data submitted to Google Sheets successfully');
+                    hideSyncIndicator();
+                    lastSyncTime = new Date();
+                    showSuccessMessage('Entry created successfully and submitted to Google Sheets!');
+                } else {
+                    console.error('Error submitting to Google Sheets:', data.error);
+                    hideSyncIndicator();
+                    showErrorMessage('Error submitting to Google Sheets: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting to Google Sheets:', error);
+                hideSyncIndicator();
+                showErrorMessage('Network error while submitting to Google Sheets');
             });
         }
-
-        // Initialize the system when page loads
-        window.addEventListener('DOMContentLoaded', initSystem);
+        
+        function updateGoogleSheet(entryData) {
+            showSyncIndicator();
+            
+            const formData = new FormData();
+            formData.append('date', entryData.date || '');
+            formData.append('pic', entryData.pic || '');
+            formData.append('destination', entryData.destination || '');
+            formData.append('cashbill', entryData.cashbill || '');
+            formData.append('consignment', entryData.consignment || '');
+            formData.append('id', entryData.id || '');
+            formData.append('committed', entryData.committed);
+            formData.append('createdBy', entryData.createdBy || '');
+            formData.append('createdAt', entryData.createdAt || '');
+            formData.append('lastModified', entryData.lastModified || '');
+            formData.append('action', 'update');
+            
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    console.log('Data updated in Google Sheets successfully');
+                    hideSyncIndicator();
+                    lastSyncTime = new Date();
+                    showSuccessMessage('Entry updated in Google Sheets successfully!');
+                } else {
+                    console.error('Error updating Google Sheets:', data.error);
+                    hideSyncIndicator();
+                    showErrorMessage('Error updating Google Sheets: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating Google Sheets:', error);
+                hideSyncIndicator();
+                showErrorMessage('Network error while updating Google Sheets');
+            });
+        }
+        
+        function deleteFromGoogleSheet(entryData) {
+            showSyncIndicator();
+            
+            const formData = new FormData();
+            formData.append('id', entryData.id || '');
+            formData.append('action', 'delete');
+            
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    console.log('Data deleted from Google Sheets successfully');
+                    hideSyncIndicator();
+                    lastSyncTime = new Date();
+                    showSuccessMessage('Entry deleted from Google Sheets successfully!');
+                } else {
+                    console.error('Error deleting from Google Sheets:', data.error);
+                    hideSyncIndicator();
+                    showErrorMessage('Error deleting from Google Sheets: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting from Google Sheets:', error);
+                hideSyncIndicator();
+                showErrorMessage('Network error while deleting from Google Sheets');
+            });
+        }
+        
+        function loadDataFromGoogleSheets() {
+            if (!isOnline) {
+                loadFromLocalStorage();
+                showErrorMessage('You are offline. Loading data from local storage.');
+                return;
+            }
+            
+            showSyncIndicator();
+            
+            fetch(GOOGLE_SHEETS_URL)
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    // Process the data from Google Sheets
+                    const sheetData = data.data || [];
+                    
+                    // Create a map of existing entries by ID
+                    const existingEntriesMap = {};
+                    logbookEntries.forEach(entry => {
+                        existingEntriesMap[entry.id] = entry;
+                    });
+                    
+                    // Process each row from Google Sheets
+                    sheetData.forEach(row => {
+                        if (row.id && !existingEntriesMap[row.id]) {
+                            // This entry exists in Google Sheets but not in our local storage
+                            const newEntry = {
+                                id: row.id, // Keep the ID as it is from Google Sheets
+                                date: row.date || '',
+                                pic: row.pic || '',
+                                destination: row.destination || '',
+                                cashbill: row.cashbill || '',
+                                consignment: row.consignment || '',
+                                committed: row.committed === 'TRUE' || row.committed === true,
+                                createdBy: row.createdby || '',
+                                createdAt: row.createdat || '',
+                                lastModified: row.lastmodified || ''
+                            };
+                            
+                            logbookEntries.push(newEntry);
+                        }
+                    });
+                    
+                    // Sort entries by date (newest first)
+                    logbookEntries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    
+                    saveToLocalStorage();
+                    updateUI();
+                    hideSyncIndicator();
+                    lastSyncTime = new Date();
+                    showSuccessMessage('Data loaded from Google Sheets successfully!');
+                } else {
+                    console.error('Error syncing with Google Sheets:', data.error);
+                    hideSyncIndicator();
+                    showErrorMessage('Error syncing with Google Sheets: ' + data.error);
+                    // Try to load from localStorage as fallback
+                    loadFromLocalStorage();
+                }
+            })
+            .catch(error => {
+                console.error('Error syncing with Google Sheets:', error);
+                hideSyncIndicator();
+                showErrorMessage('Network error while syncing with Google Sheets');
+                // Try to load from localStorage as fallback
+                loadFromLocalStorage();
+            });
+        }
+        
+        function syncWithGoogleSheets() {
+            if (!currentUser) return;
+            
+            if (!isOnline) {
+                showErrorMessage('You are offline. Cannot sync with Google Sheets.');
+                return;
+            }
+            
+            loadDataFromGoogleSheets();
+        }
+        
+        function showSyncIndicator() {
+            document.getElementById('syncIndicator').classList.add('show');
+        }
+        
+        function hideSyncIndicator() {
+            document.getElementById('syncIndicator').classList.remove('show');
+        }
+        
+        function showSuccessMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Auto dismiss after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+        
+        function showErrorMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Auto dismiss after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+        
+        // Storage Management
+        function saveToLocalStorage() {
+            localStorage.setItem('vmCourierData', JSON.stringify({
+                users: users,
+                logbookEntries: logbookEntries,
+                deletedEntries: deletedEntries,
+                editRequests: editRequests,
+                activityLogs: activityLogs,
+                entryRemarks: entryRemarks,
+                lastSyncTime: lastSyncTime
+            }));
+        }
+        
+        function loadFromLocalStorage() {
+            const data = localStorage.getItem('vmCourierData');
+            if (data) {
+                const parsed = JSON.parse(data);
+                users = parsed.users || users;
+                logbookEntries = parsed.logbookEntries || [];
+                deletedEntries = parsed.deletedEntries || [];
+                editRequests = parsed.editRequests || [];
+                activityLogs = parsed.activityLogs || [];
+                entryRemarks = parsed.entryRemarks || {};
+                lastSyncTime = parsed.lastSyncTime || null;
+                updateUI();
+            }
+        }
     </script>
 </body>
 </html>
