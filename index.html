@@ -7,107 +7,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* Soft Modern Design */
+        /* Existing styles remain unchanged */
         :root {
-            --primary: #6366f1;
-            --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
-            --secondary: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #06b6d4;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --soft-gray: #f1f5f9;
-            --border-light: #e2e8f0;
-            --border-dark: #334155;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --shadow-soft: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
-            --shadow-medium: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1);
-            --shadow-hover: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
-            --shadow-strong: 0 20px 40px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.05);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
-            --gradient-secondary: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-            --gradient-soft: linear-gradient(135deg, #f1f5f9 0%, #ffffff 100%);
+            --primary: #2c3e50;
+            --secondary: #95a5a6;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --light: #ffffff;
+            --dark: #2c3e50;
+            --soft-gray: #f8f9fa;
+            --border-light: #e9ecef;
         }
         
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Global animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200px 0; }
-            100% { background-position: calc(200px + 100%) 0; }
+            color: #2c3e50;
         }
         
         .login-container {
@@ -115,1027 +33,595 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(129, 140, 248, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(241, 245, 249, 0.5) 0%, transparent 50%);
-            animation: float 8s ease-in-out infinite;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
         
         .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid var(--border-light);
-            border-radius: 24px;
-            box-shadow: var(--shadow-strong);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             padding: 3rem;
             width: 100%;
             max-width: 420px;
-            animation: fadeInScale 0.8s ease-out;
-            position: relative;
-            z-index: 1;
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(20px);
-        }
-
-        .login-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--primary-light);
+            border: 1px solid var(--border-light);
         }
         
         .login-header {
             text-align: center;
             margin-bottom: 2.5rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
         }
         
         .login-header h2 {
-            color: var(--text-primary);
-            font-weight: 700;
+            color: var(--primary);
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 2rem;
-            letter-spacing: -0.02em;
+            font-size: 1.8rem;
         }
         
         .login-header p {
-            color: var(--text-secondary);
+            color: var(--secondary);
             margin: 0;
             font-weight: 400;
-            font-size: 1rem;
-        }
-
-        .login-header i {
-            animation: float 3s ease-in-out infinite;
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
         }
         
         .form-control {
-            border-radius: 16px;
-            padding: 16px 20px;
-            border: 1px solid var(--border-light);
-            transition: var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            position: relative;
-            animation: fadeInUp 0.6s ease-out both;
-            font-weight: 400;
-            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-size: 0.95rem;
         }
-
-        .form-control:nth-child(1) { animation-delay: 0.3s; }
-        .form-control:nth-child(2) { animation-delay: 0.4s; }
         
         .form-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-            background: rgba(255, 255, 255, 0.95);
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-        .form-control:hover {
-            border-color: var(--primary-light);
-            transform: translateY(-1px);
-            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 0.2rem rgba(44,62,80,0.15);
+            background: #ffffff;
         }
         
         .btn-login {
-            background: var(--gradient-primary);
+            background: var(--primary);
             border: none;
-            border-radius: 16px;
-            padding: 16px 32px;
-            font-weight: 600;
-            transition: var(--transition-bounce);
+            border-radius: 12px;
+            padding: 14px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
             font-size: 1rem;
-            animation: fadeInUp 0.6s ease-out 0.5s both;
-            position: relative;
-            overflow: hidden;
-            color: #ffffff;
-            letter-spacing: 0.02em;
-            box-shadow: var(--shadow-medium);
-        }
-
-        .btn-login::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn-login:hover::before {
-            left: 100%;
         }
         
         .btn-login:hover {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: #ffffff;
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .btn-login:active {
-            transform: translateY(-2px) scale(0.98);
-        }
-        
-        .form-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            letter-spacing: 0.01em;
-        }
-        
-        .alert {
-            border-radius: 16px;
-            border: none;
-            backdrop-filter: blur(10px);
-        }
-        
-        .alert-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        
-        .btn {
-            border-radius: 12px;
-            font-weight: 500;
-            transition: var(--transition-smooth);
-            border: 1px solid transparent;
-        }
-        
-        .btn-primary {
-            background: var(--gradient-primary);
-            border-color: var(--primary);
-            color: #ffffff;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-        
-        .btn-outline-secondary {
-            border-color: var(--border-light);
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.8);
-        }
-        
-        .btn-outline-secondary:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #ffffff;
-            transform: translateY(-2px);
+            background: #34495e;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(44,62,80,0.15);
         }
         
         .main-container {
-            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            background: #ffffff;
             min-height: 100vh;
-            animation: fadeInUp 0.8s ease-out;
         }
         
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            padding: 1.2rem 0;
             border-bottom: 1px solid var(--border-light);
-            padding: 1.5rem 0;
-            animation: fadeInUp 0.6s ease-out;
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(20px);
         }
         
         .navbar-brand {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 1.8rem;
-            transition: var(--transition-smooth);
-            letter-spacing: -0.02em;
-        }
-
-        .navbar-brand:hover {
-            transform: scale(1.05);
+            font-weight: 600;
             color: var(--primary);
+            font-size: 1.6rem;
         }
         
         .nav-link {
-            font-weight: 600;
+            font-weight: 500;
             margin: 0 8px;
-            border-radius: 12px;
-            transition: var(--transition-smooth);
-            color: var(--text-secondary) !important;
-            padding: 10px 20px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        
-        .nav-link:hover::before, .nav-link.active::before {
-            left: 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            color: var(--primary) !important;
+            padding: 8px 16px;
         }
         
         .nav-link:hover, .nav-link.active {
-            background: transparent;
-            color: #ffffff !important;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-soft);
+            background: var(--primary);
+            color: white !important;
+            transform: translateY(-1px);
         }
         
         .card {
             border: 1px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: var(--shadow-soft);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             margin-bottom: 2rem;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.95);
-            transition: var(--transition-smooth);
-            animation: fadeInUp 0.6s ease-out;
-            backdrop-filter: blur(10px);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--primary-light);
+            background: white;
         }
         
         .card-header {
-            background: var(--gradient-primary);
-            color: #ffffff;
-            font-weight: 700;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
             padding: 1.5rem 2rem;
-            border-bottom: 2px solid #1a1a1a;
-            font-size: 1.2rem;
-            letter-spacing: -0.01em;
+            border-bottom: 2px solid var(--soft-gray);
+            font-size: 1.1rem;
         }
         
         .card-body {
             padding: 2rem;
-            background: #ffffff;
+            background: white;
         }
         
         .btn {
-            border-radius: 12px;
-            font-weight: 600;
-            transition: var(--transition-bounce);
-            padding: 12px 24px;
-            border: 2px solid #000000;
-            position: relative;
-            overflow: hidden;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border: none;
         }
         
         .btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .btn:active {
-            transform: translateY(-2px) scale(0.98);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .btn-primary {
-            background: #000000;
-            color: #ffffff;
+            background: var(--primary);
+            color: white;
         }
         
         .btn-primary:hover {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .btn-secondary {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .btn-secondary:hover {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .btn-success {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .btn-success:hover {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .btn-danger {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .btn-danger:hover {
-            background: #ffffff;
-            color: #000000;
+            background: #34495e;
         }
         
         .badge {
             border-radius: 8px;
-            font-weight: 600;
-            padding: 8px 16px;
-            border: 1px solid #000000;
-        }
-
-        .badge-primary {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .badge-secondary {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .badge-success {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .badge-warning {
-            background: #000000;
-            color: #ffffff;
-        }
-
-        .badge-danger {
-            background: #000000;
-            color: #ffffff;
+            font-weight: 500;
+            padding: 6px 12px;
         }
         
         .table {
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 2px solid #1a1a1a;
+            border: 1px solid var(--border-light);
         }
         
         .table thead th {
-            background: var(--gradient-primary);
+            background: var(--soft-gray);
             border: none;
-            font-weight: 700;
-            color: #ffffff;
-            padding: 1.2rem;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
+            font-weight: 600;
+            color: var(--primary);
+            padding: 1rem;
+            font-size: 0.9rem;
         }
         
         .table tbody tr {
-            border-bottom: 1px solid #e0e0e0;
-            transition: var(--transition-smooth);
+            border-bottom: 1px solid #f8f9fa;
         }
-
+        
         .table tbody tr:hover {
-            background: rgba(0,0,0,0.02);
-            transform: translateX(5px);
-            box-shadow: var(--shadow-soft);
+            background: rgba(44,62,80,0.02);
         }
         
         .table tbody td {
-            padding: 1.2rem;
+            padding: 1rem;
             vertical-align: middle;
-            font-weight: 500;
         }
         
         .entry-photo {
             width: 60px;
             height: 60px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            border: 2px solid #000000;
-            transition: var(--transition-smooth);
-        }
-
-        .entry-photo:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-soft);
+            border: 2px solid var(--border-light);
         }
         
         .committed-entry {
-            background: rgba(0,0,0,0.02);
-            border-left: 4px solid #000000;
+            background: rgba(39,174,96,0.03);
+            border-left: 4px solid var(--success);
         }
         
         .edit-request-badge {
-            background: #000000;
-            color: #ffffff;
+            background: var(--warning);
+            color: white;
             font-size: 0.75rem;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 12px;
-            font-weight: 600;
         }
         
         .activity-item {
-            border-left: 4px solid #000000;
-            background: #ffffff;
-            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+            background: white;
+            padding: 1.2rem;
             margin-bottom: 1rem;
             border-radius: 0 12px 12px 0;
-            border: 2px solid #e0e0e0;
-            transition: var(--transition-smooth);
-            animation: slideInRight 0.6s ease-out;
-        }
-
-        .activity-item:hover {
-            transform: translateX(8px);
-            box-shadow: var(--shadow-soft);
-            border-color: #000000;
+            border: 1px solid var(--border-light);
         }
         
         .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #000000;
-            color: #ffffff;
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            transition: var(--transition-smooth);
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-soft);
+            font-weight: 600;
         }
         
         .modal-header {
-            background: #000000;
-            color: #ffffff;
+            background: var(--primary);
+            color: white;
             border-radius: 16px 16px 0 0;
-            border-bottom: 2px solid #000000;
-        }
-
-        .modal-header .btn-close {
-            filter: invert(1);
         }
         
         .modal-content {
             border-radius: 16px;
-            border: 2px solid #000000;
-            animation: fadeInScale 0.4s ease-out;
+            border: 1px solid var(--border-light);
         }
         
         .photo-preview {
             max-width: 100%;
             max-height: 200px;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-top: 10px;
-            border: 2px solid #000000;
-            transition: var(--transition-smooth);
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .photo-preview:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-soft);
+            border: 2px solid var(--border-light);
         }
         
         .remarks-list {
             max-height: 200px;
             overflow-y: auto;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 1rem;
-            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px;
+            background: var(--soft-gray);
         }
-
-        .remarks-list:hover {
-            border-color: #000000;
+        
+        .remark-item {
+            background: white;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-
-        .form-label {
+        
+        .remark-author {
             font-weight: 600;
-            color: #000000;
-            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
-
+        
+        .remark-time {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(44,62,80,0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stats-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1200px;
+        }
+        
         .alert {
             border-radius: 12px;
-            border: 2px solid #000000;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background: rgba(0,0,0,0.02);
-            color: #000000;
-        }
-
-        .alert-danger {
-            background: rgba(0,0,0,0.02);
-            color: #000000;
-        }
-
-        .alert-warning {
-            background: rgba(0,0,0,0.02);
-            color: #000000;
-        }
-
-        .alert-info {
-            background: rgba(0,0,0,0.02);
-            color: #000000;
-        }
-
-        .dropdown-menu {
-            border: 2px solid #1a1a1a;
-            border-radius: 12px;
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #e2e8f0;
-        }
-
-        body.dark-mode .login-container {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-
-        body.dark-mode .login-card {
-            background: rgba(30, 41, 59, 0.95);
-            border-color: #334155;
-            color: #e2e8f0;
-        }
-
-        body.dark-mode .navbar {
-            background: rgba(30, 41, 59, 0.95);
-            border-bottom-color: #334155;
-        }
-
-        body.dark-mode .card {
-            background: rgba(30, 41, 59, 0.95);
-            border-color: #334155;
-            color: #e2e8f0;
-        }
-
-        body.dark-mode .form-control {
-            background: rgba(51, 65, 85, 0.8);
-            border-color: #475569;
-            color: #e2e8f0;
-        }
-
-        body.dark-mode .form-control:focus {
-            background: rgba(51, 65, 85, 0.95);
-            border-color: var(--primary-light);
-        }
-
-        /* New Feature: Quick Actions Panel */
-        .quick-actions-panel {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            padding: 1rem;
-            box-shadow: var(--shadow-soft);
-            z-index: 1000;
-            backdrop-filter: blur(20px);
-        }
-
-        .quick-actions-panel.dark-mode {
-            background: rgba(30, 41, 59, 0.95);
-            border-color: #334155;
-            color: #e2e8f0;
-        }
-
-        .quick-action-btn {
-            display: block;
-            width: 100%;
-            margin-bottom: 0.5rem;
-            padding: 0.75rem;
-            border: 1px solid #e8e8e8;
-            border-radius: 12px;
-            background: #f8f9fa;
-            color: #1a1a1a;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .quick-action-btn:hover {
-            background: #1a1a1a;
-            color: #ffffff;
-            transform: translateX(-5px);
-        }
-
-        .quick-action-btn.dark-mode {
-            background: #2a2a2a;
-            border-color: #3a3a3a;
-            color: #e0e0e0;
-        }
-
-        .quick-action-btn.dark-mode:hover {
-            background: #4a4a4a;
-            color: #ffffff;
-        }
-
-        /* New Feature: Search and Filter Bar */
-        .search-filter-bar {
-            background: #f8f9fa;
-            border: 2px solid #e8e8e8;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .search-filter-bar.dark-mode {
-            background: #1a1a1a;
-            border-color: #2a2a2a;
-            color: #e0e0e0;
-        }
-
-        /* New Feature: Statistics Dashboard */
-        .stats-dashboard {
-            background: var(--gradient-secondary);
-            border: 2px solid #e8e8e8;
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .stats-dashboard.dark-mode {
-            background: var(--gradient-primary);
-            border-color: #2a2a2a;
-            color: #e0e0e0;
-        }
-
-        .stat-card {
-            background: #ffffff;
-            border: 1px solid #e8e8e8;
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: var(--transition-smooth);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .stat-card.dark-mode {
-            background: #2a2a2a;
-            border-color: #3a3a3a;
-            color: #e0e0e0;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-number.dark-mode {
-            color: #e0e0e0;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #4a4a4a;
-            font-weight: 500;
-        }
-
-        .stat-label.dark-mode {
-            color: #b0b0b0;
-        }
-
-        /* Notification System */
-        .notification-toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ffffff;
-            border: 2px solid #1a1a1a;
-            border-radius: 16px;
+            border: none;
             padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-soft);
-            z-index: 10000;
-            animation: slideInRight 0.3s ease-out;
-            max-width: 300px;
         }
-
-        .notification-toast.dark-mode {
-            background: #1a1a1a;
-            border-color: #2a2a2a;
-            color: #e0e0e0;
-        }
-
-        .notification-toast.success {
-            border-left: 4px solid #2d5a2d;
-        }
-
-        .notification-toast.error {
-            border-left: 4px solid #5a2d2d;
-        }
-
-        .notification-toast.warning {
-            border-left: 4px solid #5a4a2d;
-        }
-
-        .notification-toast.info {
-            border-left: 4px solid #2d4a5a;
-        }
-
-        /* Enhanced Button Styles */
-        .btn-modern {
-            background: var(--gradient-primary);
-            border: 2px solid #1a1a1a;
-            border-radius: 16px;
-            padding: 12px 24px;
-            font-weight: 600;
-            transition: var(--transition-bounce);
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-modern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn-modern:hover::before {
-            left: 100%;
-        }
-
-        .btn-modern:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Loading States */
-        .loading-shimmer {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200px 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        .loading-shimmer.dark-mode {
-            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
-        }
-
-        /* Responsive Design Improvements */
-        @media (max-width: 768px) {
-            .quick-actions-panel {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                top: auto;
-                transform: none;
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                padding: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-            }
-
-            .quick-actions-panel.expanded {
-                width: 200px;
-                height: auto;
-                border-radius: 16px;
-                padding: 1rem;
-            }
-
-            .quick-action-btn {
-                display: none;
-            }
-
-            .quick-actions-panel.expanded .quick-action-btn {
-                display: block;
-            }
-
-            .stats-dashboard .row {
-                margin: 0 -0.5rem;
-            }
-
-            .stats-dashboard .col-md-3 {
-                padding: 0 0.5rem;
-                margin-bottom: 1rem;
-            }
-        }
-            background: #ffffff;
-        }
-
-        .dropdown-item {
-            font-weight: 500;
-            transition: var(--transition-smooth);
-        }
-
-        .dropdown-item:hover {
-            background: rgba(0,0,0,0.05);
-            color: #000000;
-        }
-
-        .pagination .page-link {
-            border: 2px solid #e0e0e0;
-            color: #000000;
-            font-weight: 600;
-            transition: var(--transition-smooth);
-        }
-
-        .pagination .page-link:hover {
-            background: #000000;
-            color: #ffffff;
-            border-color: #000000;
-        }
-
-        .pagination .page-item.active .page-link {
-            background: #000000;
-            border-color: #000000;
-            color: #ffffff;
-        }
-
-        .progress {
+        
+        .form-select {
             border-radius: 12px;
-            border: 2px solid #e0e0e0;
-            background: #ffffff;
+            padding: 14px 18px;
+            border: 2px solid var(--border-light);
+            background: white;
         }
-
-        .progress-bar {
-            background: #000000;
-            border-radius: 10px;
+        
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(44,62,80,0.15);
         }
-
-        .tooltip {
-            background: #000000;
-            color: #ffffff;
+        
+        .sync-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .sync-indicator.show {
+            display: block;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .entry-id {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(44,62,80,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .debug-panel {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
             border-radius: 8px;
+            font-size: 12px;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 9999;
+        }
+        
+        .debug-panel.show {
+            display: block;
+        }
+        
+        .status-badge {
             font-weight: 500;
-        }
-
-        .popover {
-            border: 2px solid #000000;
+            padding: 4px 10px;
             border-radius: 12px;
-            box-shadow: var(--shadow-soft);
+            font-size: 0.75rem;
         }
-
-        .popover-header {
-            background: #000000;
-            color: #ffffff;
-            border-bottom: 2px solid #000000;
-            font-weight: 700;
+        
+        .status-pending {
+            background-color: var(--warning);
+            color: white;
         }
-
-        .list-group-item {
-            border: 2px solid #e0e0e0;
+        
+        .status-in-transit {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .status-delivered {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .status-return {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .approval-section {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid var(--info);
             border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .approval-header {
+            color: var(--info);
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            transition: var(--transition-smooth);
         }
-
-        .list-group-item:hover {
-            border-color: #000000;
-            background: rgba(0,0,0,0.02);
-        }
-
-        .list-group-item.active {
-            background: #000000;
-            border-color: #000000;
-            color: #ffffff;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #000000;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #333333;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .login-card {
-                margin: 1rem;
-                padding: 2rem;
-            }
-            
-            .card-body {
-                padding: 1.5rem;
-            }
-            
-            .table-responsive {
-                border: 2px solid #000000;
-                border-radius: 12px;
-            }
-        }
-
-        /* Loading states */
-        .loading {
+        
+        .management-dropdown {
             position: relative;
-            overflow: hidden;
         }
-
-        .loading::after {
-            content: '';
+        
+        .management-menu {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
-            animation: shimmer 1.5s infinite;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
         }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        
+        .management-dropdown:hover .management-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
-
-        /* Focus states for accessibility */
-        .btn:focus,
-        .form-control:focus,
-        .nav-link:focus {
-            outline: 2px solid #000000;
-            outline-offset: 2px;
+        
+        .management-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-
-        /* Print styles */
-        @media print {
-            .btn, .navbar, .modal {
-                display: none !important;
-            }
-            
-            .card {
-                border: 1px solid #000000;
-                box-shadow: none;
-            }
+        
+        .management-item:hover {
+            background: var(--soft-gray);
+            color: var(--primary);
+        }
+        
+        .admin-approvals-card {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .request-card {
+            transition: all 0.3s ease;
+        }
+        
+        .request-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .real-time-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--info);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .real-time-indicator.show {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .session-timer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .session-timer.show {
+            display: block;
+        }
+        
+        .admin-contact-btn {
+            background: var(--secondary);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .admin-contact-btn:hover {
+            background: var(--secondary);
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .uncommitted-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--warning);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .permission-info {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .system-remark {
+            background-color: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .system-remark .remark-author {
+            color: #2196f3;
         }
     </style>
 </head>
@@ -1164,15 +650,6 @@
                 </div>
             </form>
             <div id="loginError" class="alert alert-danger mt-3" style="display: none;"></div>
-            
-            <!-- Demo Login Info -->
-            <div class="mt-4 p-3 bg-light rounded-3" style="background: rgba(241, 245, 249, 0.5) !important; border: 1px solid var(--border-light);">
-                <small class="text-muted">
-                    <strong>Demo Login:</strong><br>
-                    ID: <code>7434</code> | Password: <code>Danial05</code><br>
-                    ID: <code>4545</code> | Password: <code>Ain123</code>
-                </small>
-            </div>
         </div>
     </div>
     <!-- Main Application -->
@@ -1205,13 +682,6 @@
                         <span id="adminApprovalBadge" class="notification-badge" style="display: none;">0</span>
                     </a>
                     
-                    <!-- Dark Mode Toggle -->
-                    <div class="nav-item me-3">
-                        <button class="btn btn-outline-secondary" onclick="toggleDarkMode()" id="darkModeToggle">
-                            <i class="fas fa-moon me-1"></i>Dark Mode
-                        </button>
-                    </div>
-                    
                     <!-- Profile Dropdown -->
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
@@ -1225,9 +695,6 @@
                             </a></li>
                             <li><a class="dropdown-item" href="#" onclick="forceSync()">
                                 <i class="fas fa-sync me-2"></i>Force Sync Now
-                            </a></li>
-                            <li><a class="dropdown-item" href="#" onclick="exportData()">
-                                <i class="fas fa-download me-2"></i>Export Data
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" onclick="logout()">
@@ -1252,90 +719,49 @@
         <!-- Logbook Page -->
         <div id="logbookPage" class="page-section active">
             <div class="container mt-4">
-                <!-- Enhanced Stats Dashboard -->
-                <div class="stats-dashboard" id="statsDashboard">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="stat-card" id="statCard1">
-                                <div class="stat-number" id="totalEntries">0</div>
-                                <div class="stat-label">Total Entries</div>
-                                <i class="fas fa-clipboard-list fa-2x mt-2 opacity-75"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card" id="statCard2">
-                                <div class="stat-number" id="committedEntries">0</div>
-                                <div class="stat-label">Committed</div>
-                                <i class="fas fa-lock fa-2x mt-2 opacity-75"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card" id="statCard3">
-                                <div class="stat-number" id="myEntries">0</div>
-                                <div class="stat-label">My Entries</div>
-                                <i class="fas fa-user fa-2x mt-2 opacity-75"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-card" id="statCard4">
-                                <div class="stat-number" id="pendingRequests">0</div>
-                                <div class="stat-label">Edit Requests</div>
-                                <i class="fas fa-exclamation-triangle fa-2x mt-2 opacity-75"></i>
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="totalEntries">0</div>
+                                    <div>Total Entries</div>
+                                </div>
+                                <i class="fas fa-clipboard-list fa-2x opacity-75"></i>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Search and Filter Bar -->
-                <div class="search-filter-bar" id="searchFilterBar">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="searchInput" class="form-label">Search Entries</label>
-                                <input type="text" class="form-control" id="searchInput" placeholder="Search by ID, PIC, destination...">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="committedEntries">0</div>
+                                    <div>Committed</div>
+                                </div>
+                                <i class="fas fa-lock fa-2x opacity-75"></i>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <label for="statusFilter" class="form-label">Status</label>
-                                <select class="form-select" id="statusFilter">
-                                    <option value="">All Status</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="In transit">In transit</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Return">Return</option>
-                                </select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="myEntries">0</div>
+                                    <div>My Entries</div>
+                                </div>
+                                <i class="fas fa-user fa-2x opacity-75"></i>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <label for="courierFilter" class="form-label">Courier</label>
-                                <select class="form-select" id="courierFilter">
-                                    <option value="">All Couriers</option>
-                                    <option value="eDHL">eDHL</option>
-                                    <option value="Poslaju">Poslaju</option>
-                                    <option value="GDex">GDex</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <label for="dateFilter" class="form-label">Date Range</label>
-                                <select class="form-select" id="dateFilter">
-                                    <option value="">All Dates</option>
-                                    <option value="today">Today</option>
-                                    <option value="week">This Week</option>
-                                    <option value="month">This Month</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <label class="form-label">&nbsp;</label>
-                                <button class="btn btn-primary w-100" onclick="applyFilters()">
-                                    <i class="fas fa-filter me-1"></i>Apply
-                                </button>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="stats-number" id="pendingRequests">0</div>
+                                    <div>Edit Requests</div>
+                                </div>
+                                <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
                             </div>
                         </div>
                     </div>
@@ -1636,29 +1062,10 @@
         </div>
     </div>
     
-            <!-- Quick Actions Panel -->
-        <div class="quick-actions-panel" id="quickActionsPanel" style="display: none;">
-            <h6 class="mb-3 text-center">Quick Actions</h6>
-            <a href="#" class="quick-action-btn" onclick="openAddEntryModal()">
-                <i class="fas fa-plus me-2"></i>Add Entry
-            </a>
-            <a href="#" class="quick-action-btn" onclick="forceSync()">
-                <i class="fas fa-sync me-2"></i>Sync Now
-            </a>
-            <a href="#" class="quick-action-btn" onclick="exportData()">
-                <i class="fas fa-download me-2"></i>Export
-            </a>
-            <a href="#" class="quick-action-btn" onclick="toggleDarkMode()">
-                <i class="fas fa-moon me-2"></i>Dark Mode
-            </a>
-            <hr class="my-2">
-            <small class="text-muted">Press 'Q' to toggle</small>
-        </div>
-
-        <!-- Sync Indicator -->
-        <div id="syncIndicator" class="sync-indicator">
-            <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
-        </div>
+    <!-- Sync Indicator -->
+    <div id="syncIndicator" class="sync-indicator">
+        <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
+    </div>
     
     <!-- Debug Panel -->
     <div id="debugPanel" class="debug-panel">
@@ -1971,7 +1378,6 @@
             const password = document.getElementById('loginPassword').value;
             
             debugLog('Login attempt with ID: ' + id);
-            console.log('Available users:', users.map(u => ({id: u.id, name: u.name})));
             
             const user = users.find(u => u.id === id && u.password === password);
             
@@ -1980,8 +1386,7 @@
                 localStorage.setItem('vmCourierUser', JSON.stringify({id: user.id}));
                 loginUser(user);
             } else {
-                showLoginError('Invalid ID or password. Please check your credentials.');
-                console.log('Login failed - no matching user found');
+                showLoginError('Invalid ID or password');
             }
         }
         
@@ -2110,32 +1515,7 @@
             document.getElementById('entriesTitle').textContent = showingDeleted ? 
                 'Deleted Entries' : 'All Entries';
             
-            displayEntries(filteredEntries);
-        }
-
-        function displayEntries(entries = logbookEntries) {
-            const tbody = document.getElementById('entriesTableBody');
-            tbody.innerHTML = '';
-            
-            if (entries.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="12" class="text-center text-muted">No entries found.</td></tr>';
-                return;
-            }
-
-            // Add loading shimmer effect
-            tbody.innerHTML = '<tr><td colspan="12" class="loading-shimmer" style="height: 50px;"></td></tr>';
-            
-            // Simulate loading delay for better UX
-            setTimeout(() => {
-                tbody.innerHTML = '';
-                renderEntries(entries);
-            }, 300);
-        }
-
-        function renderEntries(entries) {
-            const tbody = document.getElementById('entriesTableBody');
-            
-            entries.forEach(entry => {
+            filteredEntries.forEach(entry => {
                 const row = document.createElement('tr');
                 if (entry.committed) {
                     row.classList.add('committed-entry');
@@ -2197,7 +1577,7 @@
                 
                 tbody.appendChild(row);
             });
-
+        }
         
         function renderActionButtons(entry) {
             debugLog('Rendering action buttons for entry:', entry);
@@ -3594,31 +2974,33 @@
         }
         
         function showSuccessMessage(message) {
-            showNotification(message, 'success');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
         }
         
         function showErrorMessage(message) {
-            showNotification(message, 'error');
-        }
-
-        function showNotification(message, type = 'info') {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            const notification = document.createElement('div');
-            notification.className = `notification-toast ${type} ${isDarkMode ? 'dark-mode' : ''}`;
-            notification.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
-                    <span>${message}</span>
-                    <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
-            document.body.appendChild(notification);
+            document.body.appendChild(alertDiv);
             
             setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.remove();
-                }
-            }, 4000);
+                alertDiv.remove();
+            }, 3000);
         }
         
         // Storage Management
@@ -3661,174 +3043,6 @@
                 console.error('Error loading from localStorage:', error);
             }
         }
-
-        // New Feature: Dark Mode Toggle
-        function toggleDarkMode() {
-            const body = document.body;
-            const isDarkMode = body.classList.contains('dark-mode');
-            
-            if (isDarkMode) {
-                body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'false');
-                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-moon me-1"></i>Dark Mode';
-            } else {
-                body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'true');
-                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
-            }
-            
-            // Update all components with dark mode classes
-            updateDarkModeClasses();
-        }
-
-        function updateDarkModeClasses() {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            const elements = document.querySelectorAll('.quick-actions-panel, .search-filter-bar, .stats-dashboard, .stat-card, .stat-number, .stat-label');
-            
-            elements.forEach(element => {
-                if (isDarkMode) {
-                    element.classList.add('dark-mode');
-                } else {
-                    element.classList.remove('dark-mode');
-                }
-            });
-        }
-
-        // New Feature: Quick Actions Panel Toggle
-        function toggleQuickActions() {
-            const panel = document.getElementById('quickActionsPanel');
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-                panel.style.animation = 'slideInRight 0.3s ease-out';
-            } else {
-                panel.style.animation = 'slideOutRight 0.3s ease-out';
-                setTimeout(() => {
-                    panel.style.display = 'none';
-                }, 300);
-            }
-        }
-
-        // New Feature: Search and Filter Functions
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const statusFilter = document.getElementById('statusFilter').value;
-            const courierFilter = document.getElementById('courierFilter').value;
-            const dateFilter = document.getElementById('dateFilter').value;
-            
-            let filteredEntries = logbookEntries.filter(entry => {
-                // Search filter
-                const matchesSearch = !searchTerm || 
-                    entry.id.toLowerCase().includes(searchTerm) ||
-                    entry.pic.toLowerCase().includes(searchTerm) ||
-                    entry.destination.toLowerCase().includes(searchTerm) ||
-                    entry.cashbill.toLowerCase().includes(searchTerm) ||
-                    entry.consignment.toLowerCase().includes(searchTerm);
-                
-                // Status filter
-                const matchesStatus = !statusFilter || entry.status === statusFilter;
-                
-                // Courier filter
-                const matchesCourier = !courierFilter || entry.courierType === courierFilter;
-                
-                // Date filter
-                let matchesDate = true;
-                if (dateFilter) {
-                    const entryDate = new Date(entry.date);
-                    const today = new Date();
-                    
-                    switch (dateFilter) {
-                        case 'today':
-                            matchesDate = entryDate.toDateString() === today.toDateString();
-                            break;
-                        case 'week':
-                            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-                            matchesDate = entryDate >= weekAgo;
-                            break;
-                        case 'month':
-                            const monthAgo = new Date(today.getFullYear(), today.getMonth(), 1);
-                            matchesDate = entryDate >= monthAgo;
-                            break;
-                    }
-                }
-                
-                return matchesSearch && matchesStatus && matchesCourier && matchesDate;
-            });
-            
-            displayEntries(filteredEntries);
-            showSuccessMessage(`Found ${filteredEntries.length} entries matching your filters`);
-        }
-
-        // New Feature: Export Data Function
-        function exportData() {
-            const data = {
-                logbookEntries: logbookEntries,
-                users: users,
-                editRequests: editRequests,
-                activityLogs: activityLogs,
-                exportDate: new Date().toISOString(),
-                exportedBy: currentUser ? currentUser.name : 'Unknown'
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `vm-courier-data-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            
-            showSuccessMessage('Data exported successfully!');
-        }
-
-        // New Feature: Keyboard Shortcuts
-        document.addEventListener('keydown', function(event) {
-            // Only trigger shortcuts when not typing in input fields
-            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
-                return;
-            }
-            
-            switch(event.key.toLowerCase()) {
-                case 'q':
-                    event.preventDefault();
-                    toggleQuickActions();
-                    break;
-                case 'n':
-                    event.preventDefault();
-                    if (currentUser) {
-                        openAddEntryModal();
-                    }
-                    break;
-                case 's':
-                    event.preventDefault();
-                    if (event.ctrlKey || event.metaKey) {
-                        forceSync();
-                    }
-                    break;
-                case 'd':
-                    event.preventDefault();
-                    toggleDarkMode();
-                    break;
-            }
-        });
-
-        // Initialize dark mode on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedDarkMode = localStorage.getItem('darkMode');
-            if (savedDarkMode === 'true') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
-                updateDarkModeClasses();
-            }
-            
-            // Show quick actions panel for logged-in users
-            if (currentUser) {
-                document.getElementById('quickActionsPanel').style.display = 'block';
-            }
-        });
     </script>
 </body>
 </html>
