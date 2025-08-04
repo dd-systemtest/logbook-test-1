@@ -171,6 +171,21 @@
             left: 100%;
         }
         
+        .bug-notice {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: var(--danger);
+            animation: fadeInUp 0.8s ease-out 1s both;
+        }
+        
+        .bug-notice i {
+            margin-right: 0.5rem;
+        }
+        
         .main-container {
             background: var(--background-primary);
             min-height: 100vh;
@@ -1013,82 +1028,566 @@
         .system-remark .remark-author {
             color: #2196f3;
         }
+        
+        /* Login Logo Styles - Made smaller */
+        .login-logo {
+            max-height: 50px; /* Reduced from 60px */
+            width: auto;
+            background: transparent;
+            border: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
+        }
+        
+        .login-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+        
+        /* Enhanced Search Functionality Styles */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+        
+        .search-card {
+            background: var(--background-primary);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .search-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--shadow-medium);
+        }
+        
+        .search-card-body {
+            padding: 1.5rem;
+        }
+        
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-input-group {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            border-radius: 25px;
+            border: 2px solid var(--border-light);
+            padding: 10px 20px 10px 50px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: var(--background-secondary);
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(26,26,26,0.15);
+            background: var(--background-primary);
+            outline: none;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .search-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .search-button {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .search-button:hover {
+            background: var(--soft-black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-medium);
+        }
+        
+        .clear-button {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-light);
+            background: var(--background-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .clear-button:hover {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-medium);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .action-button {
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-medium);
+        }
+        
+        .view-deleted-btn {
+            border: 2px solid var(--border-light);
+            background: var(--background-primary);
+            color: var(--text-secondary);
+        }
+        
+        .view-deleted-btn:hover {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+        }
+        
+        .add-entry-btn {
+            border: none;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .add-entry-btn:hover {
+            background: var(--soft-black);
+        }
+        
+        .search-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .search-filter-tag {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-filter-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .search-filter-tag.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .search-results-info {
+            background: var(--background-secondary);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .search-results-count {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .search-query {
+            color: var(--primary);
+            font-family: monospace;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        mark {
+            background-color: #fff3cd;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        
+        .search-highlight {
+            animation: highlightPulse 1s ease-in-out;
+        }
+        
+        @keyframes highlightPulse {
+            0% { background-color: #fff3cd; }
+            50% { background-color: #ffeaa7; }
+            100% { background-color: #fff3cd; }
+        }
+        
+        .search-hint {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .search-hint i {
+            margin-right: 0.3rem;
+        }
+        
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .pagination-info {
+            margin-right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .page-btn {
+            min-width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: var(--background-primary);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .page-btn:hover {
+            background: var(--background-secondary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-btn:disabled:hover {
+            transform: none;
+            background: var(--background-primary);
+            border-color: var(--border-light);
+        }
+        
+        .page-size-selector {
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .page-size-selector select {
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            padding: 0.5rem;
+            background: var(--background-primary);
+            color: var(--text-primary);
+        }
+        
+        /* Enhanced Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Focus styles for better keyboard navigation */
+        a:focus, button:focus, input:focus, select:focus, textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        
+        /* Skip to content link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 0 0 8px 0;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner-lg {
+            width: 3rem;
+            height: 3rem;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        /* Enhanced error states */
+        .form-control.is-invalid {
+            border-color: var(--danger);
+            background-image: none;
+        }
+        
+        .form-control.is-invalid:focus {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: var(--danger);
+        }
+        
+        /* Success states */
+        .form-control.is-valid {
+            border-color: var(--success);
+            background-image: none;
+        }
+        
+        .form-control.is-valid:focus {
+            border-color: var(--success);
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        
+        .valid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: var(--success);
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+            
+            .search-row {
+                flex-direction: column;
+            }
+            
+            .search-input-group {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+            
+            .table thead th,
+            .table tbody td {
+                padding: 0.5rem;
+            }
+            
+            .entry-photo {
+                width: 40px;
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner-lg"></div>
+    </div>
+    
     <!-- Login Page -->
     <div id="loginPage" class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <i class="fas fa-clipboard-list fa-3x text-primary mb-3"></i>
+                <img src="https://raw.githubusercontent.com/dd-systemtest/courier-logbook/refs/heads/main/IMG_6714.webp" 
+                     alt="VM Courier Logbook Logo" 
+                     class="login-logo mb-3">
                 <h2>VM Courier Logbook</h2>
                 <p>Village Mall Portal</p>
             </div>
-            <form id="loginForm">
+            <form id="loginForm" novalidate>
                 <div class="mb-3">
                     <label for="loginId" class="form-label">User ID</label>
-                    <input type="text" class="form-control" id="loginId" required>
+                    <input type="text" class="form-control" id="loginId" required aria-describedby="loginIdHelp">
+                    <div id="loginIdHelp" class="form-text">Enter your user ID to continue</div>
                 </div>
                 <div class="mb-3">
                     <label for="loginPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="loginPassword" required>
+                    <input type="password" class="form-control" id="loginPassword" required aria-describedby="loginPasswordHelp">
+                    <div id="loginPasswordHelp" class="form-text">Enter your password</div>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-login">
+                    <button type="submit" class="btn btn-primary btn-login" aria-label="Login to the system">
                         <i class="fas fa-sign-in-alt me-2"></i>Login
                     </button>
                 </div>
             </form>
-            <div id="loginError" class="alert alert-danger mt-3" style="display: none;"></div>
+            <div id="loginError" class="alert alert-danger mt-3" style="display: none;" role="alert"></div>
+            
+            <!-- Bug report notice -->
+            <div class="bug-notice" role="alert">
+                <i class="fas fa-bug"></i>
+                <strong>Note:</strong> If you found any issues or bug please contact 7434 for fix
+            </div>
         </div>
     </div>
+    
     <!-- Main Application -->
     <div id="mainApp" class="main-container" style="display: none;">
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg" role="navigation" aria-label="Main navigation">
             <div class="container">
                 <span class="navbar-brand">
-                    <i class="fas fa-clipboard-list me-2"></i>VM Courier Logbook
+                    <i class="fas fa-clipboard-list me-2" aria-hidden="true"></i>VM Courier Logbook
                 </span>
                 <div class="navbar-nav ms-auto">
                     <!-- Management Dropdown -->
                     <div class="nav-item management-dropdown me-2">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-cogs me-1"></i>Management
+                        <a class="nav-link" href="#" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cogs me-1" aria-hidden="true"></i>Management
                         </a>
-                        <div class="management-menu">
-                            <a class="management-item" href="#" onclick="showPage('logbook')">
-                                <i class="fas fa-book me-2"></i>Logbook
+                        <div class="management-menu" role="menu">
+                            <a class="management-item" href="#" onclick="showPage('logbook')" role="menuitem">
+                                <i class="fas fa-book me-2" aria-hidden="true"></i>Logbook
                             </a>
-                            <a class="management-item" href="#" onclick="showPage('users')">
-                                <i class="fas fa-users me-2"></i>Users
+                            <a class="management-item" href="#" onclick="showPage('users')" role="menuitem">
+                                <i class="fas fa-users me-2" aria-hidden="true"></i>Users
                             </a>
                         </div>
                     </div>
                     
                     <!-- Admin Approvals (only visible to admins) -->
                     <a class="nav-link me-2" id="adminApprovalsLink" href="#" onclick="showPage('adminApprovals')" style="display: none;">
-                        <i class="fas fa-clipboard-check me-1"></i>Admin Approvals
+                        <i class="fas fa-clipboard-check me-1" aria-hidden="true"></i>Admin Approvals
                         <span id="adminApprovalBadge" class="notification-badge" style="display: none;">0</span>
                     </a>
                     
                     <!-- Profile Dropdown -->
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
-                            <div class="user-avatar d-inline-flex me-2" id="userAvatar"></div>
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="user-avatar d-inline-flex me-2" id="userAvatar" aria-hidden="true"></div>
                             <span id="currentUserName"></span>
                             <span id="editRequestBadge" class="notification-badge" style="display: none;">0</span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" onclick="toggleDebug()">
-                                <i class="fas fa-bug me-2"></i>Toggle Debug
+                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="#" onclick="toggleDebug()" aria-label="Toggle debug mode">
+                                <i class="fas fa-bug me-2" aria-hidden="true"></i>Toggle Debug
                             </a></li>
-                            <li><a class="dropdown-item" href="#" onclick="forceSync()">
-                                <i class="fas fa-sync me-2"></i>Force Sync Now
+                            <li><a class="dropdown-item" href="#" onclick="forceSync()" aria-label="Force sync with Google Sheets">
+                                <i class="fas fa-sync me-2" aria-hidden="true"></i>Force Sync Now
                             </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="logout()">
-                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            <li><hr class="dropdown-divider" role="separator"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()" aria-label="Logout from the system">
+                                <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>Logout
                             </a></li>
                         </ul>
                     </div>
@@ -1097,178 +1596,205 @@
         </nav>
         
         <!-- Real-time Sync Indicator -->
-        <div id="realTimeIndicator" class="real-time-indicator">
-            <i class="fas fa-sync-alt me-1"></i>Syncing...
+        <div id="realTimeIndicator" class="real-time-indicator" role="status" aria-live="polite">
+            <i class="fas fa-sync-alt me-1" aria-hidden="true"></i>Syncing...
         </div>
         
         <!-- Session Timer -->
-        <div id="sessionTimer" class="session-timer">
-            <i class="fas fa-clock me-1"></i>Session expires in: <span id="sessionTimeLeft">5:00</span>
+        <div id="sessionTimer" class="session-timer" role="timer" aria-live="polite">
+            <i class="fas fa-clock me-1" aria-hidden="true"></i>Session expires in: <span id="sessionTimeLeft">5:00</span>
         </div>
         
-        <!-- Logbook Page -->
-        <div id="logbookPage" class="page-section active">
-            <div class="container mt-4">
-                <!-- Stats Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="totalEntries">0</div>
-                                    <div>Total Entries</div>
+        <!-- Main Content -->
+        <main id="main-content">
+            <!-- Logbook Page -->
+            <div id="logbookPage" class="page-section active">
+                <div class="container mt-4">
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="stats-number" id="totalEntries">0</div>
+                                        <div>Total Entries</div>
+                                    </div>
+                                    <i class="fas fa-clipboard-list fa-2x opacity-75" aria-hidden="true"></i>
                                 </div>
-                                <i class="fas fa-clipboard-list fa-2x opacity-75"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="committedEntries">0</div>
-                                    <div>Committed</div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="stats-number" id="committedEntries">0</div>
+                                        <div>Committed</div>
+                                    </div>
+                                    <i class="fas fa-lock fa-2x opacity-75" aria-hidden="true"></i>
                                 </div>
-                                <i class="fas fa-lock fa-2x opacity-75"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="myEntries">0</div>
-                                    <div>My Entries</div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="stats-number" id="myEntries">0</div>
+                                        <div>My Entries</div>
+                                    </div>
+                                    <i class="fas fa-user fa-2x opacity-75" aria-hidden="true"></i>
                                 </div>
-                                <i class="fas fa-user fa-2x opacity-75"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="pendingRequests">0</div>
-                                    <div>Edit Requests</div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="stats-number" id="pendingRequests">0</div>
+                                        <div>Edit Requests</div>
+                                    </div>
+                                    <i class="fas fa-exclamation-triangle fa-2x opacity-75" aria-hidden="true"></i>
                                 </div>
-                                <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add Entry Button -->
-                <div class="row mb-3">
-                    <div class="col">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#entryModal" onclick="openAddEntryModal()">
-                            <i class="fas fa-plus me-2"></i>Add New Entry
-                        </button>
-                        <button id="viewDeletedBtn" class="btn btn-outline-secondary ms-2" onclick="toggleDeletedEntries()" style="display: none;">
-                            <i class="fas fa-trash me-2"></i>View Deleted Entries
-                        </button>
-                    </div>
-                </div>
-                <!-- Logbook Entries -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-list me-2"></i>Logbook Entries
-                            <span id="entriesTitle">All Entries</span>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Date</th>
-                                        <th>PIC</th>
-                                        <th>Destination</th>
-                                        <th>Cashbill*</th>
-                                        <th>Consignment*</th>
-                                        <th>Courier Type</th>
-                                        <th>Status</th>
-                                        <th>Photo</th>
-                                        <th>Remarks</th>
-                                        <th>Entry Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="entriesTableBody">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- User Management Page -->
-        <div id="usersPage" class="page-section">
-            <div class="container mt-4">
-                <div class="row">
-                    <!-- User Profile/List -->
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-users me-2"></i><span id="usersTitle">User Management</span>
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div id="usersList"></div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Activity Log (Admin Only) -->
-                    <div class="col-md-4" id="activityLogSection" style="display: none;">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-history me-2"></i>Recent Activity
-                                </h5>
+                    <!-- Enhanced Search Section -->
+                    <div class="search-section">
+                        <div class="search-card">
+                            <div class="search-card-body">
+                                <div class="search-row">
+                                    <div class="search-input-group">
+                                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                                        <input type="text" class="form-control search-input" id="searchInput" 
+                                               placeholder="Search entries by ID, Date, PIC, Destination, Cashbill, Consignment, Courier Type, or Status..."
+                                               aria-label="Search entries">
+                                    </div>
+                                    <div class="search-actions">
+                                        <button class="btn search-button" onclick="performSearch()" title="Search" aria-label="Perform search">
+                                            <i class="fas fa-search" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn clear-button" onclick="clearSearch()" title="Clear search" aria-label="Clear search">
+                                            <i class="fas fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <div class="action-buttons">
+                                        <button id="viewDeletedBtn" class="btn action-button view-deleted-btn" onclick="toggleDeletedEntries()" style="display: none;" title="View deleted entries">
+                                            <i class="fas fa-trash" aria-hidden="true"></i>
+                                            <span>Deleted</span>
+                                        </button>
+                                        <button class="btn action-button add-entry-btn" data-bs-toggle="modal" data-bs-target="#entryModal" onclick="openAddEntryModal()" title="Add new entry">
+                                            <i class="fas fa-plus" aria-hidden="true"></i>
+                                            <span>Add</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="search-hint">
+                                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                                    Search is case-insensitive and matches partial text in any field
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div id="activityLog" style="max-height: 400px; overflow-y: auto;">
+                        </div>
+                    </div>
+                    
+                    <!-- Search Results Info -->
+                    <div id="searchResultsInfo" class="search-results-info" style="display: none;">
+                        <div class="search-results-count">
+                            Showing <span id="resultsCount">0</span> of <span id="totalCount">0</span> entries
+                        </div>
+                        <div>
+                            Search for: <span class="search-query" id="searchQueryDisplay"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Logbook Entries -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-list me-2" aria-hidden="true"></i>Logbook Entries
+                                <span id="entriesTitle">All Entries</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" aria-label="Logbook entries table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">PIC</th>
+                                            <th scope="col">Destination</th>
+                                            <th scope="col">Cashbill*</th>
+                                            <th scope="col">Consignment*</th>
+                                            <th scope="col">Courier Type</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Photo</th>
+                                            <th scope="col">Remarks</th>
+                                            <th scope="col">Entry Status</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="entriesTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div class="pagination-container">
+                                <div class="pagination-info">
+                                    Showing <span id="pageStart">0</span> to <span id="pageEnd">0</span> of <span id="totalEntriesCount">0</span> entries
+                                </div>
+                                <div class="pagination" role="navigation" aria-label="Pagination navigation">
+                                    <button class="page-btn" id="prevPageBtn" onclick="changePage(-1)" aria-label="Previous page">
+                                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="pageNumbers"></div>
+                                    <button class="page-btn" id="nextPageBtn" onclick="changePage(1)" aria-label="Next page">
+                                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="page-size-selector">
+                                    <label for="pageSizeSelect" class="form-label">Show:</label>
+                                    <select id="pageSizeSelect" class="form-select" onchange="changePageSize()">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Admin Approvals Page -->
-        <div id="adminApprovalsPage" class="page-section">
-            <div class="container mt-4">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card admin-approvals-card">
-                            <div class="card-header">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-clipboard-check me-2"></i>Admin Approvals
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <!-- Edit Requests Section -->
-                                <div class="approval-section">
-                                    <h6 class="approval-header">
-                                        <i class="fas fa-exclamation-triangle me-2"></i>Pending Edit Requests
-                                        <span class="badge bg-warning ms-2" id="editRequestsCount">0</span>
-                                    </h6>
-                                    <div id="editRequestsList">
-                                        <p class="text-muted">No pending edit requests.</p>
-                                    </div>
+            
+            <!-- User Management Page -->
+            <div id="usersPage" class="page-section">
+                <div class="container mt-4">
+                    <div class="row">
+                        <!-- User Profile/List -->
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-users me-2" aria-hidden="true"></i><span id="usersTitle">User Management</span>
+                                    </h5>
                                 </div>
-                                
-                                <!-- Uncommitted Entries Section -->
-                                <div class="approval-section">
-                                    <h6 class="approval-header">
-                                        <i class="fas fa-clock me-2"></i>Entries Awaiting Re-commit Approval
-                                        <span class="badge bg-info ms-2" id="uncommittedCount">0</span>
-                                    </h6>
-                                    <div id="uncommittedEntriesList">
-                                        <p class="text-muted">No entries awaiting re-commit approval.</p>
+                                <div class="card-body">
+                                    <div id="usersList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity Log (Admin Only) -->
+                        <div class="col-md-4" id="activityLogSection" style="display: none;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-history me-2" aria-hidden="true"></i>Recent Activity
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="activityLog" style="max-height: 400px; overflow-y: auto;">
                                     </div>
                                 </div>
                             </div>
@@ -1276,52 +1802,102 @@
                     </div>
                 </div>
             </div>
-        </div>
+            
+            <!-- Admin Approvals Page -->
+            <div id="adminApprovalsPage" class="page-section">
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card admin-approvals-card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-clipboard-check me-2" aria-hidden="true"></i>Admin Approvals
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Edit Requests Section -->
+                                    <div class="approval-section">
+                                        <h6 class="approval-header">
+                                            <i class="fas fa-exclamation-triangle me-2" aria-hidden="true"></i>Pending Edit Requests
+                                            <span class="badge bg-warning ms-2" id="editRequestsCount">0</span>
+                                        </h6>
+                                        <div id="editRequestsList">
+                                            <p class="text-muted">No pending edit requests.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Uncommitted Entries Section -->
+                                    <div class="approval-section">
+                                        <h6 class="approval-header">
+                                            <i class="fas fa-clock me-2" aria-hidden="true"></i>Entries Awaiting Re-commit Approval
+                                            <span class="badge bg-info ms-2" id="uncommittedCount">0</span>
+                                        </h6>
+                                        <div id="uncommittedEntriesList">
+                                            <p class="text-muted">No entries awaiting re-commit approval.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
+    
     <!-- Entry Modal -->
-    <div class="modal fade" id="entryModal" tabindex="-1">
+    <div class="modal fade" id="entryModal" tabindex="-1" aria-labelledby="entryModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="entryModalTitle">Add New Entry</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="entryForm">
+                    <form id="entryForm" novalidate>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryDate" class="form-label">Date</label>
-                                    <input type="date" class="form-control" id="entryDate" required>
+                                    <input type="date" class="form-control" id="entryDate" required aria-describedby="entryDateHelp">
+                                    <div id="entryDateHelp" class="form-text">Select the date of the entry</div>
+                                    <div class="invalid-feedback">Please select a valid date</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryPIC" class="form-label">PIC (Person in Charge)</label>
-                                    <input type="text" class="form-control" id="entryPIC" readonly>
+                                    <input type="text" class="form-control" id="entryPIC" readonly aria-describedby="entryPICHelp">
+                                    <div id="entryPICHelp" class="form-text">Automatically set to current user</div>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="entryDestination" class="form-label">Destination Trade In Partner</label>
-                            <select class="form-select" id="entryDestination" required>
+                            <select class="form-select" id="entryDestination" required aria-describedby="entryDestinationHelp">
                                 <option value="">Select Destination</option>
                                 <option value="ENB">ENB</option>
                                 <option value="Remobie">Remobie</option>
                                 <option value="Miifix">Miifix</option>
                             </select>
+                            <div id="entryDestinationHelp" class="form-text">Select the destination partner</div>
+                            <div class="invalid-feedback">Please select a destination</div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryCashbill" class="form-label">Cashbill Number *</label>
-                                    <input type="text" class="form-control" id="entryCashbill" required placeholder="Enter cashbill number">
+                                    <input type="text" class="form-control" id="entryCashbill" required placeholder="Enter cashbill number" aria-describedby="entryCashbillHelp">
+                                    <div id="entryCashbillHelp" class="form-text">Enter the cashbill number</div>
+                                    <div class="invalid-feedback">Please enter a cashbill number</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryConsignment" class="form-label">Consignment Number *</label>
-                                    <input type="text" class="form-control" id="entryConsignment" required placeholder="Enter consignment number">
+                                    <input type="text" class="form-control" id="entryConsignment" required placeholder="Enter consignment number" aria-describedby="entryConsignmentHelp">
+                                    <div id="entryConsignmentHelp" class="form-text">Enter the consignment number</div>
+                                    <div class="invalid-feedback">Please enter a consignment number</div>
                                 </div>
                             </div>
                         </div>
@@ -1329,36 +1905,42 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryCourierType" class="form-label">Courier Type</label>
-                                    <select class="form-select" id="entryCourierType" required>
+                                    <select class="form-select" id="entryCourierType" required aria-describedby="entryCourierTypeHelp">
                                         <option value="">Select Courier</option>
                                         <option value="eDHL">eDHL</option>
                                         <option value="Poslaju">Poslaju</option>
                                         <option value="GDex">GDex</option>
                                         <option value="Others">Others</option>
                                     </select>
+                                    <div id="entryCourierTypeHelp" class="form-text">Select the courier type</div>
+                                    <div class="invalid-feedback">Please select a courier type</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="entryStatus" class="form-label">Status</label>
-                                    <select class="form-select" id="entryStatus" required>
+                                    <select class="form-select" id="entryStatus" required aria-describedby="entryStatusHelp">
                                         <option value="">Select Status</option>
                                         <option value="Pending">Pending</option>
                                         <option value="In transit">In transit</option>
                                         <option value="Delivered">Delivered</option>
                                         <option value="Return">Return</option>
                                     </select>
+                                    <div id="entryStatusHelp" class="form-text">Select the current status</div>
+                                    <div class="invalid-feedback">Please select a status</div>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="entryPhoto" class="form-label">Courier Photo Proof</label>
-                            <input type="file" class="form-control" id="entryPhoto" accept="image/*">
+                            <input type="file" class="form-control" id="entryPhoto" accept="image/*" aria-describedby="entryPhotoHelp">
+                            <div id="entryPhotoHelp" class="form-text">Upload a photo proof of the courier (optional)</div>
                             <div id="photoPreview"></div>
                         </div>
                         <div class="mb-3">
                             <label for="entryRemarks" class="form-label">Initial Remarks (Optional)</label>
-                            <textarea class="form-control" id="entryRemarks" rows="3"></textarea>
+                            <textarea class="form-control" id="entryRemarks" rows="3" aria-describedby="entryRemarksHelp"></textarea>
+                            <div id="entryRemarksHelp" class="form-text">Add any initial remarks about this entry</div>
                         </div>
                     </form>
                 </div>
@@ -1371,19 +1953,21 @@
             </div>
         </div>
     </div>
+    
     <!-- Remarks Modal -->
-    <div class="modal fade" id="remarksModal" tabindex="-1">
+    <div class="modal fade" id="remarksModal" tabindex="-1" aria-labelledby="remarksModalTitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Entry Remarks</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="remarksModalTitle">Entry Remarks</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="remarks-list" id="remarksList"></div>
+                    <div class="remarks-list" id="remarksList" aria-live="polite"></div>
                     <div class="mt-3">
                         <label for="newRemark" class="form-label">Add New Remark</label>
-                        <textarea class="form-control" id="newRemark" rows="3" placeholder="Enter your remark..."></textarea>
+                        <textarea class="form-control" id="newRemark" rows="3" placeholder="Enter your remark..." aria-describedby="newRemarkHelp"></textarea>
+                        <div id="newRemarkHelp" class="form-text">Enter your remark about this entry</div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1393,17 +1977,19 @@
             </div>
         </div>
     </div>
+    
     <!-- Edit Request Modal -->
-    <div class="modal fade" id="editRequestModal" tabindex="-1">
+    <div class="modal fade" id="editRequestModal" tabindex="-1" aria-labelledby="editRequestModalTitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Request Edit Permission</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="editRequestModalTitle">Request Edit Permission</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>This entry is committed and locked. Please provide a reason for requesting edit permission:</p>
-                    <textarea class="form-control" id="editRequestReason" rows="4" placeholder="Reason for edit request..." required></textarea>
+                    <textarea class="form-control" id="editRequestReason" rows="4" placeholder="Reason for edit request..." required aria-describedby="editRequestReasonHelp"></textarea>
+                    <div id="editRequestReasonHelp" class="form-text">Provide a detailed reason for your edit request</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -1412,37 +1998,38 @@
             </div>
         </div>
     </div>
+    
     <!-- Photo View Modal -->
-    <div class="modal fade" id="photoModal" tabindex="-1">
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Courier Photo Proof</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="photoModalTitle">Courier Photo Proof</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <img id="modalPhoto" class="img-fluid" style="max-height: 70vh;">
+                    <img id="modalPhoto" class="img-fluid" style="max-height: 70vh;" alt="Courier photo proof">
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Admin Contact Modal -->
-    <div class="modal fade" id="adminContactModal" tabindex="-1">
+    <div class="modal fade" id="adminContactModal" tabindex="-1" aria-labelledby="adminContactModalTitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Admin Contact Required</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="adminContactModalTitle">Admin Contact Required</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle me-2" aria-hidden="true"></i>
                         <strong>This entry is committed and locked.</strong><br>
                         To edit this entry, please contact the administrator:<br><br>
                         <strong>Danial Danish</strong><br>
                         ID: 7434<br>
-                        <i class="fas fa-phone me-2"></i> Contact for uncommit permission
+                        <i class="fas fa-phone me-2" aria-hidden="true"></i> Contact for uncommit permission
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1464,12 +2051,12 @@
     </footer>
     
     <!-- Sync Indicator -->
-    <div id="syncIndicator" class="sync-indicator">
-        <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
+    <div id="syncIndicator" class="sync-indicator" role="status" aria-live="polite">
+        <div class="loading-spinner me-2" aria-hidden="true"></div>Syncing with Google Sheets...
     </div>
     
     <!-- Debug Panel -->
-    <div id="debugPanel" class="debug-panel">
+    <div id="debugPanel" class="debug-panel" role="log" aria-live="polite">
         <div><strong>Debug Panel</strong></div>
         <div id="debugContent"></div>
     </div>
@@ -1482,6 +2069,7 @@
             const malaysiaTime = new Date(now.getTime() + (8 * 60 * 60 * 1000) + (now.getTimezoneOffset() * 60 * 1000));
             return malaysiaTime;
         }
+        
         function formatMalaysiaDateTime(date) {
             const options = {
                 year: 'numeric',
@@ -1495,6 +2083,7 @@
             };
             return new Date(date).toLocaleString('en-MY', options);
         }
+        
         function formatMalaysiaDate(date) {
             const options = {
                 year: 'numeric',
@@ -1515,6 +2104,15 @@
         let syncInterval = null;
         let sessionTimeout = null;
         let sessionTimeLeft = 300; // 5 minutes in seconds
+        
+        // Pagination state
+        let currentPage = 1;
+        let pageSize = 10;
+        let totalPages = 0;
+        
+        // Search state
+        let searchQuery = '';
+        let filteredEntries = [];
         
         // Google Sheets Integration
         const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwe84Ec0M5f_0S2QwPWwIrNeGYblfk0AfacEGLTQdRsoRRuP1kXnqrpGXGUrLzyvuyX/exec";
@@ -1583,6 +2181,9 @@
             
             // Set up session timeout
             setupSessionTimeout();
+            
+            // Initialize pagination
+            updatePagination();
         });
         
         // Session timeout management
@@ -1755,6 +2356,37 @@
         function setupEventListeners() {
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             document.getElementById('entryPhoto').addEventListener('change', handlePhotoPreview);
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                let searchTimeout;
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        performSearch();
+                    }, 300); // Debounce search to avoid excessive filtering
+                });
+                
+                // Add Enter key support
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            // Form validation
+            const forms = document.querySelectorAll('.needs-validation');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
         }
         
         // Login Management
@@ -1775,8 +2407,41 @@
         
         function handleLogin(e) {
             e.preventDefault();
-            const id = document.getElementById('loginId').value;
-            const password = document.getElementById('loginPassword').value;
+            
+            // Get form elements
+            const loginForm = document.getElementById('loginForm');
+            const idInput = document.getElementById('loginId');
+            const passwordInput = document.getElementById('loginPassword');
+            
+            // Reset validation states
+            loginForm.classList.remove('was-validated');
+            idInput.classList.remove('is-invalid', 'is-valid');
+            passwordInput.classList.remove('is-invalid', 'is-valid');
+            
+            const id = idInput.value.trim();
+            const password = passwordInput.value;
+            
+            let isValid = true;
+            
+            // Validate ID
+            if (!id) {
+                idInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                idInput.classList.add('is-valid');
+            }
+            
+            // Validate password
+            if (!password) {
+                passwordInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                passwordInput.classList.add('is-valid');
+            }
+            
+            if (!isValid) {
+                return;
+            }
             
             debugLog('Login attempt with ID: ' + id);
             
@@ -1788,6 +2453,7 @@
                 loginUser(user);
             } else {
                 showLoginError('Invalid ID or password');
+                passwordInput.classList.add('is-invalid');
             }
         }
         
@@ -1805,7 +2471,7 @@
             
             // Show admin features
             if (user.role === 'admin') {
-                document.getElementById('viewDeletedBtn').style.display = 'inline-block';
+                document.getElementById('viewDeletedBtn').style.display = 'inline-flex';
                 document.getElementById('activityLogSection').style.display = 'block';
                 document.getElementById('adminApprovalsLink').style.display = 'block';
             }
@@ -1842,6 +2508,12 @@
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('loginForm').reset();
             document.getElementById('loginError').style.display = 'none';
+            
+            // Reset validation states
+            const loginForm = document.getElementById('loginForm');
+            loginForm.classList.remove('was-validated');
+            document.getElementById('loginId').classList.remove('is-invalid', 'is-valid');
+            document.getElementById('loginPassword').classList.remove('is-invalid', 'is-valid');
         }
         
         function showLoginError(message) {
@@ -1887,36 +2559,199 @@
             }
         }
         
-        // Logbook Management
-        function loadLogbookPage() {
-            updateStats();
-            renderLogbookEntries();
-            updateEditRequestBadge();
-        }
-        
-        function updateStats() {
-            const total = logbookEntries.length;
-            const committed = logbookEntries.filter(e => e.committed).length;
-            const myEntries = logbookEntries.filter(e => e.createdBy === currentUser.id).length;
-            const requests = editRequests.filter(r => !r.resolved).length;
+        // Pagination Functions
+        function updatePagination() {
+            const entries = showingDeleted ? deletedEntries : logbookEntries;
+            const filtered = searchQuery ? filteredEntries : entries;
             
-            document.getElementById('totalEntries').textContent = total;
-            document.getElementById('committedEntries').textContent = committed;
-            document.getElementById('myEntries').textContent = myEntries;
-            document.getElementById('pendingRequests').textContent = requests;
+            // Calculate total pages
+            totalPages = Math.ceil(filtered.length / pageSize);
+            
+            // Ensure current page is within bounds
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            
+            // Calculate start and end indices
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, filtered.length);
+            
+            // Update pagination info
+            document.getElementById('pageStart').textContent = filtered.length > 0 ? startIndex + 1 : 0;
+            document.getElementById('pageEnd').textContent = endIndex;
+            document.getElementById('totalEntriesCount').textContent = filtered.length;
+            
+            // Update page buttons
+            document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+            document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+            
+            // Update page numbers
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            // Show page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'page-btn';
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                if (i === currentPage) {
+                    pageBtn.classList.add('active');
+                }
+                pageNumbers.appendChild(pageBtn);
+            }
         }
         
-        function renderLogbookEntries() {
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderFilteredEntries();
+                updatePagination();
+            }
+        }
+        
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderFilteredEntries();
+                updatePagination();
+            }
+        }
+        
+        function changePageSize() {
+            pageSize = parseInt(document.getElementById('pageSizeSelect').value);
+            currentPage = 1; // Reset to first page
+            renderFilteredEntries();
+            updatePagination();
+        }
+        
+        // Search Functions
+        function performSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            currentPage = 1; // Reset to first page when searching
+            filterAndRenderEntries();
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            currentPage = 1; // Reset to first page
+            filterAndRenderEntries();
+        }
+        
+        function filterEntries() {
+            if (!searchQuery) {
+                return showingDeleted ? deletedEntries : logbookEntries;
+            }
+            
+            const entries = showingDeleted ? deletedEntries : logbookEntries;
+            
+            return entries.filter(entry => {
+                // Search in ID
+                if (entry.id && entry.id.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Date (formatted)
+                const formattedDate = formatMalaysiaDate(entry.date);
+                if (formattedDate.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in PIC
+                if (entry.pic && entry.pic.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Destination
+                if (entry.destination && entry.destination.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Cashbill
+                if (entry.cashbill && entry.cashbill.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Consignment
+                if (entry.consignment && entry.consignment.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Courier Type
+                if (entry.courierType && entry.courierType.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                // Search in Status
+                if (entry.status && entry.status.toLowerCase().includes(searchQuery)) {
+                    return true;
+                }
+                
+                return false;
+            });
+        }
+        
+        function filterAndRenderEntries() {
+            filteredEntries = filterEntries();
+            renderFilteredEntries();
+            updatePagination();
+        }
+        
+        function renderFilteredEntries() {
             const tbody = document.getElementById('entriesTableBody');
             tbody.innerHTML = '';
             
-            const entriesToShow = showingDeleted ? deletedEntries : logbookEntries;
-            let filteredEntries = entriesToShow;
+            let entriesToRender = searchQuery ? filteredEntries : (showingDeleted ? deletedEntries : logbookEntries);
+            const totalCount = showingDeleted ? deletedEntries.length : logbookEntries.length;
             
-            document.getElementById('entriesTitle').textContent = showingDeleted ? 
-                'Deleted Entries' : 'All Entries';
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, entriesToRender.length);
+            const paginatedEntries = entriesToRender.slice(startIndex, endIndex);
             
-            filteredEntries.forEach(entry => {
+            // Update search results info
+            const searchResultsInfo = document.getElementById('searchResultsInfo');
+            if (searchQuery) {
+                searchResultsInfo.style.display = 'flex';
+                document.getElementById('resultsCount').textContent = entriesToRender.length;
+                document.getElementById('totalCount').textContent = totalCount;
+                document.getElementById('searchQueryDisplay').textContent = searchQuery;
+            } else {
+                searchResultsInfo.style.display = 'none';
+            }
+            
+            // Update the title
+            const titleElement = document.getElementById('entriesTitle');
+            if (searchQuery) {
+                titleElement.innerHTML = `Search Results (${entriesToRender.length} of ${totalCount} entries)`;
+            } else {
+                titleElement.textContent = showingDeleted ? 'Deleted Entries' : 'All Entries';
+            }
+            
+            if (paginatedEntries.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="12" class="text-center py-4">
+                            <div class="no-results">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                                <p class="mb-0">No entries found</p>
+                                ${searchQuery ? '<small class="text-muted">Try adjusting your search criteria</small>' : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            paginatedEntries.forEach(entry => {
                 const row = document.createElement('tr');
                 if (entry.committed) {
                     row.classList.add('committed-entry');
@@ -1946,31 +2781,40 @@
                     statusBadge = `<span class="status-badge ${statusClass}">${entry.status}</span>`;
                 }
                 
+                // Highlight search matches
+                function highlightMatch(text) {
+                    if (!searchQuery || !text) return text || '';
+                    const regex = new RegExp(`(${searchQuery})`, 'gi');
+                    return text.toString().replace(regex, '<mark>$1</mark>');
+                }
+                
+                const formattedDate = formatMalaysiaDate(entry.date);
+                
                 row.innerHTML = `
-                    <td><span class="entry-id">${entry.id}</span></td>
-                    <td>${formatMalaysiaDate(entry.date)}</td>
-                    <td>${entry.pic}${editRequestBadge}</td>
-                    <td><span class="badge bg-primary">${entry.destination}</span></td>
-                    <td><span class="text-muted">${entry.cashbill || 'N/A'}</span></td>
-                    <td><span class="text-muted">${entry.consignment || 'N/A'}</span></td>
-                    <td>${entry.courierType || 'N/A'}</td>
+                    <td><span class="entry-id">${highlightMatch(entry.id)}</span></td>
+                    <td>${highlightMatch(formattedDate)}</td>
+                    <td>${highlightMatch(entry.pic)}${editRequestBadge}</td>
+                    <td><span class="badge bg-primary">${highlightMatch(entry.destination)}</span></td>
+                    <td><span class="text-muted">${highlightMatch(entry.cashbill || 'N/A')}</span></td>
+                    <td><span class="text-muted">${highlightMatch(entry.consignment || 'N/A')}</span></td>
+                    <td>${highlightMatch(entry.courierType || 'N/A')}</td>
                     <td>${statusBadge || '<span class="text-muted">Not set</span>'}</td>
                     <td>
                         ${entry.photo ? 
-                            `<img src="${entry.photo}" class="entry-photo" onclick="viewPhoto('${entry.photo}')">` : 
+                            `<img src="${entry.photo}" class="entry-photo" onclick="viewPhoto('${entry.photo}')" alt="Courier photo proof">` : 
                             '<span class="text-muted">No photo</span>'
                         }
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-outline-info" onclick="viewRemarks('${entry.id}')">
-                            <i class="fas fa-comment"></i> 
+                        <button class="btn btn-sm btn-outline-info" onclick="viewRemarks('${entry.id}')" aria-label="View remarks for entry ${entry.id}">
+                            <i class="fas fa-comment" aria-hidden="true"></i> 
                             ${entryRemarks[entry.id] ? entryRemarks[entry.id].length : 0}
                         </button>
                     </td>
                     <td>
                         ${entry.committed ? 
-                            '<span class="badge bg-success"><i class="fas fa-lock"></i> Committed</span>' : 
-                            '<span class="badge bg-warning text-dark"><i class="fas fa-unlock"></i> Draft</span>'
+                            '<span class="badge bg-success"><i class="fas fa-lock" aria-hidden="true"></i> Committed</span>' : 
+                            '<span class="badge bg-warning text-dark"><i class="fas fa-unlock" aria-hidden="true"></i> Draft</span>'
                         }
                     </td>
                     <td>${renderActionButtons(entry)}</td>
@@ -1978,6 +2822,26 @@
                 
                 tbody.appendChild(row);
             });
+        }
+        
+        // Logbook Management
+        function loadLogbookPage() {
+            updateStats();
+            filterAndRenderEntries();
+            updatePagination();
+            updateEditRequestBadge();
+        }
+        
+        function updateStats() {
+            const total = logbookEntries.length;
+            const committed = logbookEntries.filter(e => e.committed).length;
+            const myEntries = logbookEntries.filter(e => e.createdBy === currentUser.id).length;
+            const requests = editRequests.filter(r => !r.resolved).length;
+            
+            document.getElementById('totalEntries').textContent = total;
+            document.getElementById('committedEntries').textContent = committed;
+            document.getElementById('myEntries').textContent = myEntries;
+            document.getElementById('pendingRequests').textContent = requests;
         }
         
         function renderActionButtons(entry) {
@@ -1989,11 +2853,11 @@
             
             if (showingDeleted) {
                 return currentUser.role === 'admin' ? `
-                    <button class="btn btn-sm btn-success me-1" onclick="restoreEntry('${entry.id}')">
-                        <i class="fas fa-undo"></i>
+                    <button class="btn btn-sm btn-success me-1" onclick="restoreEntry('${entry.id}')" aria-label="Restore entry ${entry.id}">
+                        <i class="fas fa-undo" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-sm btn-danger" onclick="permanentlyDeleteEntry('${entry.id}')">
-                        <i class="fas fa-trash"></i>
+                    <button class="btn btn-sm btn-danger" onclick="permanentlyDeleteEntry('${entry.id}')" aria-label="Permanently delete entry ${entry.id}">
+                        <i class="fas fa-trash" aria-hidden="true"></i>
                     </button>
                 ` : '';
             }
@@ -2007,21 +2871,21 @@
                 // Committed entries - only admin can edit
                 if (currentUser.role === 'admin') {
                     debugLog('Showing edit button for admin on committed entry');
-                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
-                        <i class="fas fa-edit"></i>
+                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')" aria-label="Edit entry ${entry.id}">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
                     </button>`;
                 } else {
                     debugLog('Showing admin contact button for non-admin on committed entry');
-                    buttons += `<button class="btn btn-sm admin-contact-btn me-1" onclick="showAdminContact()">
-                        <i class="fas fa-edit"></i> Edit
+                    buttons += `<button class="btn btn-sm admin-contact-btn me-1" onclick="showAdminContact()" aria-label="Contact admin to edit entry ${entry.id}">
+                        <i class="fas fa-edit" aria-hidden="true"></i> Edit
                     </button>`;
                 }
             } else {
                 // Uncommitted entries - creator, PIC, or admin can edit
                 if (currentUser.role === 'admin' || isCreator || isPIC) {
                     debugLog('Showing edit button for uncommitted entry - user has permission');
-                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')">
-                        <i class="fas fa-edit"></i>
+                    buttons += `<button class="btn btn-sm btn-primary me-1" onclick="editEntry('${entry.id}')" aria-label="Edit entry ${entry.id}">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
                     </button>`;
                 } else {
                     debugLog('Not showing edit button for uncommitted entry - user does not have permission');
@@ -2031,8 +2895,8 @@
             // Delete button
             if (currentUser.role === 'admin' || 
                 (isCreator && !entry.committed)) {
-                buttons += `<button class="btn btn-sm btn-danger me-1" onclick="deleteEntry('${entry.id}')">
-                    <i class="fas fa-trash"></i>
+                buttons += `<button class="btn btn-sm btn-danger me-1" onclick="deleteEntry('${entry.id}')" aria-label="Delete entry ${entry.id}">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
                 </button>`;
             }
             
@@ -2044,14 +2908,14 @@
                 // 3. User has canCommit permission AND is NOT the creator
                 if (isCreator || currentUser.role === 'admin' || 
                     (currentUser.canCommit && !isCreator)) {
-                    buttons += `<button class="btn btn-sm btn-success" onclick="commitEntry('${entry.id}')">
-                        <i class="fas fa-lock"></i> Commit
+                    buttons += `<button class="btn btn-sm btn-success" onclick="commitEntry('${entry.id}')" aria-label="Commit entry ${entry.id}">
+                        <i class="fas fa-lock" aria-hidden="true"></i> Commit
                     </button>`;
                 }
             } else if (currentUser.role === 'admin') {
                 // Only admin can uncommit
-                buttons += `<button class="btn btn-sm btn-secondary" onclick="uncommitEntry('${entry.id}')">
-                    <i class="fas fa-unlock"></i>
+                buttons += `<button class="btn btn-sm btn-secondary" onclick="uncommitEntry('${entry.id}')" aria-label="Uncommit entry ${entry.id}">
+                    <i class="fas fa-unlock" aria-hidden="true"></i>
                 </button>`;
             }
             
@@ -2102,7 +2966,16 @@
         function openAddEntryModal() {
             currentEntryId = null;
             document.getElementById('entryModalTitle').textContent = 'Add New Entry';
-            document.getElementById('entryForm').reset();
+            
+            // Reset form and validation states
+            const entryForm = document.getElementById('entryForm');
+            entryForm.reset();
+            entryForm.classList.remove('was-validated');
+            
+            // Remove validation classes
+            entryForm.querySelectorAll('.form-control, .form-select').forEach(input => {
+                input.classList.remove('is-invalid', 'is-valid');
+            });
             
             const malaysiaDate = getMalaysiaTime();
             document.getElementById('entryDate').value = malaysiaDate.toISOString().split('T')[0];
@@ -2120,20 +2993,78 @@
         function saveEntry() {
             debugLog('Save entry called');
             
-            const date = document.getElementById('entryDate').value;
-            const destination = document.getElementById('entryDestination').value;
-            const cashbill = document.getElementById('entryCashbill').value;
-            const consignment = document.getElementById('entryConsignment').value;
-            const courierType = document.getElementById('entryCourierType').value;
-            const status = document.getElementById('entryStatus').value;
+            // Get form elements
+            const entryForm = document.getElementById('entryForm');
+            const dateInput = document.getElementById('entryDate');
+            const destinationSelect = document.getElementById('entryDestination');
+            const cashbillInput = document.getElementById('entryCashbill');
+            const consignmentInput = document.getElementById('entryConsignment');
+            const courierTypeSelect = document.getElementById('entryCourierType');
+            const statusSelect = document.getElementById('entryStatus');
+            
+            // Reset validation states
+            entryForm.querySelectorAll('.form-control, .form-select').forEach(input => {
+                input.classList.remove('is-invalid', 'is-valid');
+            });
+            
+            const date = dateInput.value;
+            const destination = destinationSelect.value;
+            const cashbill = cashbillInput.value.trim();
+            const consignment = consignmentInput.value.trim();
+            const courierType = courierTypeSelect.value;
+            const status = statusSelect.value;
             const photoFile = document.getElementById('entryPhoto').files[0];
-            const remarks = document.getElementById('entryRemarks').value;
+            const remarks = document.getElementById('entryRemarks').value.trim();
             
             debugLog('Form data:', { date, destination, cashbill, consignment, courierType, status, remarks, hasPhoto: !!photoFile });
             
-            if (!date || !destination || !cashbill || !consignment || !courierType || !status) {
-                debugLog('Validation failed - missing required fields');
-                alert('Please fill in all required fields');
+            let isValid = true;
+            
+            // Validate required fields
+            if (!date) {
+                dateInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                dateInput.classList.add('is-valid');
+            }
+            
+            if (!destination) {
+                destinationSelect.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                destinationSelect.classList.add('is-valid');
+            }
+            
+            if (!cashbill) {
+                cashbillInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                cashbillInput.classList.add('is-valid');
+            }
+            
+            if (!consignment) {
+                consignmentInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                consignmentInput.classList.add('is-valid');
+            }
+            
+            if (!courierType) {
+                courierTypeSelect.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                courierTypeSelect.classList.add('is-valid');
+            }
+            
+            if (!status) {
+                statusSelect.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                statusSelect.classList.add('is-valid');
+            }
+            
+            if (!isValid) {
+                showErrorMessage('Please fill in all required fields');
                 return;
             }
             
@@ -2261,6 +3192,17 @@
             
             currentEntryId = entryId;
             document.getElementById('entryModalTitle').textContent = 'Edit Entry';
+            
+            // Reset form and validation states
+            const entryForm = document.getElementById('entryForm');
+            entryForm.reset();
+            entryForm.classList.remove('was-validated');
+            
+            // Remove validation classes
+            entryForm.querySelectorAll('.form-control, .form-select').forEach(input => {
+                input.classList.remove('is-invalid', 'is-valid');
+            });
+            
             document.getElementById('entryDate').value = entry.date;
             document.getElementById('entryPIC').value = entry.pic;
             document.getElementById('entryDestination').value = entry.destination;
@@ -2273,7 +3215,7 @@
             
             if (entry.photo) {
                 document.getElementById('photoPreview').innerHTML = `
-                    <img src="${entry.photo}" class="photo-preview">
+                    <img src="${entry.photo}" class="photo-preview" alt="Entry photo preview">
                 `;
             }
             
@@ -2490,9 +3432,11 @@
             showingDeleted = !showingDeleted;
             const btn = document.getElementById('viewDeletedBtn');
             btn.innerHTML = showingDeleted ? 
-                '<i class="fas fa-list me-2"></i>View Active Entries' : 
-                '<i class="fas fa-trash me-2"></i>View Deleted Entries';
-            renderLogbookEntries();
+                '<i class="fas fa-list me-1" aria-hidden="true"></i><span>Active</span>' : 
+                '<i class="fas fa-trash me-1" aria-hidden="true"></i><span>Deleted</span>';
+            
+            // Clear search when switching between active and deleted entries
+            clearSearch();
         }
         
         // Admin Contact Modal
@@ -2517,15 +3461,15 @@
                         remarkDiv.classList.add('system-remark');
                         remarkDiv.innerHTML = `
                             <div class="remark-author">
-                                <i class="fas fa-info-circle me-1"></i>${remark.author}
+                                <i class="fas fa-info-circle me-1" aria-hidden="true"></i>${remark.author}
                             </div>
-                            <div>${remark.text}</div>
+                            <div>${sanitizeHTML(remark.text)}</div>
                             <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
                         `;
                     } else {
                         remarkDiv.innerHTML = `
                             <div class="remark-author">${remark.author}</div>
-                            <div>${remark.text}</div>
+                            <div>${sanitizeHTML(remark.text)}</div>
                             <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
                         `;
                     }
@@ -2554,7 +3498,7 @@
             logActivity('Add Remark', `Remark added to entry #${currentRemarksEntryId} by ${currentUser.name}`);
             saveToLocalStorage();
             viewRemarks(currentRemarksEntryId);
-            renderLogbookEntries();
+            filterAndRenderEntries();
         }
         
         // Edit Request Management with Enhanced Sync
@@ -2675,7 +3619,8 @@
                                         <input class="form-check-input" type="checkbox" id="commit${user.id}" 
                                                ${user.canCommit ? 'checked' : ''} 
                                                onchange="toggleCommitPermission('${user.id}')"
-                                               ${user.role === 'admin' ? 'disabled' : ''}>
+                                               ${user.role === 'admin' ? 'disabled' : ''}
+                                               aria-label="Toggle commit permission for ${user.name}">
                                         <label class="form-check-label" for="commit${user.id}">
                                             Can Commit Others' Entries
                                             <div class="permission-info">Everyone can commit their own entries</div>
@@ -2712,7 +3657,7 @@
                                             ${currentUser.canCommit ? 'Yes' : 'No'}
                                         </span>
                                         <div class="permission-info d-inline-block ms-2">
-                                            <i class="fas fa-info-circle me-1"></i>
+                                            <i class="fas fa-info-circle me-1" aria-hidden="true"></i>
                                             You can always commit your own entries
                                         </div>
                                     </p>
@@ -2742,7 +3687,7 @@
             if (pendingRequests.length > 0) {
                 const requestsHeader = document.createElement('h6');
                 requestsHeader.className = 'text-warning mb-3';
-                requestsHeader.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Pending Edit Requests';
+                requestsHeader.innerHTML = '<i class="fas fa-exclamation-triangle me-2" aria-hidden="true"></i>Pending Edit Requests';
                 activityLog.appendChild(requestsHeader);
                 
                 pendingRequests.forEach(request => {
@@ -2753,9 +3698,9 @@
                             <div>
                                 <strong>${request.requestedByName}</strong> requests edit for Entry #${request.entryId}
                                 <br><small class="text-muted">${formatMalaysiaDateTime(request.timestamp)}</small>
-                                <br><em>"${request.reason}"</em>
+                                <br><em>"${sanitizeHTML(request.reason)}"</em>
                             </div>
-                            <button class="btn btn-sm btn-success" onclick="approveEditRequest(${request.id})">
+                            <button class="btn btn-sm btn-success" onclick="approveEditRequest(${request.id})" aria-label="Approve edit request">
                                 Approve
                             </button>
                         </div>
@@ -2769,7 +3714,7 @@
             if (uncommittedEntries.length > 0) {
                 const uncommittedHeader = document.createElement('h6');
                 uncommittedHeader.className = 'text-info mb-3';
-                uncommittedHeader.innerHTML = '<i class="fas fa-clock me-2"></i>Entries Awaiting Re-commit Approval';
+                uncommittedHeader.innerHTML = '<i class="fas fa-clock me-2" aria-hidden="true"></i>Entries Awaiting Re-commit Approval';
                 activityLog.appendChild(uncommittedHeader);
                 
                 uncommittedEntries.forEach(entry => {
@@ -2784,11 +3729,11 @@
                                 <br><small class="text-muted">Uncommitted at: ${formatMalaysiaDateTime(entry.uncommittedAt)}</small>
                             </div>
                             <div>
-                                <button class="btn btn-sm btn-success me-1" onclick="adminCommitEntry('${entry.id}')">
-                                    <i class="fas fa-check"></i> Approve Commit
+                                <button class="btn btn-sm btn-success me-1" onclick="adminCommitEntry('${entry.id}')" aria-label="Approve commit for entry ${entry.id}">
+                                    <i class="fas fa-check" aria-hidden="true"></i> Approve Commit
                                 </button>
-                                <button class="btn btn-sm btn-primary" onclick="viewEntryDetails('${entry.id}')">
-                                    <i class="fas fa-eye"></i> View
+                                <button class="btn btn-sm btn-primary" onclick="viewEntryDetails('${entry.id}')" aria-label="View details for entry ${entry.id}">
+                                    <i class="fas fa-eye" aria-hidden="true"></i> View
                                 </button>
                             </div>
                         </div>
@@ -2801,8 +3746,8 @@
             const recentLogs = activityLogs.slice(0, 10);
             if (recentLogs.length > 0) {
                 const logsHeader = document.createElement('h6');
-                logsHeader.className = 'text-primary mb-3 mt-4';
-                logsHeader.innerHTML = '<i class="fas fa-history me-2"></i>Recent Activity';
+                logsHeader.className = 'text-primary mb-3';
+                logsHeader.innerHTML = '<i class="fas fa-history me-2" aria-hidden="true"></i>Recent Activity';
                 activityLog.appendChild(logsHeader);
                 
                 recentLogs.forEach(log => {
@@ -2851,12 +3796,12 @@
             if (!entry) return;
             
             const modalHtml = `
-            <div class="modal fade" id="entryDetailsModal" tabindex="-1">
+            <div class="modal fade" id="entryDetailsModal" tabindex="-1" aria-labelledby="entryDetailsModalTitle" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Entry Details - #${entry.id}</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            <h5 class="modal-title" id="entryDetailsModalTitle">Entry Details - #${entry.id}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -2878,7 +3823,7 @@
                             ${entry.photo ? `
                             <div class="mt-3">
                                 <p><strong>Photo Proof:</strong></p>
-                                <img src="${entry.photo}" class="img-fluid" style="max-height: 300px;">
+                                <img src="${entry.photo}" class="img-fluid" style="max-height: 300px;" alt="Courier photo proof">
                             </div>
                             ` : ''}
                             ${entryRemarks[entry.id] ? `
@@ -2888,9 +3833,9 @@
                                     ${entryRemarks[entry.id].map(remark => `
                                         <div class="remark-item ${remark.isSystem ? 'system-remark' : ''}">
                                             <div class="remark-author">
-                                                ${remark.isSystem ? '<i class="fas fa-info-circle me-1"></i>' : ''}${remark.author}
+                                                ${remark.isSystem ? '<i class="fas fa-info-circle me-1" aria-hidden="true"></i>' : ''}${remark.author}
                                             </div>
-                                            <div>${remark.text}</div>
+                                            <div>${sanitizeHTML(remark.text)}</div>
                                             <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
                                         </div>
                                     `).join('')}
@@ -2900,8 +3845,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" onclick="adminCommitEntry('${entry.id}'); bootstrap.Modal.getInstance(document.getElementById('entryDetailsModal')).hide();">
-                                <i class="fas fa-check"></i> Approve Commit
+                            <button type="button" class="btn btn-success" onclick="adminCommitEntry('${entry.id}'); bootstrap.Modal.getInstance(document.getElementById('entryDetailsModal')).hide();" aria-label="Approve commit for entry ${entry.id}">
+                                <i class="fas fa-check" aria-hidden="true"></i> Approve Commit
                             </button>
                         </div>
                     </div>
@@ -2938,15 +3883,15 @@
                                 <div class="col-md-8">
                                     <h6 class="card-title">Edit Request for Entry #${request.entryId}</h6>
                                     <p class="mb-1"><strong>Requested by:</strong> ${request.requestedByName}</p>
-                                    <p class="mb-1"><strong>Reason:</strong> ${request.reason}</p>
+                                    <p class="mb-1"><strong>Reason:</strong> ${sanitizeHTML(request.reason)}</p>
                                     <p class="text-muted mb-0"><small>${formatMalaysiaDateTime(request.timestamp)}</small></p>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <button class="btn btn-success me-2" onclick="approveEditRequest(${request.id})">
-                                        <i class="fas fa-check me-1"></i>Approve
+                                    <button class="btn btn-success me-2" onclick="approveEditRequest(${request.id})" aria-label="Approve edit request">
+                                        <i class="fas fa-check me-1" aria-hidden="true"></i>Approve
                                     </button>
-                                    <button class="btn btn-danger" onclick="rejectEditRequest(${request.id})">
-                                        <i class="fas fa-times me-1"></i>Reject
+                                    <button class="btn btn-danger" onclick="rejectEditRequest(${request.id})" aria-label="Reject edit request">
+                                        <i class="fas fa-times me-1" aria-hidden="true"></i>Reject
                                     </button>
                                 </div>
                             </div>
@@ -2980,11 +3925,11 @@
                                     <p class="text-muted mb-0"><small>Uncommitted at: ${formatMalaysiaDateTime(entry.uncommittedAt)}</small></p>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <button class="btn btn-success me-2" onclick="adminCommitEntry('${entry.id}')">
-                                        <i class="fas fa-check me-1"></i>Approve Commit
+                                    <button class="btn btn-success me-2" onclick="adminCommitEntry('${entry.id}')" aria-label="Approve commit for entry ${entry.id}">
+                                        <i class="fas fa-check me-1" aria-hidden="true"></i>Approve Commit
                                     </button>
-                                    <button class="btn btn-primary" onclick="viewEntryDetails('${entry.id}')">
-                                        <i class="fas fa-eye me-1"></i>View Details
+                                    <button class="btn btn-primary" onclick="viewEntryDetails('${entry.id}')" aria-label="View details for entry ${entry.id}">
+                                        <i class="fas fa-eye me-1" aria-hidden="true"></i>View Details
                                     </button>
                                 </div>
                             </div>
@@ -3057,7 +4002,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" class="photo-preview">`;
+                    preview.innerHTML = `<img src="${e.target.result}" class="photo-preview" alt="Photo preview">`;
                 };
                 reader.readAsDataURL(file);
             } else {
@@ -3379,8 +4324,8 @@
             alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
             alertDiv.style.zIndex = '9999';
             alertDiv.innerHTML = `
-                <i class="fas fa-check-circle me-2"></i>${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fas fa-check-circle me-2" aria-hidden="true"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
             document.body.appendChild(alertDiv);
             
@@ -3394,8 +4339,8 @@
             alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
             alertDiv.style.zIndex = '9999';
             alertDiv.innerHTML = `
-                <i class="fas fa-exclamation-circle me-2"></i>${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <i class="fas fa-exclamation-circle me-2" aria-hidden="true"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
             document.body.appendChild(alertDiv);
             
@@ -3443,6 +4388,22 @@
                 debugLog('Error loading from localStorage: ' + error.message);
                 console.error('Error loading from localStorage:', error);
             }
+        }
+        
+        // Security: Sanitize HTML to prevent XSS
+        function sanitizeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+        
+        // Loading overlay functions
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
         }
     </script>
 </body>
