@@ -7,31 +7,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* Clean White & Black Design */
+        /* Clean Soft Black Design */
         :root {
-            --primary: #000000;
-            --secondary: #666666;
-            --success: #000000;
-            --danger: #000000;
-            --warning: #000000;
-            --info: #000000;
-            --light: #ffffff;
-            --dark: #000000;
-            --soft-gray: #f8f9fa;
-            --border-light: #e0e0e0;
-            --border-dark: #000000;
-            --shadow-soft: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
-            --shadow-strong: 0 12px 40px rgba(0,0,0,0.15);
+            --primary: #1a1a1a;
+            --secondary: #4a4a4a;
+            --success: #2d5a2d;
+            --danger: #5a2d2d;
+            --warning: #5a4a2d;
+            --info: #2d4a5a;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --soft-gray: #f5f5f5;
+            --border-light: #e8e8e8;
+            --border-dark: #2a2a2a;
+            --shadow-soft: 0 4px 20px rgba(26,26,26,0.08);
+            --shadow-hover: 0 8px 30px rgba(26,26,26,0.12);
+            --shadow-strong: 0 12px 40px rgba(26,26,26,0.15);
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            --gradient-secondary: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
         
         body {
             background: #ffffff;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            color: #000000;
+            color: #1a1a1a;
             overflow-x: hidden;
             line-height: 1.6;
         }
@@ -79,6 +81,27 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
         }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
         
         .login-container {
             min-height: 100vh;
@@ -105,8 +128,8 @@
         
         .login-card {
             background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 16px;
+            border: 2px solid #1a1a1a;
+            border-radius: 20px;
             box-shadow: var(--shadow-strong);
             padding: 3rem;
             width: 100%;
@@ -115,11 +138,13 @@
             position: relative;
             z-index: 1;
             transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
         }
 
         .login-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(26,26,26,0.15);
+            border-color: #2a2a2a;
         }
         
         .login-header {
@@ -129,7 +154,7 @@
         }
         
         .login-header h2 {
-            color: #000000;
+            color: #1a1a1a;
             font-weight: 700;
             margin-bottom: 0.5rem;
             font-size: 2rem;
@@ -137,7 +162,7 @@
         }
         
         .login-header p {
-            color: #666666;
+            color: #4a4a4a;
             margin: 0;
             font-weight: 400;
             font-size: 1rem;
@@ -145,15 +170,15 @@
 
         .login-header i {
             animation: float 3s ease-in-out infinite;
-            color: #000000;
+            color: #1a1a1a;
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
         
         .form-control {
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 16px 20px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #e8e8e8;
             transition: var(--transition-smooth);
             background: #ffffff;
             font-size: 1rem;
@@ -166,22 +191,22 @@
         .form-control:nth-child(2) { animation-delay: 0.4s; }
         
         .form-control:focus {
-            border-color: #000000;
-            box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+            border-color: #1a1a1a;
+            box-shadow: 0 0 0 4px rgba(26,26,26,0.1);
             background: #ffffff;
             transform: translateY(-2px);
             outline: none;
         }
 
         .form-control:hover {
-            border-color: #000000;
+            border-color: #1a1a1a;
             transform: translateY(-1px);
         }
         
         .btn-login {
-            background: #000000;
-            border: 2px solid #000000;
-            border-radius: 12px;
+            background: var(--gradient-primary);
+            border: 2px solid #1a1a1a;
+            border-radius: 16px;
             padding: 16px 32px;
             font-weight: 600;
             transition: var(--transition-bounce);
@@ -209,10 +234,11 @@
         }
         
         .btn-login:hover {
-            background: #ffffff;
-            color: #000000;
+            background: var(--gradient-secondary);
+            color: #1a1a1a;
             transform: translateY(-4px) scale(1.02);
             box-shadow: var(--shadow-hover);
+            border-color: #1a1a1a;
         }
 
         .btn-login:active {
@@ -227,15 +253,16 @@
         
         .navbar {
             background: #ffffff;
-            border-bottom: 2px solid #000000;
+            border-bottom: 2px solid #1a1a1a;
             padding: 1.5rem 0;
             animation: fadeInUp 0.6s ease-out;
             box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(10px);
         }
         
         .navbar-brand {
             font-weight: 700;
-            color: #000000;
+            color: #1a1a1a;
             font-size: 1.8rem;
             transition: var(--transition-smooth);
             letter-spacing: -0.02em;
@@ -243,15 +270,15 @@
 
         .navbar-brand:hover {
             transform: scale(1.05);
-            color: #000000;
+            color: #1a1a1a;
         }
         
         .nav-link {
             font-weight: 600;
             margin: 0 8px;
-            border-radius: 10px;
+            border-radius: 12px;
             transition: var(--transition-smooth);
-            color: #000000 !important;
+            color: #1a1a1a !important;
             padding: 10px 20px;
             position: relative;
             overflow: hidden;
@@ -265,7 +292,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: #000000;
+            background: var(--gradient-primary);
             transition: left 0.3s ease;
             z-index: -1;
         }
@@ -282,27 +309,29 @@
         }
         
         .card {
-            border: 2px solid #000000;
-            border-radius: 16px;
+            border: 2px solid #1a1a1a;
+            border-radius: 20px;
             box-shadow: var(--shadow-soft);
             margin-bottom: 2rem;
             overflow: hidden;
             background: #ffffff;
             transition: var(--transition-smooth);
             animation: fadeInUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
         }
 
         .card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-hover);
+            border-color: #2a2a2a;
         }
         
         .card-header {
-            background: #000000;
+            background: var(--gradient-primary);
             color: #ffffff;
             font-weight: 700;
             padding: 1.5rem 2rem;
-            border-bottom: 2px solid #000000;
+            border-bottom: 2px solid #1a1a1a;
             font-size: 1.2rem;
             letter-spacing: -0.01em;
         }
@@ -421,13 +450,13 @@
         }
         
         .table {
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            border: 2px solid #000000;
+            border: 2px solid #1a1a1a;
         }
         
         .table thead th {
-            background: #000000;
+            background: var(--gradient-primary);
             border: none;
             font-weight: 700;
             color: #ffffff;
@@ -595,9 +624,299 @@
         }
 
         .dropdown-menu {
-            border: 2px solid #000000;
+            border: 2px solid #1a1a1a;
             border-radius: 12px;
             box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #0f0f0f;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .login-container {
+            background: #0f0f0f;
+        }
+
+        body.dark-mode .login-card {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .navbar {
+            background: #1a1a1a;
+            border-bottom-color: #2a2a2a;
+        }
+
+        body.dark-mode .card {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-control {
+            background: #2a2a2a;
+            border-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-control:focus {
+            background: #2a2a2a;
+            border-color: #4a4a4a;
+        }
+
+        /* New Feature: Quick Actions Panel */
+        .quick-actions-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            border: 2px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: var(--shadow-soft);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-actions-panel.dark-mode {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .quick-action-btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .quick-action-btn:hover {
+            background: #1a1a1a;
+            color: #ffffff;
+            transform: translateX(-5px);
+        }
+
+        .quick-action-btn.dark-mode {
+            background: #2a2a2a;
+            border-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+
+        .quick-action-btn.dark-mode:hover {
+            background: #4a4a4a;
+            color: #ffffff;
+        }
+
+        /* New Feature: Search and Filter Bar */
+        .search-filter-bar {
+            background: #f8f9fa;
+            border: 2px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .search-filter-bar.dark-mode {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        /* New Feature: Statistics Dashboard */
+        .stats-dashboard {
+            background: var(--gradient-secondary);
+            border: 2px solid #e8e8e8;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stats-dashboard.dark-mode {
+            background: var(--gradient-primary);
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .stat-card.dark-mode {
+            background: #2a2a2a;
+            border-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number.dark-mode {
+            color: #e0e0e0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #4a4a4a;
+            font-weight: 500;
+        }
+
+        .stat-label.dark-mode {
+            color: #b0b0b0;
+        }
+
+        /* Notification System */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            border: 2px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-soft);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .notification-toast.dark-mode {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .notification-toast.success {
+            border-left: 4px solid #2d5a2d;
+        }
+
+        .notification-toast.error {
+            border-left: 4px solid #5a2d2d;
+        }
+
+        .notification-toast.warning {
+            border-left: 4px solid #5a4a2d;
+        }
+
+        .notification-toast.info {
+            border-left: 4px solid #2d4a5a;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-modern {
+            background: var(--gradient-primary);
+            border: 2px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: var(--transition-bounce);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Loading States */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .loading-shimmer.dark-mode {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        }
+
+        /* Responsive Design Improvements */
+        @media (max-width: 768px) {
+            .quick-actions-panel {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                top: auto;
+                transform: none;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+
+            .quick-actions-panel.expanded {
+                width: 200px;
+                height: auto;
+                border-radius: 16px;
+                padding: 1rem;
+            }
+
+            .quick-action-btn {
+                display: none;
+            }
+
+            .quick-actions-panel.expanded .quick-action-btn {
+                display: block;
+            }
+
+            .stats-dashboard .row {
+                margin: 0 -0.5rem;
+            }
+
+            .stats-dashboard .col-md-3 {
+                padding: 0 0.5rem;
+                margin-bottom: 1rem;
+            }
+        }
             background: #ffffff;
         }
 
@@ -815,6 +1134,13 @@
                         <span id="adminApprovalBadge" class="notification-badge" style="display: none;">0</span>
                     </a>
                     
+                    <!-- Dark Mode Toggle -->
+                    <div class="nav-item me-3">
+                        <button class="btn btn-outline-secondary" onclick="toggleDarkMode()" id="darkModeToggle">
+                            <i class="fas fa-moon me-1"></i>Dark Mode
+                        </button>
+                    </div>
+                    
                     <!-- Profile Dropdown -->
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
@@ -828,6 +1154,9 @@
                             </a></li>
                             <li><a class="dropdown-item" href="#" onclick="forceSync()">
                                 <i class="fas fa-sync me-2"></i>Force Sync Now
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="exportData()">
+                                <i class="fas fa-download me-2"></i>Export Data
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" onclick="logout()">
@@ -852,49 +1181,90 @@
         <!-- Logbook Page -->
         <div id="logbookPage" class="page-section active">
             <div class="container mt-4">
-                <!-- Stats Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="totalEntries">0</div>
-                                    <div>Total Entries</div>
-                                </div>
-                                <i class="fas fa-clipboard-list fa-2x opacity-75"></i>
+                <!-- Enhanced Stats Dashboard -->
+                <div class="stats-dashboard" id="statsDashboard">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card" id="statCard1">
+                                <div class="stat-number" id="totalEntries">0</div>
+                                <div class="stat-label">Total Entries</div>
+                                <i class="fas fa-clipboard-list fa-2x mt-2 opacity-75"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card" id="statCard2">
+                                <div class="stat-number" id="committedEntries">0</div>
+                                <div class="stat-label">Committed</div>
+                                <i class="fas fa-lock fa-2x mt-2 opacity-75"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card" id="statCard3">
+                                <div class="stat-number" id="myEntries">0</div>
+                                <div class="stat-label">My Entries</div>
+                                <i class="fas fa-user fa-2x mt-2 opacity-75"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card" id="statCard4">
+                                <div class="stat-number" id="pendingRequests">0</div>
+                                <div class="stat-label">Edit Requests</div>
+                                <i class="fas fa-exclamation-triangle fa-2x mt-2 opacity-75"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="committedEntries">0</div>
-                                    <div>Committed</div>
-                                </div>
-                                <i class="fas fa-lock fa-2x opacity-75"></i>
+                </div>
+
+                <!-- Search and Filter Bar -->
+                <div class="search-filter-bar" id="searchFilterBar">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="searchInput" class="form-label">Search Entries</label>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search by ID, PIC, destination...">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="myEntries">0</div>
-                                    <div>My Entries</div>
-                                </div>
-                                <i class="fas fa-user fa-2x opacity-75"></i>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="statusFilter" class="form-label">Status</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="In transit">In transit</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Return">Return</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stats-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="stats-number" id="pendingRequests">0</div>
-                                    <div>Edit Requests</div>
-                                </div>
-                                <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="courierFilter" class="form-label">Courier</label>
+                                <select class="form-select" id="courierFilter">
+                                    <option value="">All Couriers</option>
+                                    <option value="eDHL">eDHL</option>
+                                    <option value="Poslaju">Poslaju</option>
+                                    <option value="GDex">GDex</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="dateFilter" class="form-label">Date Range</label>
+                                <select class="form-select" id="dateFilter">
+                                    <option value="">All Dates</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                    <i class="fas fa-filter me-1"></i>Apply
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1195,10 +1565,29 @@
         </div>
     </div>
     
-    <!-- Sync Indicator -->
-    <div id="syncIndicator" class="sync-indicator">
-        <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
-    </div>
+            <!-- Quick Actions Panel -->
+        <div class="quick-actions-panel" id="quickActionsPanel" style="display: none;">
+            <h6 class="mb-3 text-center">Quick Actions</h6>
+            <a href="#" class="quick-action-btn" onclick="openAddEntryModal()">
+                <i class="fas fa-plus me-2"></i>Add Entry
+            </a>
+            <a href="#" class="quick-action-btn" onclick="forceSync()">
+                <i class="fas fa-sync me-2"></i>Sync Now
+            </a>
+            <a href="#" class="quick-action-btn" onclick="exportData()">
+                <i class="fas fa-download me-2"></i>Export
+            </a>
+            <a href="#" class="quick-action-btn" onclick="toggleDarkMode()">
+                <i class="fas fa-moon me-2"></i>Dark Mode
+            </a>
+            <hr class="my-2">
+            <small class="text-muted">Press 'Q' to toggle</small>
+        </div>
+
+        <!-- Sync Indicator -->
+        <div id="syncIndicator" class="sync-indicator">
+            <div class="loading-spinner me-2"></div>Syncing with Google Sheets...
+        </div>
     
     <!-- Debug Panel -->
     <div id="debugPanel" class="debug-panel">
@@ -1648,7 +2037,32 @@
             document.getElementById('entriesTitle').textContent = showingDeleted ? 
                 'Deleted Entries' : 'All Entries';
             
-            filteredEntries.forEach(entry => {
+            displayEntries(filteredEntries);
+        }
+
+        function displayEntries(entries = logbookEntries) {
+            const tbody = document.getElementById('entriesTableBody');
+            tbody.innerHTML = '';
+            
+            if (entries.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="12" class="text-center text-muted">No entries found.</td></tr>';
+                return;
+            }
+
+            // Add loading shimmer effect
+            tbody.innerHTML = '<tr><td colspan="12" class="loading-shimmer" style="height: 50px;"></td></tr>';
+            
+            // Simulate loading delay for better UX
+            setTimeout(() => {
+                tbody.innerHTML = '';
+                renderEntries(entries);
+            }, 300);
+        }
+
+        function renderEntries(entries) {
+            const tbody = document.getElementById('entriesTableBody');
+            
+            entries.forEach(entry => {
                 const row = document.createElement('tr');
                 if (entry.committed) {
                     row.classList.add('committed-entry');
@@ -1710,7 +2124,7 @@
                 
                 tbody.appendChild(row);
             });
-        }
+
         
         function renderActionButtons(entry) {
             debugLog('Rendering action buttons for entry:', entry);
@@ -3107,33 +3521,31 @@
         }
         
         function showSuccessMessage(message) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.innerHTML = `
-                <i class="fas fa-check-circle me-2"></i>${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
+            showNotification(message, 'success');
         }
         
         function showErrorMessage(message) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.innerHTML = `
-                <i class="fas fa-exclamation-circle me-2"></i>${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            showNotification(message, 'error');
+        }
+
+        function showNotification(message, type = 'info') {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const notification = document.createElement('div');
+            notification.className = `notification-toast ${type} ${isDarkMode ? 'dark-mode' : ''}`;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    <span>${message}</span>
+                    <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
             `;
-            document.body.appendChild(alertDiv);
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 4000);
         }
         
         // Storage Management
@@ -3176,6 +3588,174 @@
                 console.error('Error loading from localStorage:', error);
             }
         }
+
+        // New Feature: Dark Mode Toggle
+        function toggleDarkMode() {
+            const body = document.body;
+            const isDarkMode = body.classList.contains('dark-mode');
+            
+            if (isDarkMode) {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'false');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-moon me-1"></i>Dark Mode';
+            } else {
+                body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'true');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
+            }
+            
+            // Update all components with dark mode classes
+            updateDarkModeClasses();
+        }
+
+        function updateDarkModeClasses() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const elements = document.querySelectorAll('.quick-actions-panel, .search-filter-bar, .stats-dashboard, .stat-card, .stat-number, .stat-label');
+            
+            elements.forEach(element => {
+                if (isDarkMode) {
+                    element.classList.add('dark-mode');
+                } else {
+                    element.classList.remove('dark-mode');
+                }
+            });
+        }
+
+        // New Feature: Quick Actions Panel Toggle
+        function toggleQuickActions() {
+            const panel = document.getElementById('quickActionsPanel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                panel.style.animation = 'slideInRight 0.3s ease-out';
+            } else {
+                panel.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => {
+                    panel.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // New Feature: Search and Filter Functions
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const courierFilter = document.getElementById('courierFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            
+            let filteredEntries = logbookEntries.filter(entry => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    entry.id.toLowerCase().includes(searchTerm) ||
+                    entry.pic.toLowerCase().includes(searchTerm) ||
+                    entry.destination.toLowerCase().includes(searchTerm) ||
+                    entry.cashbill.toLowerCase().includes(searchTerm) ||
+                    entry.consignment.toLowerCase().includes(searchTerm);
+                
+                // Status filter
+                const matchesStatus = !statusFilter || entry.status === statusFilter;
+                
+                // Courier filter
+                const matchesCourier = !courierFilter || entry.courierType === courierFilter;
+                
+                // Date filter
+                let matchesDate = true;
+                if (dateFilter) {
+                    const entryDate = new Date(entry.date);
+                    const today = new Date();
+                    
+                    switch (dateFilter) {
+                        case 'today':
+                            matchesDate = entryDate.toDateString() === today.toDateString();
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            matchesDate = entryDate >= weekAgo;
+                            break;
+                        case 'month':
+                            const monthAgo = new Date(today.getFullYear(), today.getMonth(), 1);
+                            matchesDate = entryDate >= monthAgo;
+                            break;
+                    }
+                }
+                
+                return matchesSearch && matchesStatus && matchesCourier && matchesDate;
+            });
+            
+            displayEntries(filteredEntries);
+            showSuccessMessage(`Found ${filteredEntries.length} entries matching your filters`);
+        }
+
+        // New Feature: Export Data Function
+        function exportData() {
+            const data = {
+                logbookEntries: logbookEntries,
+                users: users,
+                editRequests: editRequests,
+                activityLogs: activityLogs,
+                exportDate: new Date().toISOString(),
+                exportedBy: currentUser ? currentUser.name : 'Unknown'
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `vm-courier-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showSuccessMessage('Data exported successfully!');
+        }
+
+        // New Feature: Keyboard Shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Only trigger shortcuts when not typing in input fields
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') {
+                return;
+            }
+            
+            switch(event.key.toLowerCase()) {
+                case 'q':
+                    event.preventDefault();
+                    toggleQuickActions();
+                    break;
+                case 'n':
+                    event.preventDefault();
+                    if (currentUser) {
+                        openAddEntryModal();
+                    }
+                    break;
+                case 's':
+                    event.preventDefault();
+                    if (event.ctrlKey || event.metaKey) {
+                        forceSync();
+                    }
+                    break;
+                case 'd':
+                    event.preventDefault();
+                    toggleDarkMode();
+                    break;
+            }
+        });
+
+        // Initialize dark mode on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
+                updateDarkModeClasses();
+            }
+            
+            // Show quick actions panel for logged-in users
+            if (currentUser) {
+                document.getElementById('quickActionsPanel').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
