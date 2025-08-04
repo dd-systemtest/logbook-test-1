@@ -614,6 +614,15 @@
             color: var(--secondary);
             margin-top: 0.25rem;
         }
+        
+        .system-remark {
+            background-color: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .system-remark .remark-author {
+            color: #2196f3;
+        }
     </style>
 </head>
 <body>
@@ -1905,6 +1914,12 @@
                 return;
             }
             
+            // Validate required fields before committing
+            if (!entry.date || !entry.destination || !entry.cashbill || !entry.consignment || !entry.courierType || !entry.status) {
+                showErrorMessage('Please fill in all required fields before committing.');
+                return;
+            }
+            
             entry.committed = true;
             entry.committedBy = currentUser.id;
             entry.committedAt = getMalaysiaTime().toISOString();
@@ -1912,6 +1927,22 @@
             // Remove uncommit tracking if exists
             delete entry.uncommittedBy;
             delete entry.uncommittedAt;
+            
+            // Add system remark if this is a re-commit after uncommit
+            if (entry.lastCommittedBy) {
+                if (!entryRemarks[entryId]) {
+                    entryRemarks[entryId] = [];
+                }
+                entryRemarks[entryId].push({
+                    text: `Entry re-committed by ${currentUser.name}.`,
+                    author: 'System',
+                    timestamp: getMalaysiaTime().toISOString(),
+                    isSystem: true
+                });
+            }
+            
+            entry.lastCommittedBy = currentUser.id;
+            entry.lastCommittedAt = getMalaysiaTime().toISOString();
             
             logActivity('Commit Entry', `Entry #${entryId} committed by ${currentUser.name}`);
             
@@ -1923,7 +1954,12 @@
             
             saveToLocalStorage();
             updateUI();
-            showSuccessMessage('Entry committed successfully!');
+            
+            if (entry.lastCommittedBy && entry.lastCommittedBy !== currentUser.id) {
+                showSuccessMessage('Entry re-committed successfully!');
+            } else {
+                showSuccessMessage('Entry committed successfully!');
+            }
         }
         
         function uncommitEntry(entryId) {
@@ -1940,6 +1976,21 @@
                 entry.uncommittedAt = getMalaysiaTime().toISOString();
                 delete entry.committedBy;
                 delete entry.committedAt;
+                
+                // Notify the creator that their entry has been uncommitted
+                const creator = users.find(u => u.id === entry.createdBy);
+                if (creator && creator.id !== currentUser.id) {
+                    // Add a system remark to notify the creator
+                    if (!entryRemarks[entryId]) {
+                        entryRemarks[entryId] = [];
+                    }
+                    entryRemarks[entryId].push({
+                        text: `Admin has uncommitted this entry. You can now edit and re-commit it.`,
+                        author: 'System',
+                        timestamp: getMalaysiaTime().toISOString(),
+                        isSystem: true
+                    });
+                }
                 
                 // Resolve any edit requests for this entry
                 editRequests.forEach(req => {
@@ -1965,7 +2016,7 @@
                 
                 saveToLocalStorage();
                 updateUI();
-                showSuccessMessage('Entry uncommitted successfully! Users can now edit this entry.');
+                showSuccessMessage('Entry uncommitted successfully! The creator can now edit and re-commit this entry.');
             }
         }
         
@@ -2061,11 +2112,22 @@
                 remarks.forEach(remark => {
                     const remarkDiv = document.createElement('div');
                     remarkDiv.className = 'remark-item';
-                    remarkDiv.innerHTML = `
-                        <div class="remark-author">${remark.author}</div>
-                        <div>${remark.text}</div>
-                        <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
-                    `;
+                    if (remark.isSystem) {
+                        remarkDiv.classList.add('system-remark');
+                        remarkDiv.innerHTML = `
+                            <div class="remark-author">
+                                <i class="fas fa-info-circle me-1"></i>${remark.author}
+                            </div>
+                            <div>${remark.text}</div>
+                            <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
+                        `;
+                    } else {
+                        remarkDiv.innerHTML = `
+                            <div class="remark-author">${remark.author}</div>
+                            <div>${remark.text}</div>
+                            <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
+                        `;
+                    }
                     remarksList.appendChild(remarkDiv);
                 });
             }
@@ -2423,8 +2485,10 @@
                                 <p><strong>Remarks:</strong></p>
                                 <div class="remarks-list">
                                     ${entryRemarks[entry.id].map(remark => `
-                                        <div class="remark-item">
-                                            <div class="remark-author">${remark.author}</div>
+                                        <div class="remark-item ${remark.isSystem ? 'system-remark' : ''}">
+                                            <div class="remark-author">
+                                                ${remark.isSystem ? '<i class="fas fa-info-circle me-1"></i>' : ''}${remark.author}
+                                            </div>
                                             <div>${remark.text}</div>
                                             <div class="remark-time">${formatMalaysiaDateTime(remark.timestamp)}</div>
                                         </div>
